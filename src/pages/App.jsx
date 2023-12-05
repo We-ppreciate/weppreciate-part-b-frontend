@@ -1,5 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
+// this is the default create-react-app page, will retain for now for testing but remove later
+
+import logo from '../assets/logo.svg';
+import '../styles/App.css';
 
 function App() {
   return (
