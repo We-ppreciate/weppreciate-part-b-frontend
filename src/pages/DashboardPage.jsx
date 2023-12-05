@@ -4,10 +4,10 @@
 import Header from "../components/Header";
 
 export default function DashboardPage() {
-    return(
-        <body>
-        <Header/>
-        <h1>Dashboard Placeholder</h1>
-        </body>
-    )
+  return (
+    <body>
+      <Header />
+      <h1>Dashboard Placeholder</h1>
+    </body>
+  );
 }
