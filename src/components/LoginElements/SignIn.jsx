@@ -1,24 +1,23 @@
-// This file contains the "Sign in" template from MaterialUI with only a few small adjustments so far 
+// This file contains the "Sign in" template from MaterialUI with only a few small adjustments so far
 // This will be a work in progress for testing using this CSS component framework :)
 
 import * as React from "react";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import LoginLogo from "./LoginLogo";
+import LoginText from "./LoginText";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import newTheme from "../../styles/Theme";
 
-const defaultTheme = createTheme();
+const theme = createTheme(newTheme);
 
-export default function SignIn() {
+const SignIn = ({ setView }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -28,8 +27,16 @@ export default function SignIn() {
     });
   };
 
+  const handleForgotPasswordClick = () => {
+    setView("forgotPasswordView");
+  };
+
+  const handleGoBackClick = () => {
+    setView("default");
+  };
+
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -40,12 +47,9 @@ export default function SignIn() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Log in to We'ppreciate
-          </Typography>
+          <LoginLogo />
+
+          <LoginText />
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -80,20 +84,39 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
+              endIcon={<ArrowForward />}
               sx={{ mt: 3, mb: 2 }}
             >
               Log in
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 2,
+              }}
+            >
+              <div>
+                <Button size="medium" onClick={handleForgotPasswordClick}>
                   Forgot password?
-                </Link>
-              </Grid>
-            </Grid>
+                </Button>
+              </div>
+              <div>
+                <Button
+                  size="medium"
+                  onClick={handleGoBackClick}
+                  startIcon={<ArrowBack />}
+                >
+                  Go back
+                </Button>
+              </div>
+            </Box>
           </Box>
         </Box>
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignIn;
