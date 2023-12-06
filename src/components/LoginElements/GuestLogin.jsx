@@ -5,13 +5,14 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
+import SendIcon from '@mui/icons-material/Send';
+import { ArrowBack } from "@mui/icons-material";
+
 
 const defaultTheme = createTheme();
 
@@ -59,18 +60,25 @@ export default function GuestLogin() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2 }} endIcon={<SendIcon/>}
             >
               Request one-time code
             </Button>
-            <Grid container>
-              <Grid item xs>
-                {/* TODO: update this link later */}
-                <Link href="#" variant="body2">
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                mt: 2,
+              }}
+            >
+              {/* TODO: update this link later */}
+              <div>
+                <Button size="medium" startIcon={<ArrowBack />}>
                   Go back
-                </Link>
-              </Grid>
-            </Grid>
+                </Button>
+              </div>
+            </Box>
           </Box>
         </Box>
       </Container>

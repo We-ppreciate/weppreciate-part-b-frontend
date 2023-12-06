@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
+import { NoAccounts, VerifiedUser } from "@mui/icons-material";
 
 const defaultTheme = createTheme();
 
@@ -29,10 +30,10 @@ export default function LoginLanding() {
 
           <LoginText />
           <Box sx={{ mt: 1 }}>
-            <Button fullWidth variant="contained" sx={{ mt: 3, mb: 1 }}>
+            <Button fullWidth variant="contained" startIcon={<VerifiedUser />} sx={{ mt: 3, mb: 1 }}>
               Log in with existing account
             </Button>
-            <Button fullWidth variant="contained" sx={{ mt: 1, mb: 1 }}>
+            <Button fullWidth variant="contained" startIcon={<NoAccounts />} sx={{ mt: 1, mb: 1 }}>
               Send recognition as guest
             </Button>
           </Box>
