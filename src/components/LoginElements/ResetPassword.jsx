@@ -8,8 +8,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import { Typography } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import newTheme from "../../styles/Theme";
 
-const defaultTheme = createTheme();
+const theme = createTheme(newTheme);
 
 export default function ResetPassword() {
   const handleSubmit = (event) => {
@@ -21,7 +22,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -34,8 +35,8 @@ export default function ResetPassword() {
         >
           <LoginLogo />
 
-          <Typography component="h1" variant="h5">
-            Reset your We'ppreciate password
+          <Typography component="h1" variant="h4">
+            Reset your password
           </Typography>
           <Box
             component="form"

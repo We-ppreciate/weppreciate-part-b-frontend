@@ -12,9 +12,9 @@ import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import SendIcon from '@mui/icons-material/Send';
 import { ArrowBack } from "@mui/icons-material";
+import newTheme from "../../styles/Theme";
 
-
-const defaultTheme = createTheme();
+const theme = createTheme(newTheme);
 
 export default function GuestLogin() {
   const handleSubmit = (event) => {
@@ -26,7 +26,7 @@ export default function GuestLogin() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
