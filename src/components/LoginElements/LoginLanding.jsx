@@ -3,18 +3,26 @@
 
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import { NoAccounts, VerifiedUser } from "@mui/icons-material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Container } from "@mui/system";
+import { CssBaseline } from "@mui/material";
 import newTheme from "../../styles/Theme";
 
 const theme = createTheme(newTheme);
 
-export default function LoginLanding() {
+const LoginLanding = ({ setView }) => {
+  const handleExistingAccountClick = () => {
+    setView("existingAccount");
+  };
+
+  const handleGuestRecognitionClick = () => {
+    setView("guestRecognition");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -28,7 +36,6 @@ export default function LoginLanding() {
           }}
         >
           <LoginLogo />
-
           <LoginText />
           <Box sx={{ mt: 1 }}>
             <Button
@@ -36,6 +43,7 @@ export default function LoginLanding() {
               variant="contained"
               startIcon={<VerifiedUser />}
               sx={{ mt: 3, mb: 1 }}
+              onClick={handleExistingAccountClick}
             >
               Log in with existing account
             </Button>
@@ -44,6 +52,7 @@ export default function LoginLanding() {
               variant="contained"
               startIcon={<NoAccounts />}
               sx={{ mt: 1, mb: 1 }}
+              onClick={handleGuestRecognitionClick}
             >
               Send recognition as guest
             </Button>
@@ -52,4 +61,6 @@ export default function LoginLanding() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default LoginLanding;

@@ -1,6 +1,3 @@
-// This file contains the "Sign in" template from MaterialUI with only a few small adjustments so far
-// This will be a work in progress for testing using this CSS component framework :)
-
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -8,21 +5,25 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
-import SendIcon from '@mui/icons-material/Send';
+import SendIcon from "@mui/icons-material/Send";
 import { ArrowBack } from "@mui/icons-material";
 import newTheme from "../../styles/Theme";
+import LoginLogo from "./LoginLogo";
 
 const theme = createTheme(newTheme);
 
-export default function GuestLogin() {
+const GuestLogin = ({ setView }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
     });
+  };
+
+  const handleGoBackClick = () => {
+    setView("default");
   };
 
   return (
@@ -38,7 +39,6 @@ export default function GuestLogin() {
           }}
         >
           <LoginLogo />
-
           <LoginText />
           <Box
             component="form"
@@ -60,8 +60,10 @@ export default function GuestLogin() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }} endIcon={<SendIcon/>}
+              sx={{ mt: 3, mb: 2 }}
+              endIcon={<SendIcon />}
             >
+                {/* TODO: add validation on form and transition to next screen */}
               Request one-time code
             </Button>
             <Box
@@ -72,9 +74,12 @@ export default function GuestLogin() {
                 mt: 2,
               }}
             >
-              {/* TODO: update this link later */}
               <div>
-                <Button size="medium" startIcon={<ArrowBack />}>
+                <Button
+                  size="medium"
+                  onClick={handleGoBackClick}
+                  startIcon={<ArrowBack />}
+                >
                   Go back
                 </Button>
               </div>
@@ -84,4 +89,6 @@ export default function GuestLogin() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default GuestLogin;

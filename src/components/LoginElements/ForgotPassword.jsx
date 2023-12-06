@@ -13,13 +13,17 @@ import newTheme from "../../styles/Theme";
 
 const theme = createTheme(newTheme);
 
-export default function ForgotPassword() {
+const ForgotPassword = ({ setView }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
     });
+  };
+
+  const handleGoBackClick = () => {
+    setView("default");
   };
 
   return (
@@ -72,9 +76,12 @@ export default function ForgotPassword() {
                 mt: 2,
               }}
             >
-              {/* TODO: update this link later */}
               <div>
-                <Button size="medium" startIcon={<ArrowBack />}>
+                <Button
+                  size="medium"
+                  onClick={handleGoBackClick}
+                  startIcon={<ArrowBack />}
+                >
                   Go back
                 </Button>
               </div>
@@ -84,4 +91,5 @@ export default function ForgotPassword() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+export default ForgotPassword;

@@ -17,7 +17,7 @@ import newTheme from "../../styles/Theme";
 
 const theme = createTheme(newTheme);
 
-export default function SignIn() {
+const SignIn = ({ setView }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -25,6 +25,14 @@ export default function SignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+  };
+
+  const handleForgotPasswordClick = () => {
+    setView("forgotPasswordView");
+  };
+
+  const handleGoBackClick = () => {
+    setView("default");
   };
 
   return (
@@ -89,12 +97,17 @@ export default function SignIn() {
                 mt: 2,
               }}
             >
-              {/* TODO: update these links later */}
               <div>
-                <Button size="medium">Forgot password?</Button>
+                <Button size="medium" onClick={handleForgotPasswordClick}>
+                  Forgot password?
+                </Button>
               </div>
               <div>
-                <Button size="medium" startIcon={<ArrowBack />}>
+                <Button
+                  size="medium"
+                  onClick={handleGoBackClick}
+                  startIcon={<ArrowBack />}
+                >
                   Go back
                 </Button>
               </div>
@@ -104,4 +117,6 @@ export default function SignIn() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default SignIn;
