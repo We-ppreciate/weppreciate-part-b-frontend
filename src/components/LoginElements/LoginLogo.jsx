@@ -9,7 +9,7 @@ export default function LoginLogo() {
         marginBottom: 3,
       }}
     >
-      {/* add a link here later to the homepage */}
+      {/* TODO: add a link here later to the homepage */}
       <IconButton>
         <img
           src={require("../../assets/weppreciate-logo.png")}

@@ -1,6 +1,3 @@
-// This file contains the "Sign in" template from MaterialUI with only a few small adjustments so far
-// This will be a work in progress for testing using this CSS component framework :)
-
 import * as React from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,16 +8,16 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
-import LoginText from "./LoginText";
+import { Typography } from "@mui/material";
 
 const defaultTheme = createTheme();
 
-export default function GuestLogin() {
+export default function ResetPassword() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("email"),
+      email: data.get("password"),
     });
   };
 
@@ -38,7 +35,9 @@ export default function GuestLogin() {
         >
           <LoginLogo />
 
-          <LoginText />
+          <Typography component="h1" variant="h5">
+            Reset your We'ppreciate password
+          </Typography>
           <Box
             component="form"
             onSubmit={handleSubmit}
@@ -49,10 +48,21 @@ export default function GuestLogin() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email address"
-              name="email"
-              autoComplete="email"
+              id="password"
+              label="New password"
+              name="password"
+              autoComplete="password"
+              autoFocus
+            />
+            {/* TODO: add some validation that these two fields match in frontend */}
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              id="password"
+              label="Confirm new password"
+              name="password"
+              autoComplete="password"
               autoFocus
             />
             <Button
@@ -61,7 +71,7 @@ export default function GuestLogin() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Request one-time code
+              Submit
             </Button>
             <Grid container>
               <Grid item xs>
