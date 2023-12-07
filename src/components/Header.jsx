@@ -114,7 +114,6 @@ export default function Header() {
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            {/* Need to adjust for mobile size to make box smaller */}
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
