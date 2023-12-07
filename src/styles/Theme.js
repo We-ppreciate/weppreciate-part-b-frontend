@@ -54,8 +54,18 @@ const newTheme = {
           marginTop: "20px",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           padding: "10px",
+        },
+      },
+    },
+    // TODO: look at making the Card layout responsive with different screen sizes
+    MuiCardHeader: {
+      styleOverrides: {
+        // root: {
+        //   display: "block",
+        // },
+        title: {
+          fontSize: "2rem",
         },
       },
     },

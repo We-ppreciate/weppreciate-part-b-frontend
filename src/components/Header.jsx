@@ -16,8 +16,9 @@ import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link } from "react-router-dom";
-import { Avatar } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 import DashboardPage from "../pages/DashboardPage";
+import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -85,13 +86,15 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+{/* TODO: need to update the styling on this menu and have other options show conditionally based on user role */}
+
       {/* Need to link to the own user's profile by fetching their id: */}
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}><AccountCircle/><Typography>Profile</Typography></MenuItem>
       <Link to="/settings">
-        <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+        <MenuItem onClick={handleMenuClose}><Settings/><Typography>Settings</Typography></MenuItem>
       </Link>
       {/* Link this item to actually logging the user out: */}
-      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      <MenuItem onClick={handleMenuClose}><Logout/><Typography>Log out</Typography></MenuItem>
     </Menu>
   );
 

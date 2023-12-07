@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import DashboardHeader from "../components/DashboardElements/DashboardHeader";
 import CardElement from "../components/DashboardElements/CardElement";
 import PaginationElement from "../components/DashboardElements/PaginationElement";
+import SendCardButton from "../components/DashboardElements/SendCardButton";
 
 const theme = createTheme(newTheme);
 
@@ -18,6 +19,7 @@ export default function DashboardPage() {
         <CssBaseline />
         <Header />
         <DashboardHeader />
+        <SendCardButton/>
         {/* TODO: placeholder while building card design */}
         <CardElement/>
         <CardElement/>
