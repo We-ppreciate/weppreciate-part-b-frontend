@@ -1,4 +1,6 @@
-const newTheme = {
+import { createTheme } from "@mui/material/styles";
+
+const defineTheme = {
   typography: {
     fontFamily: "'Atkinson Hyperlegible', sans-serif",
   },
@@ -72,4 +74,6 @@ const newTheme = {
   },
 };
 
-export default newTheme;
+const appTheme = createTheme(defineTheme);
+
+export default appTheme;

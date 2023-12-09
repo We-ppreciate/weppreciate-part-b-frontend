@@ -20,6 +20,8 @@ import { Avatar, Typography } from "@mui/material";
 import DashboardPage from "../pages/DashboardPage";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 
+// TODO: refactor the MUI component here to use ThemeProvider instead of styled
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,

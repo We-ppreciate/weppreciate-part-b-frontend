@@ -3,19 +3,15 @@
 
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import newTheme from "../../styles/Theme";
 
-const theme = createTheme(newTheme);
 
 const SignIn = ({ setView }) => {
   const handleSubmit = (event) => {
@@ -36,9 +32,7 @@ const SignIn = ({ setView }) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container>
         <Box
           sx={{
             marginTop: 8,
@@ -115,7 +109,6 @@ const SignIn = ({ setView }) => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 };
 

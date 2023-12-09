@@ -1,17 +1,12 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginText from "./LoginText";
 import SendIcon from "@mui/icons-material/Send";
 import { ArrowBack } from "@mui/icons-material";
-import newTheme from "../../styles/Theme";
 import LoginLogo from "./LoginLogo";
-
-const theme = createTheme(newTheme);
 
 const GuestLogin = ({ setView }) => {
   const handleSubmit = (event) => {
@@ -27,9 +22,7 @@ const GuestLogin = ({ setView }) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container>
         <Box
           sx={{
             marginTop: 8,
@@ -87,7 +80,6 @@ const GuestLogin = ({ setView }) => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 };
 

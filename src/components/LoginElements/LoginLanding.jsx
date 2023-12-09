@@ -7,12 +7,7 @@ import Box from "@mui/material/Box";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import { NoAccounts, VerifiedUser } from "@mui/icons-material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Container } from "@mui/system";
-import { CssBaseline } from "@mui/material";
-import newTheme from "../../styles/Theme";
-
-const theme = createTheme(newTheme);
 
 const LoginLanding = ({ setView }) => {
   const handleExistingAccountClick = () => {
@@ -24,9 +19,7 @@ const LoginLanding = ({ setView }) => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container>
         <Box
           sx={{
             marginTop: 8,
@@ -59,7 +52,6 @@ const LoginLanding = ({ setView }) => {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 };
 
