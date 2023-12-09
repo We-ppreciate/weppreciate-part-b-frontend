@@ -1,3 +1,6 @@
+// This file is to create a theme using MUI's ThemeProvider to override the default MUI theming
+// Changes for specific components will be done via CSS selectors in index.css
+
 import { createTheme } from "@mui/material/styles";
 
 const defineTheme = {

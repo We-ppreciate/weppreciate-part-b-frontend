@@ -1,13 +1,27 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* This file is for styling for specific elements outside of the MUI theme */
+
+
+.cardGrid {
+  direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.profileCardHeader {
+  border: none;
+}
+
+.profileBioContainer {
+  display: block;
+  border: none;
+  padding: 0;
+}
+
+.profileCardBio {
+  margin: 0;
+  display: inline-flex;
+  flex-direction: row;
+  max-width: 50%;
+  border: 3px solid #0b4ea2;
+  border-radius: 4px;
 }

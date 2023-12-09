@@ -5,6 +5,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import Header from "../components/Header";
 import { CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
+import ProfileCard from "../components/ProfileElements/ProfileCard";
+import "../styles/index.css"
+
 // import { useParams } from "react-router-dom";
 
 
@@ -16,7 +19,7 @@ export default function ProfilePage() {
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <Header />
-        <h1>Profile Placeholder</h1>
+        <ProfileCard/>
       </ThemeProvider>
     </body>
   );

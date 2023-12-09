@@ -28,8 +28,8 @@ export default function LoginPage() {
 
   return (
     <ThemeProvider theme={appTheme}>
+      <CssBaseline />
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
         {renderView()}
       </Container>
     </ThemeProvider>
