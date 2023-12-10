@@ -7,24 +7,22 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  Grid,
   Typography,
 } from "@mui/material";
-import { Container } from "@mui/system";
+import "../../styles/index.css"
 
 
 export default function CardElement() {
   // TODO: add logic for fetching values from backend:
   return (
-    <Container
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <Grid  
+    className="cardGrid"
+    container
+    spacing={0}>
       <Card>
         {/* TODO: add logic to display the user avatars */}
-        <CardHeader
+        <CardHeader className="cardHeader"
           avatar={<AvatarGroup><Avatar/><Avatar/></AvatarGroup>}
           action={<Button>Value</Button>}
           title="Card title"
@@ -36,15 +34,15 @@ export default function CardElement() {
           </div>
           {/* TODO: update styling on these elements */}
           <div>
-            <Typography variant="body2">Card author</Typography>
+            <Typography variant="body2">Posted by Card author</Typography>
           </div>
         </CardContent>
-        <CardActions>
+        <CardActions className="cardComment">
           
           {/* TODO: look at whether this button expands to display the comments? */}
           <Button startIcon={<Comment />}>Comments</Button>
         </CardActions>
       </Card>
-    </Container>
+    </Grid>
   );
 }

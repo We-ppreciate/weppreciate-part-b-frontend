@@ -55,7 +55,7 @@ const defineTheme = {
         root: {
           boxShadow: "none",
           border: "3px solid #0B4EA2",
-          width: "70vw",
+          width: "80vw",
           marginTop: "20px",
           display: "flex",
           flexDirection: "column",
@@ -63,15 +63,19 @@ const defineTheme = {
         },
       },
     },
-    // TODO: look at making the Card layout responsive with different screen sizes
+
     MuiCardHeader: {
       styleOverrides: {
-        // root: {
-        //   display: "block",
-        // },
+        root: {
+          padding: "0",
+        },
         title: {
           fontSize: "2rem",
+          marginTop: "10px"
         },
+        action: {
+          marginTop: "10px"
+        }
       },
     },
   },

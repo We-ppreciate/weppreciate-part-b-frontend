@@ -1,27 +1,55 @@
 /* This file is for styling for specific elements outside of the MUI theme */
 
 
+/* Dashboard */
+
+.cardContainer {
+  display: "flex";
+  flex-direction: "column";
+  align-items: "center";
+}
+
+.cardComment {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 640px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* Profile */
+
 .cardGrid {
   direction: column;
   align-items: center;
   justify-content: center;
+  margin: 2rem 0;
 }
 
 .profileCardHeader {
   border: none;
+  /* padding: none; */
+  }
+
+@media screen and (max-width: 640px) {
+  .profileCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
-.profileBioContainer {
-  display: block;
-  border: none;
-  padding: 0;
+.profileButton {
+  justify-content: flex-end;
 }
 
 .profileCardBio {
-  margin: 0;
+  padding: 0;
+  margin-top: 2rem;
   display: inline-flex;
   flex-direction: row;
-  max-width: 50%;
-  border: 3px solid #0b4ea2;
-  border-radius: 4px;
+  border: none;
 }

@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   Card,
+  CardContent,
   CardHeader,
   Grid
 } from "@mui/material";
@@ -14,7 +15,7 @@ export default function ProfileCard() {
     container
     spacing={0}>
       <Card className="profileCardHeader">
-        <CardHeader
+        <CardHeader className="profileCardHeader"
           avatar={
             // Need to link this to the user's avatar
             <Avatar />
@@ -26,12 +27,10 @@ export default function ProfileCard() {
           title="Employee name here"
           subheader="Employee title here"
         />
+        <CardContent className="profileCardBio">
+        Info on employee here
+        </CardContent>
       </Card>
-      <Card className="profileBioContainer">
-          <Card className="profileCardBio">Info on employee here</Card>
-          {/* need to get space between these two - revisit later */}
-          <Card className="profileCardBio">Bio here</Card>
-        </Card>
       <Card>
           Awards here
       </Card>
