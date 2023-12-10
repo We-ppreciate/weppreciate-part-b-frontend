@@ -7,7 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import DashboardHeader from "../components/DashboardElements/DashboardHeader";
 import CardElement from "../components/DashboardElements/CardElement";
 import PaginationElement from "../components/DashboardElements/PaginationElement";
-import SendCardButton from "../components/DashboardElements/SendCardButton";
+import SendCardButton from "../components/SendCardButton";
 import appTheme from "../styles/Theme";
 
 

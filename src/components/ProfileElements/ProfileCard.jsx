@@ -1,5 +1,7 @@
 import React from "react";
-import { Avatar, Button, Card, CardContent, CardHeader, Grid } from "@mui/material";
+import { Avatar, Card, CardContent, CardHeader, Grid } from "@mui/material";
+import SendCardButton from "../SendCardButton";
+import { AddReaction, EmojiEvents } from "@mui/icons-material";
 
 export default function ProfileCard({ apiData }) {
   const userDetails = apiData.User;
@@ -13,14 +15,16 @@ export default function ProfileCard({ apiData }) {
         <CardHeader
           className="profileCardHeader"
           avatar={<Avatar />} // Need to link this to the user's avatar
-          action={<Button variant="contained">Button here</Button>}
+        //   Note - need to add validation later to change this to edit a profile for own user
+          action={<SendCardButton/>}
           title={`${firstName} ${lastName}`}
           subheader={businessUnit}
         />
-        <CardContent className="profileCardBio">{userTagLine}</CardContent>
+        <CardContent className="profileCardTagline">{userTagLine}</CardContent>
       </Card>
-      <Card>Awards here</Card>
-      <Card>Recognition cards here</Card>
+      {/* need to style these better... */}
+      <Card><CardHeader avatar={<EmojiEvents />} title={"Awards"}/><CardContent>Awards here...</CardContent></Card>
+      <Card><CardHeader avatar={<AddReaction />} title={"Cards"}/><CardContent>Recognition cards here...</CardContent></Card>
     </Grid>
   );
 }
