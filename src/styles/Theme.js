@@ -1,4 +1,9 @@
-const newTheme = {
+// This file is to create a theme using MUI's ThemeProvider to override the default MUI theming
+// Changes for specific components will be done via CSS selectors in index.css
+
+import { createTheme } from "@mui/material/styles";
+
+const defineTheme = {
   typography: {
     fontFamily: "'Atkinson Hyperlegible', sans-serif",
   },
@@ -50,7 +55,7 @@ const newTheme = {
         root: {
           boxShadow: "none",
           border: "3px solid #0B4EA2",
-          width: "70vw",
+          width: "80vw",
           marginTop: "20px",
           display: "flex",
           flexDirection: "column",
@@ -58,18 +63,24 @@ const newTheme = {
         },
       },
     },
-    // TODO: look at making the Card layout responsive with different screen sizes
+
     MuiCardHeader: {
       styleOverrides: {
-        // root: {
-        //   display: "block",
-        // },
+        root: {
+          padding: "0",
+        },
         title: {
           fontSize: "2rem",
+          marginTop: "10px"
         },
+        action: {
+          marginTop: "10px"
+        }
       },
     },
   },
 };
 
-export default newTheme;
+const appTheme = createTheme(defineTheme);
+
+export default appTheme;

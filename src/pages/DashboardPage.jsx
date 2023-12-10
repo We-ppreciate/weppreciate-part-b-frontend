@@ -3,19 +3,18 @@
 
 import Header from "../components/Header";
 import {CssBaseline } from "@mui/material";
-import newTheme from "../styles/Theme";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import DashboardHeader from "../components/DashboardElements/DashboardHeader";
 import CardElement from "../components/DashboardElements/CardElement";
 import PaginationElement from "../components/DashboardElements/PaginationElement";
 import SendCardButton from "../components/DashboardElements/SendCardButton";
+import appTheme from "../styles/Theme";
 
-const theme = createTheme(newTheme);
 
 export default function DashboardPage() {
   return (
     <body>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <Header />
         <DashboardHeader />

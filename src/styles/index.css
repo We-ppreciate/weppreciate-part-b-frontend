@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* This file is for styling for specific elements outside of the MUI theme */
+
+
+/* Dashboard */
+
+.cardContainer {
+  display: "flex";
+  flex-direction: "column";
+  align-items: "center";
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.cardComment {
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 640px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+
+/* Profile */
+
+.cardGrid {
+  direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.profileCardHeader {
+  border: none;
+  /* padding: none; */
+  }
+
+@media screen and (max-width: 640px) {
+  .profileCardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.profileButton {
+  justify-content: flex-end;
+}
+
+.profileCardBio {
+  padding: 0;
+  margin-top: 2rem;
+  display: inline-flex;
+  flex-direction: row;
+  border: none;
 }

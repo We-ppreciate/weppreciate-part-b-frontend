@@ -1,16 +1,13 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginLogo from "./LoginLogo";
 import { Typography } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
-import newTheme from "../../styles/Theme";
 
-const theme = createTheme(newTheme);
+
 
 export default function ResetPassword() {
   const handleSubmit = (event) => {
@@ -22,9 +19,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      <Container>
         <Box
           sx={{
             marginTop: 8,
@@ -92,6 +87,5 @@ export default function ResetPassword() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }
