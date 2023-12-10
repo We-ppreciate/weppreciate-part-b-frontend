@@ -3,7 +3,7 @@
 
 import { createTheme } from "@mui/material/styles";
 
-const defineTheme = {
+const appTheme = createTheme({
   typography: {
     fontFamily: "'Atkinson Hyperlegible', sans-serif",
   },
@@ -78,9 +78,9 @@ const defineTheme = {
         }
       },
     },
-  },
-};
 
-const appTheme = createTheme(defineTheme);
+    
+  },
+});
 
 export default appTheme;

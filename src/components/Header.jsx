@@ -10,11 +10,9 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import InputBase from "@mui/material/InputBase";
-import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Link } from "react-router-dom";
 import { Avatar, Typography } from "@mui/material";
 import DashboardPage from "../pages/DashboardPage";
@@ -126,16 +124,7 @@ export default function Header() {
           </Search>
 
           <Box>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              {/* Need to adjust so that the notification number changes with actual notifications */}
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+           
             <IconButton
               size="large"
               edge="end"
