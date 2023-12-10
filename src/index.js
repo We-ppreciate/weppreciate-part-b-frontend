@@ -27,7 +27,7 @@ root.render(
         {/* Route for profile based on id: */}
         {/* TODO: uncomment to the param based path: */}
         <Route path="/profile" element={<ProfilePage />} />
-        {/* <Route path="/profile/:id" element={<ProfilePage />} /> */}
+        <Route path="/profile/:id" element={<ProfilePage />} />
         {/* Route for reports: */}
         <Route path="/reports" element={<ReportsPage />} />
         {/* Route for settings: */}

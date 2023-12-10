@@ -1,42 +1,26 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid
-} from "@mui/material";
-import "../../styles/index.css"
+import React from "react";
+import { Avatar, Button, Card, CardContent, CardHeader, Grid } from "@mui/material";
 
-export default function ProfileCard() {
+export default function ProfileCard({ apiData }) {
+  const userDetails = apiData.User;
+  const { first: firstName, last: lastName } = userDetails.name;
+  const businessUnit = userDetails.businessUnit;
+  const userTagLine = userDetails.userTagLine;
+
   return (
-    <Grid  
-    className="cardGrid"
-    container
-    spacing={0}>
+    <Grid className="cardGrid" container spacing={0}>
       <Card className="profileCardHeader">
-        <CardHeader className="profileCardHeader"
-          avatar={
-            // Need to link this to the user's avatar
-            <Avatar />
-          }
-          action={
-            // What renders here depends if it's own profile or another user's profile
-            <Button variant="contained">Button here</Button>
-          }
-          title="Employee name here"
-          subheader="Employee title here"
+        <CardHeader
+          className="profileCardHeader"
+          avatar={<Avatar />} // Need to link this to the user's avatar
+          action={<Button variant="contained">Button here</Button>}
+          title={`${firstName} ${lastName}`}
+          subheader={businessUnit}
         />
-        <CardContent className="profileCardBio">
-        Info on employee here
-        </CardContent>
+        <CardContent className="profileCardBio">{userTagLine}</CardContent>
       </Card>
-      <Card>
-          Awards here
-      </Card>
-      <Card>
-        Recognition cards here
-      </Card>
+      <Card>Awards here</Card>
+      <Card>Recognition cards here</Card>
     </Grid>
   );
 }
