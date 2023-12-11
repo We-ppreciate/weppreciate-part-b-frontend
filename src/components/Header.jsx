@@ -72,6 +72,7 @@ export default function Header() {
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
+    className="headerMenu"
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "top",
