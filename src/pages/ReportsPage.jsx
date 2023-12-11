@@ -10,12 +10,10 @@ import appTheme from "../styles/Theme";
 
 export default function ReportsPage() {
   return (
-    <body>
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <Header />
         <h1>Reports placeholder</h1>
       </ThemeProvider>
-    </body>
   );
 }

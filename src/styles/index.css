@@ -1,6 +1,10 @@
 /* This file is for styling for specific elements outside of the MUI theme */
 
 
+.headerMenu {
+  margin-top: 50px;
+}
+
 /* Dashboard */
 
 .cardContainer {
@@ -97,10 +101,10 @@
 }
 
 
-
 .formRow {
   display: flex;
   flex-direction: row;
+  margin-bottom: 2rem;
 }
 
 .formColumn {
@@ -108,4 +112,23 @@
   flex-direction: column;
   width: 50%;
 
+}
+
+.formSelect {
+  position: relative;
+  width: 50%;
+}
+
+.formButton {
+  display: flex;
+  justify-content: center;
+}
+
+.formSelector {
+  width: 70%;
+}
+
+.cardFormValues {
+  font-size: 1rem;
+  width: 100%;
 }

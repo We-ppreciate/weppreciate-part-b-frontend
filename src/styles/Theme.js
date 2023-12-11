@@ -35,13 +35,7 @@ const appTheme = createTheme({
         },
       },
     },
-    MuiMenu: {
-      styleOverrides: {
-        root: {
-          marginTop: "50px",
-        },
-      },
-    },
+
     MuiMenuItem: {
       styleOverrides: {
         root: {
