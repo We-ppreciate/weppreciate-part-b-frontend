@@ -1,7 +1,15 @@
-import { ArrowRight } from "@mui/icons-material";
-import { Button, MenuItem, TextField } from "@mui/material";
+import { Send } from "@mui/icons-material";
+import {
+  Alert,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
 
+// Temporary until these are held within another file:
 const teamValues = [
   {
     value: "Say/Do",
@@ -29,9 +37,7 @@ const teamValues = [
   },
 ];
 
-
 // Temporary until these are pulled via API:
-
 const fullUsers = [
   {
     value: "Nate Picone",
@@ -49,11 +55,10 @@ const fullUsers = [
     value: "Katie Lock",
     label: "Katie Lock",
   },
-
 ];
 
-
 export default function PopUp(props) {
+  // Set default values of formData
   const [formData, setFormData] = useState({
     recipient: "",
     value: "",
@@ -65,21 +70,39 @@ export default function PopUp(props) {
     props.toggle();
   };
 
+  // Add a state variable for success message to display
+  const [successMessage, setSuccessMessage] = useState("");
+
+  // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // TODO: update for when card recipient is a list not text:
-    if (!formData.recipient.trim() || !formData.message.trim()) {
-      alert("Card recipient and message cannot be blank.");
-      return;
-    }
+    // TODO: add API call here to submit
 
-    alert(
-      `Recipient: ${formData.recipient}, Value: ${formData.value}, Message: ${formData.message}, Award: ${formData.award}`
+    // If successful, set the success message and clear the form data
+    setSuccessMessage(
+      <Alert severity="success">
+        Recognition submitted! The page will refresh in 3 seconds...
+      </Alert>
     );
-    // Additional logic for form submission goes here
+
+    // Clear the form data
+    setFormData({
+      recipient: "",
+      value: "",
+      message: "",
+      award: false,
+    });
+
+    // Close the modal and refresh page after delay
+    setTimeout(() => {
+      props.toggle();
+      setSuccessMessage("");
+      window.location.reload();
+    }, 3000);
   };
 
+  // Updates formData when change is made to a form value
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
     const newValue = type === "checkbox" ? checked : value;
@@ -96,49 +119,60 @@ export default function PopUp(props) {
         <span className="close" onClick={handleClick}>
           &times;
         </span>
-        <h3>Let's send some recognition!</h3>
+        <h2 className="formHeading">Let's send some recognition!</h2>
         <form onSubmit={handleSubmit}>
           <div className="cardForm">
             <div className="formRow">
-            <div className="formSelect">
-                  <TextField
+              <div className="formSelect">
+                <TextField
+                  required
                   name="recipient"
                   className="formSelector"
-                    id="recipient"
-                    select
-                    label="Card recipient"
-                    defaultValue=""
-                    variant="outlined"
-                    onChange={handleChange}
-                  >
-                    {fullUsers.map((option) => (
-                      <MenuItem className="cardFormValues" key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
-                <div className="formSelect">
-                  <TextField
+                  id="recipient"
+                  select
+                  label="Card recipient"
+                  defaultValue=""
+                  variant="outlined"
+                  onChange={handleChange}
+                >
+                  {fullUsers.map((option) => (
+                    <MenuItem
+                      className="cardFormValues"
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+              <div className="formSelect">
+                <TextField
+                  required
                   name="value"
                   className="formSelector"
-                    id="value"
-                    select
-                    label="Select a value"
-                    defaultValue=""
-                    variant="outlined"
-                    onChange={handleChange}
-                  >
-                    {teamValues.map((option) => (
-                      <MenuItem className="cardFormValues" key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-
+                  id="value"
+                  select
+                  label="Select a value"
+                  defaultValue=""
+                  variant="outlined"
+                  onChange={handleChange}
+                >
+                  {teamValues.map((option) => (
+                    <MenuItem
+                      className="cardFormValues"
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </div>
             </div>
+
             <TextField
+              className="cardMessage"
               required
               multiline
               id="message"
@@ -149,9 +183,10 @@ export default function PopUp(props) {
               onChange={handleChange}
             />
             <div className="formRow">
-              <label htmlFor="award">Is this an award nomination?</label>
-              <input
-                type="checkbox"
+              <FormControlLabel
+                control={<Checkbox />}
+                label="Nominate for award"
+                id="award"
                 name="award"
                 checked={formData.award}
                 onChange={handleChange}
@@ -159,11 +194,15 @@ export default function PopUp(props) {
             </div>
           </div>
           <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<ArrowRight />}>
+            <Button type="submit" variant="contained" endIcon={<Send />}>
               Submit
             </Button>
           </div>
         </form>
+        {/* Display the success message */}
+        {successMessage && (
+          <div className="successMessage">{successMessage}</div>
+        )}
       </div>
     </div>
   );
