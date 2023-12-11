@@ -6,13 +6,15 @@ import Header from "../components/Header";
 import { CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
 
+
+
 export default function ReportsPage() {
   return (
     <body>
       <ThemeProvider theme={appTheme}>
         <CssBaseline />
         <Header />
-        <h1>Reports Placeholder</h1>
+        <h1>Reports placeholder</h1>
       </ThemeProvider>
     </body>
   );
