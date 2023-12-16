@@ -4,9 +4,9 @@
 import Header from "../components/Header";
 import {CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import DashboardHeader from "../components/DashboardElements/DashboardHeader";
-import CardElement from "../components/DashboardElements/CardElement";
-import PaginationElement from "../components/DashboardElements/PaginationElement";
+import DashboardHeader from "../components/Dashboard/DashboardHeader";
+import CardElement from "../components/Dashboard/CardElement";
+// import PaginationElement from "../components/Dashboard/PaginationElement";
 import SendCardButton from "../components/SendCardButton";
 import appTheme from "../styles/Theme";
 
@@ -19,11 +19,14 @@ export default function DashboardPage() {
         <Header />
         <DashboardHeader />
         <SendCardButton/>
-        {/* TODO: placeholder while building card design */}
         <CardElement/>
-        <CardElement/>
-        <PaginationElement/>
+        {/* TODO: add back pagination once logic can be added */}
+        {/* <PaginationElement/> */}
       </ThemeProvider>
     </body>
   );
 }
+
+
+// TODO: fetch cards from API: https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/
+// sort by most recent first and render within the Card element

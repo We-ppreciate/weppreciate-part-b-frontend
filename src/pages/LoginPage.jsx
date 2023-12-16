@@ -1,13 +1,13 @@
 // This will be the page component to hold all other components specific to the Login page
 
-import LoginLanding from "../components/LoginElements/LoginLanding";
+import LoginLanding from "../components/Login/LoginLanding";
 import { Container } from "@mui/system";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import SignIn from "../components/LoginElements/SignIn";
+import SignIn from "../components/Login/SignIn";
 import { useState } from "react";
-import ForgotPassword from "../components/LoginElements/ForgotPassword";
-import GuestLogin from "../components/LoginElements/GuestLogin";
+import ForgotPassword from "../components/Login/ForgotPassword";
+import GuestLogin from "../components/Login/GuestLogin";
 import appTheme from "../styles/Theme";
 
 export default function LoginPage() {
