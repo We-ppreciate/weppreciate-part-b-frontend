@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import Header from "../components/Header";
-import { CssBaseline } from "@mui/material";
+import { CircularProgress, CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
 import ProfileCard from "../components/Profile/ProfileCard";
-import LoadingSpinner from "../utils/Loading";
 import { useParams } from "react-router-dom";
 
 export default function ProfilePage() {
   const { id } = useParams();
-  const [apiData, setApiData] = useState(null);
+  const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ export default function ProfilePage() {
           throw new Error("Error with network response");
         }
         const json = await response.json();
-        setApiData(json);
+        setProfileData(json);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -38,9 +37,9 @@ export default function ProfilePage() {
       <CssBaseline />
       <Header />
       {loading ? (
-        <LoadingSpinner />
+        <div className="profileLoader"><CircularProgress/></div>
       ) : (
-        <ProfileCard apiData={apiData} />
+        <ProfileCard apiData={profileData} />
       )}
     </ThemeProvider>
   );

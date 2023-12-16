@@ -90,12 +90,12 @@ export default function Header() {
 {/* TODO: need to update the styling on this menu and have other options show conditionally based on user role */}
 
       {/* Need to link to the own user's profile by fetching their id: */}
-      <MenuItem onClick={handleMenuClose}><AccountCircle/><Typography>Profile</Typography></MenuItem>
-      <Link to="/settings">
-        <MenuItem onClick={handleMenuClose}><Settings/><Typography>Settings</Typography></MenuItem>
+      <MenuItem onClick={handleMenuClose}><AccountCircle/><Typography className="menuItem">Profile</Typography></MenuItem>
+      <Link to="/settings" className="menu">
+        <MenuItem onClick={handleMenuClose}><Settings/><Typography className="menuItem">Settings</Typography></MenuItem>
       </Link>
       {/* Link this item to actually logging the user out: */}
-      <MenuItem onClick={handleMenuClose}><Logout/><Typography>Log out</Typography></MenuItem>
+      <MenuItem onClick={handleMenuClose}><Logout/><Typography className="menuItem">Log out</Typography></MenuItem>
     </Menu>
   );
 

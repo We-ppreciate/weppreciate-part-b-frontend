@@ -8,6 +8,7 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  CircularProgress,
   Grid,
   Typography,
 } from "@mui/material";
@@ -20,6 +21,7 @@ import { Link } from "react-router-dom";
 export default function CardElement() {
   // Importing nominations info:
   const [nominations, setNominations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +36,8 @@ export default function CardElement() {
         setNominations(sortedNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -87,82 +91,94 @@ export default function CardElement() {
   }
 
   return (
-    <Grid className="cardGrid" container spacing={2}>
-      {nominations.map((nomination) => (
-        <Card
-          key={nomination._id}
-          style={{
-            borderColor: getButtonColor(nomination.nominationValue),
-          }}
-        >
-          <CardHeader
-            className="cardHeader"
-            avatar={
-              <AvatarGroup>
-                {/* Avatar for nominator - need to get URL import from DB once ready */}
-                {nomination.isNominatorFullUser ? (
-                  <Avatar
-                    alt={getFullName(
-                      nomination.nominatorFullUser
-                    )} /* Full user photo URL to go here */
+    <div>
+      {loading ? (
+        <div className="profileLoader">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Grid className="cardGrid" container spacing={2}>
+          {nominations.map((nomination) => (
+            <Card
+              key={nomination._id}
+              style={{
+                borderColor: getButtonColor(nomination.nominationValue),
+              }}
+            >
+              <CardHeader
+                className="cardHeader"
+                avatar={
+                  <AvatarGroup>
+                    {/* Avatar for nominator - need to get URL import from DB once ready */}
+                    {nomination.isNominatorFullUser ? (
+                      <Avatar
+                        alt={getFullName(
+                          nomination.nominatorFullUser
+                        )} /* Full user photo URL to go here */
+                      />
+                    ) : (
+                      <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
+                        0
+                      )}${nomination.nominatorBasicUser.basicName.last.charAt(
+                        0
+                      )}`}</Avatar>
+                    )}
+
+                    {/* Avatar for recipient - need to get URL import from DB once ready */}
+                    <Avatar
+                      alt={getFullName(
+                        nomination.recipientUser
+                      )} /* Recipient photo URL to go here */
+                    />
+                  </AvatarGroup>
+                }
+                action={
+                  <Chip
+                    style={{
+                      borderColor: getButtonColor(nomination.nominationValue),
+                      backgroundColor: getButtonColor(
+                        nomination.nominationValue
+                      ),
+                    }}
+                    label={nomination.nominationValue}
                   />
-                ) : (
-                  <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
-                    0
-                  )}${nomination.nominatorBasicUser.basicName.last.charAt(
-                    0
-                  )}`}</Avatar>
-                )}
-
-                {/* Avatar for recipient - need to get URL import from DB once ready */}
-                <Avatar
-                  alt={getFullName(
-                    nomination.recipientUser
-                  )} /* Recipient photo URL to go here */
-                />
-              </AvatarGroup>
-            }
-            action={
-              <Chip
-                style={{
-                  borderColor: getButtonColor(nomination.nominationValue),
-                  backgroundColor: getButtonColor(nomination.nominationValue),
-                }}
-                label={nomination.nominationValue}
+                }
+                title={
+                  nomination.isNominatorFullUser
+                    ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
+                    : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
+                }
+                subheader={formatDate(nomination.nominationDate)}
+                titleTypographyProps={{ variant: "subtitle1" }}
               />
-            }
-            title={
-              nomination.isNominatorFullUser
-                ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
-            }
-            subheader={formatDate(nomination.nominationDate)}
-            titleTypographyProps={{ variant: "subtitle1" }}
-          />
-          <CardContent>
-            <div>
-              <Typography variant="h5">{nomination.nominationBody}</Typography>
-            </div>
-            <div className="cardRecipient">
-              <Typography variant="caption">
-                {" "}
-                Recognition for{" "}
-                <Link
-                  className="userLink"
-                  to={`/profile/${nomination.recipientUser}`}
-                >
-                  {getFullName(nomination.recipientUser)}
-                </Link>
-              </Typography>
-            </div>
-          </CardContent>
-          {/* TODO: Add comment button back in when API is ready */}
+              <CardContent>
+                <div>
+                  <Typography variant="h5">
+                    {nomination.nominationBody}
+                  </Typography>
+                </div>
+                <div className="cardRecipient">
+                  <Typography variant="caption">
+                    {" "}
+                    Recognition for{" "}
+                    <Link
+                      className="userLink"
+                      to={`/profile/${nomination.recipientUser}`}
+                    >
+                      {getFullName(nomination.recipientUser)}
+                    </Link>
+                  </Typography>
+                </div>
+              </CardContent>
+              {/* TODO: Add comment button back in when API is ready */}
 
-          {/* <CardActions className="cardComment">
+              {/* <CardActions className="cardComment">
             <Button startIcon={<Comment />}>Comments</Button>
           </CardActions> */}
-        </Card>
-      ))}
-    </Grid>
+            </Card>
+          ))}
+        </Grid>
+      )}
+    </div>
   );
 }
