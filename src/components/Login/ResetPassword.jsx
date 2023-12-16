@@ -1,13 +1,9 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import LoginLogo from "./LoginLogo";
-import { Typography } from "@mui/material";
+
+import { Typography, Button, TextField, Box, Container } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
-
+import LoginLogo from "./LoginLogo";
 
 export default function ResetPassword() {
   const handleSubmit = (event) => {
@@ -19,73 +15,62 @@ export default function ResetPassword() {
   };
 
   return (
-      <Container>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <LoginLogo />
+    <Container>
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <LoginLogo />
 
-          <Typography component="h1" variant="h4">
-            Reset your password
-          </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+        <Typography component="h1" variant="h4">
+          Reset your password
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="password"
+            label="New password"
+            name="password"
+            autoComplete="password"
+            autoFocus
+          />
+          {/* TODO: add some validation that these two fields match in frontend */}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="password"
+            label="Confirm new password"
+            name="password"
+            autoComplete="password"
+            autoFocus
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            endIcon={<ArrowForward />}
+            sx={{ mt: 3, mb: 2 }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label="New password"
-              name="password"
-              autoComplete="password"
-              autoFocus
-            />
-            {/* TODO: add some validation that these two fields match in frontend */}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label="Confirm new password"
-              name="password"
-              autoComplete="password"
-              autoFocus
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              endIcon={<ArrowForward/>}
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Submit change
-            </Button>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                mt: 2,
-              }}
-            >
-              {/* TODO: update this link later */}
-              <div>
-                <Button size="medium" startIcon={<ArrowBack />}>
-                  Go back
-                </Button>
-              </div>
-            </Box>
+            Submit change
+          </Button>
+          <Box className="buttonBox"
+          >
+            {/* TODO: update this link later */}
+            <div>
+              <Button size="medium" startIcon={<ArrowBack />}>
+                Go back
+              </Button>
+            </div>
           </Box>
         </Box>
-      </Container>
+      </Box>
+    </Container>
   );
 }

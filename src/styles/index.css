@@ -31,6 +31,13 @@
 }
 
 
+.buttonBox {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Dashboard */
 
 .cardContainer {
@@ -96,7 +103,7 @@
 }
 
 
-/* Recognition popup */
+/* Send recognition modal popup */
 
 /* TODO: make this stretch the full length of page (beyond scroll view?) */
 .modal {

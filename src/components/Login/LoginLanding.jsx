@@ -1,13 +1,10 @@
-// This file contains the "Sign in" template from MaterialUI with only a few small adjustments so far
-// This will be a work in progress for testing using this CSS component framework :)
-
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
+
+import { Button, Box, Container } from "@mui/material";
+import { NoAccounts, VerifiedUser } from "@mui/icons-material";
+
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
-import { NoAccounts, VerifiedUser } from "@mui/icons-material";
-import { Container } from "@mui/system";
 
 const LoginLanding = ({ setView }) => {
   const handleExistingAccountClick = () => {

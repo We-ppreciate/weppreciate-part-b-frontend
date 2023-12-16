@@ -1,4 +1,7 @@
-import { Send } from "@mui/icons-material";
+// Purpose: the logic and rendering for the modal popup for sending recognition
+
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Alert,
   Button,
@@ -8,8 +11,9 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Send } from "@mui/icons-material";
 import teamValues from "../utils/Values";
+import { fullUsersUrl } from "../utils/ApiPaths";
 
 export default function PopUp(props) {
   // Set default values of formData
@@ -20,19 +24,18 @@ export default function PopUp(props) {
     award: false,
   });
 
-  // Importing full users list to render in form:
+  // Establishing states
   const [fullUsers, setFullUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
 
+  // Importing full users list to render in form
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/users/all/fullusers"
-        );
-        const data = await response.json();
+        const response = await axios.get(fullUsersUrl);
 
-        const sortedUsers = data.Users.sort((a, b) =>
+        const sortedUsers = response.data.Users.sort((a, b) =>
           `${a.name.first} ${a.name.last}`.localeCompare(
             `${b.name.first} ${b.name.last}`
           )
@@ -53,9 +56,6 @@ export default function PopUp(props) {
     props.toggle();
   };
 
-  // Add a state variable for success message to display
-  const [successMessage, setSuccessMessage] = useState("");
-
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -69,7 +69,7 @@ export default function PopUp(props) {
       </Alert>
     );
 
-    // Clear the form data
+    // Clear the form data once submitted
     setFormData({
       recipient: "",
       value: "",

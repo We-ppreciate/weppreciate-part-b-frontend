@@ -1,7 +1,9 @@
+// Purpose: the rendering for a user's profile using params/API data on ProfilePage.jsx
+
 import React from "react";
 import { Avatar, Card, CardContent, CardHeader, Grid } from "@mui/material";
-import SendCardButton from "../SendCardButton";
 import { AddReaction } from "@mui/icons-material";
+import SendCardButton from "../SendCardButton";
 
 export default function ProfileCard({ apiData }) {
   const userDetails = apiData.User;

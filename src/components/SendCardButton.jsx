@@ -1,7 +1,11 @@
+// Purpose: logic and rendering for the "Send recognition" button to display on Dashboard and Profiles
+
+import React from "react";
+
 import { AddReaction } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+
 import PopUp from "../components/CardPopup";
 
 export default class SendCardButton extends React.Component {
@@ -19,14 +23,7 @@ export default class SendCardButton extends React.Component {
     return (
       <div>
         <div onClick={this.togglePop}>
-          <Box
-            sx={{
-              marginTop: 2,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
+          <Box className="buttonBox">
             <Button variant="contained" endIcon={<AddReaction />}>
               Send recognition
             </Button>
