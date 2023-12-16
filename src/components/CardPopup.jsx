@@ -3,59 +3,13 @@ import {
   Alert,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   MenuItem,
   TextField,
 } from "@mui/material";
-import React, { useState } from "react";
-
-// Temporary until these are held within another file:
-const teamValues = [
-  {
-    value: "Say/Do",
-    label: "Say/Do",
-  },
-  {
-    value: "Commitment",
-    label: "Commitment",
-  },
-  {
-    value: "Collaborate",
-    label: "Collaborate",
-  },
-  {
-    value: "Challenging",
-    label: "Challenging",
-  },
-  {
-    value: "Learning",
-    label: "Learning",
-  },
-  {
-    value: "Spirited",
-    label: "Spirited",
-  },
-];
-
-// Temporary until these are pulled via API:
-const fullUsers = [
-  {
-    value: "Nate Picone",
-    label: "Nate Picone",
-  },
-  {
-    value: "Ed Doherty",
-    label: "Ed Doherty",
-  },
-  {
-    value: "Hannah Sallows",
-    label: "Hannah Sallows",
-  },
-  {
-    value: "Katie Lock",
-    label: "Katie Lock",
-  },
-];
+import React, { useEffect, useState } from "react";
+import teamValues from "../utils/Values";
 
 export default function PopUp(props) {
   // Set default values of formData
@@ -65,6 +19,35 @@ export default function PopUp(props) {
     message: "",
     award: false,
   });
+
+  // Importing full users list to render in form:
+  const [fullUsers, setFullUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/users/all/fullusers"
+        );
+        const data = await response.json();
+
+        const sortedUsers = data.Users.sort((a, b) =>
+          `${a.name.first} ${a.name.last}`.localeCompare(
+            `${b.name.first} ${b.name.last}`
+          )
+        );
+
+        setFullUsers(sortedUsers);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleClick = () => {
     props.toggle();
@@ -77,7 +60,7 @@ export default function PopUp(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // TODO: add API call here to submit
+    // TODO: add API POST call here to submit
 
     // If successful, set the success message and clear the form data
     setSuccessMessage(
@@ -115,95 +98,102 @@ export default function PopUp(props) {
 
   return (
     <div className="modal">
-      <div className="modal_content">
-        <span className="close" onClick={handleClick}>
-          &times;
-        </span>
-        <h2 className="formHeading">Let's send some recognition!</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="cardForm">
-            <div className="formRow">
-              <div className="formSelect">
-                <TextField
-                  required
-                  name="recipient"
-                  className="formSelector"
-                  id="recipient"
-                  select
-                  label="Card recipient"
-                  defaultValue=""
-                  variant="outlined"
-                  onChange={handleChange}
-                >
-                  {fullUsers.map((option) => (
-                    <MenuItem
-                      className="cardFormValues"
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
+      {loading ? (
+        <div className="profileLoader">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div className="modal_content">
+          <span className="close" onClick={handleClick}>
+            &times;
+          </span>
+          <h2 className="formHeading">Let's send some recognition!</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="cardForm">
+              <div className="formRow">
+                <div className="formSelect">
+                  {/* TODO: update this menu so it renders like this only on the Dashboard, and pre-fills based on the profile ID on the profile */}
+                  <TextField
+                    required
+                    name="recipient"
+                    className="formSelector"
+                    id="recipient"
+                    select
+                    label="Card recipient"
+                    defaultValue=""
+                    variant="outlined"
+                    onChange={handleChange}
+                  >
+                    {fullUsers.map((user) => (
+                      <MenuItem
+                        className="cardFormValues"
+                        key={user._id}
+                        value={user._id}
+                      >
+                        {user.name.first} {user.name.last}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+                <div className="formSelect">
+                  <TextField
+                    required
+                    name="value"
+                    className="formSelector"
+                    id="value"
+                    select
+                    label="Select a value"
+                    defaultValue=""
+                    variant="outlined"
+                    onChange={handleChange}
+                  >
+                    {teamValues.map((option) => (
+                      <MenuItem
+                        className="cardFormValues"
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
               </div>
-              <div className="formSelect">
-                <TextField
-                  required
-                  name="value"
-                  className="formSelector"
-                  id="value"
-                  select
-                  label="Select a value"
-                  defaultValue=""
-                  variant="outlined"
-                  onChange={handleChange}
-                >
-                  {teamValues.map((option) => (
-                    <MenuItem
-                      className="cardFormValues"
-                      key={option.value}
-                      value={option.value}
-                    >
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </div>
-            </div>
 
-            <TextField
-              className="cardMessage"
-              required
-              multiline
-              id="message"
-              name="message"
-              variant="outlined"
-              label="Card message"
-              value={formData.message}
-              onChange={handleChange}
-            />
-            <div className="formRow">
-              <FormControlLabel
-                control={<Checkbox />}
-                label="Nominate for award"
-                id="award"
-                name="award"
-                checked={formData.award}
+              <TextField
+                className="cardMessage"
+                required
+                multiline
+                id="message"
+                name="message"
+                variant="outlined"
+                label="Card message"
+                value={formData.message}
                 onChange={handleChange}
               />
+              <div className="formRow">
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Nominate for award"
+                  id="award"
+                  name="award"
+                  checked={formData.award}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-          </div>
-          <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<Send />}>
-              Submit
-            </Button>
-          </div>
-        </form>
-        {/* Display the success message */}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
-      </div>
+            <div className="formButton">
+              <Button type="submit" variant="contained" endIcon={<Send />}>
+                Submit
+              </Button>
+            </div>
+          </form>
+          {/* Display the success message */}
+          {successMessage && (
+            <div className="successMessage">{successMessage}</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

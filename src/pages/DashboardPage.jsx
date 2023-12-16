@@ -26,7 +26,3 @@ export default function DashboardPage() {
     </body>
   );
 }
-
-
-// TODO: fetch cards from API: https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/
-// sort by most recent first and render within the Card element
