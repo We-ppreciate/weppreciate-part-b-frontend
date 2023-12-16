@@ -37,7 +37,7 @@ export default function ProfilePage() {
       <CssBaseline />
       <Header />
       {loading ? (
-        <div className="profileLoader"><CircularProgress/></div>
+        <div className="loader"><CircularProgress/></div>
       ) : (
         <ProfileCard apiData={profileData} />
       )}

@@ -1,10 +1,10 @@
-// import { Comment } from "@mui/icons-material";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Avatar,
   AvatarGroup,
-  // Button,
+  Button,
   Card,
-  // CardActions,
   CardContent,
   CardHeader,
   Chip,
@@ -12,16 +12,14 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import "../../styles/index.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import formatDate from "../../utils/FormatDate";
 import { Link } from "react-router-dom";
+import formatDate from "../../utils/FormatDate";
 
 export default function CardElement() {
   // Importing nominations info:
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [visibleNominations, setVisibleNominations] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +32,8 @@ export default function CardElement() {
           (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
         );
         setNominations(sortedNominations);
+        // Initially, display the first 20 nominations
+        setVisibleNominations(sortedNominations.slice(0, 20));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -43,6 +43,16 @@ export default function CardElement() {
 
     fetchData();
   }, []);
+
+  function handleLoadMore() {
+    // Load the next 20 nominations
+    const currentLength = visibleNominations.length;
+    const nextNominations = nominations.slice(currentLength, currentLength + 20);
+    setVisibleNominations((prevNominations) => [
+      ...prevNominations,
+      ...nextNominations,
+    ]);
+  }
 
   // Importing full users info:
   const [fullUsers, setFullUsers] = useState([]);
@@ -93,91 +103,98 @@ export default function CardElement() {
   return (
     <div>
       {loading ? (
-        <div className="profileLoader">
+        <div className="loader">
           <CircularProgress />
         </div>
       ) : (
-        <Grid className="cardGrid" container spacing={2}>
-          {nominations.map((nomination) => (
-            <Card
-              key={nomination._id}
-              style={{
-                borderColor: getButtonColor(nomination.nominationValue),
-              }}
-            >
-              <CardHeader
-                className="cardHeader"
-                avatar={
-                  <AvatarGroup>
-                    {/* Avatar for nominator - need to get URL import from DB once ready */}
-                    {nomination.isNominatorFullUser ? (
+        <div>
+          <Grid className="cardGrid" container spacing={2}>
+            {nominations.map((nomination) => (
+              <Card
+                key={nomination._id}
+                style={{
+                  borderColor: getButtonColor(nomination.nominationValue),
+                }}
+              >
+                <CardHeader
+                  className="cardHeader"
+                  avatar={
+                    <AvatarGroup>
+                      {/* Avatar for nominator - need to get URL import from DB once ready */}
+                      {nomination.isNominatorFullUser ? (
+                        <Avatar
+                          alt={getFullName(
+                            nomination.nominatorFullUser
+                          )} /* Full user photo URL to go here */
+                        />
+                      ) : (
+                        <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
+                          0
+                        )}${nomination.nominatorBasicUser.basicName.last.charAt(
+                          0
+                        )}`}</Avatar>
+                      )}
+
+                      {/* Avatar for recipient - need to get URL import from DB once ready */}
                       <Avatar
                         alt={getFullName(
-                          nomination.nominatorFullUser
-                        )} /* Full user photo URL to go here */
+                          nomination.recipientUser
+                        )} /* Recipient photo URL to go here */
                       />
-                    ) : (
-                      <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
-                        0
-                      )}${nomination.nominatorBasicUser.basicName.last.charAt(
-                        0
-                      )}`}</Avatar>
-                    )}
-
-                    {/* Avatar for recipient - need to get URL import from DB once ready */}
-                    <Avatar
-                      alt={getFullName(
-                        nomination.recipientUser
-                      )} /* Recipient photo URL to go here */
+                    </AvatarGroup>
+                  }
+                  action={
+                    <Chip
+                      style={{
+                        borderColor: getButtonColor(nomination.nominationValue),
+                        backgroundColor: getButtonColor(
+                          nomination.nominationValue
+                        ),
+                      }}
+                      label={nomination.nominationValue}
                     />
-                  </AvatarGroup>
-                }
-                action={
-                  <Chip
-                    style={{
-                      borderColor: getButtonColor(nomination.nominationValue),
-                      backgroundColor: getButtonColor(
-                        nomination.nominationValue
-                      ),
-                    }}
-                    label={nomination.nominationValue}
-                  />
-                }
-                title={
-                  nomination.isNominatorFullUser
-                    ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                    : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
-                }
-                subheader={formatDate(nomination.nominationDate)}
-                titleTypographyProps={{ variant: "subtitle1" }}
-              />
-              <CardContent>
-                <div>
-                  <Typography variant="h5">
-                    {nomination.nominationBody}
-                  </Typography>
-                </div>
-                <div className="cardRecipient">
-                  <Typography variant="caption">
-                    {" "}
-                    Recognition for{" "}
-                    <Link
-                      className="userLink"
-                      to={`/profile/${nomination.recipientUser}`}
-                    >
-                      {getFullName(nomination.recipientUser)}
-                    </Link>
-                  </Typography>
-                </div>
-              </CardContent>
-              {/* TODO: Add comment button back in when API is ready */}
+                  }
+                  title={
+                    nomination.isNominatorFullUser
+                      ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
+                      : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
+                  }
+                  subheader={formatDate(nomination.nominationDate)}
+                  titleTypographyProps={{ variant: "subtitle1" }}
+                />
+                <CardContent>
+                  <div>
+                    <Typography variant="h5">
+                      {nomination.nominationBody}
+                    </Typography>
+                  </div>
+                  <div className="cardRecipient">
+                    <Typography variant="caption">
+                      {" "}
+                      Recognition for{" "}
+                      <Link
+                        className="userLink"
+                        to={`/profile/${nomination.recipientUser}`}
+                      >
+                        {getFullName(nomination.recipientUser)}
+                      </Link>
+                    </Typography>
+                  </div>
+                </CardContent>
+                {/* TODO: Add comment button back in when API is ready */}
 
-              {/* <CardActions className="cardComment">
+                {/* <CardActions className="cardComment">
             <Button startIcon={<Comment />}>Comments</Button>
           </CardActions> */}
-            </Card>
-          ))}
-        </Grid>
+              </Card>
+            ))}
+          </Grid>
+          <Grid className="cardGrid" container spacing={2}>
+            {visibleNominations.length < nominations.length && (
+              <Button onClick={handleLoadMore}>Load more</Button>
+            )}
+          </Grid>
+        </div>
       )}
     </div>
   );

@@ -1,6 +1,6 @@
 /* This file is for styling for specific elements outside of the MUI theme */
 
-/* Header */
+/* Common elements */
 
 .headerMenu {
   margin-top: 50px;
@@ -14,6 +14,15 @@
 .menuItem {
   padding-left: 10px;
 }
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 100px;
+}
+
 
 /* Dashboard */
 
@@ -47,14 +56,6 @@
 
 
 /* Profile */
-
-.profileLoader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 100px;
-}
 
 .cardGrid {
   direction: column;
