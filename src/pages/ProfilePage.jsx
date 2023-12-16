@@ -3,7 +3,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import Header from "../components/Header";
 import { CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
-import ProfileCard from "../components/ProfileElements/ProfileCard";
+import ProfileCard from "../components/Profile/ProfileCard";
 import LoadingSpinner from "../utils/Loading";
 import { useParams } from "react-router-dom";
 

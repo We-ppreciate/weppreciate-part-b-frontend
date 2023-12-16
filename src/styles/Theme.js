@@ -64,16 +64,31 @@ const appTheme = createTheme({
           padding: "0",
         },
         title: {
-          fontSize: "2rem",
-          marginTop: "10px"
+          marginTop: "10px",
         },
         action: {
-          marginTop: "10px"
-        }
+          marginTop: "10px",
+          marginRight: "10px",
+        },
       },
     },
 
-    
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          fontSize: "1rem",
+          padding: "8px"
+        },
+      },
+    },
+
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#0B4EA2",
+        },
+      },
+    },
   },
 });
 

@@ -28,3 +28,6 @@ export default function ProfileCard({ apiData }) {
     </Grid>
   );
 }
+
+
+// TODO: fetch and render the cards from API, example URL: https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/recipient/6575733ec77e4fcca14b175d

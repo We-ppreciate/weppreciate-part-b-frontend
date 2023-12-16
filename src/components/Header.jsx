@@ -136,7 +136,7 @@ export default function Header() {
               color="inherit"
             >
               {/* Need to adjust so this renders actual user photo and only uses base avatar if no photo is uploaded */}
-              <Avatar />
+              <Avatar src="https://storage.googleapis.com/weppreciate-store/profile/00018-4146151796.png"/>
             </IconButton>
           </Box>
         </Toolbar>
