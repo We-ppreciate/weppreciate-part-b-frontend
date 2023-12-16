@@ -32,8 +32,9 @@ export default function CardElement() {
           (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
         );
         setNominations(sortedNominations);
-        // Initially, display the first 20 nominations
-        setVisibleNominations(sortedNominations.slice(0, 20));
+        // Initially, display the first 10 nominations
+        // TODO - this isn't working as expected, to fix
+        setVisibleNominations(sortedNominations.slice(0, 10));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -45,9 +46,9 @@ export default function CardElement() {
   }, []);
 
   function handleLoadMore() {
-    // Load the next 20 nominations
+    // Load the next 10 nominations
     const currentLength = visibleNominations.length;
-    const nextNominations = nominations.slice(currentLength, currentLength + 20);
+    const nextNominations = nominations.slice(currentLength, currentLength + 10);
     setVisibleNominations((prevNominations) => [
       ...prevNominations,
       ...nextNominations,

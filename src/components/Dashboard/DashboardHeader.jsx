@@ -3,14 +3,7 @@ import { Box } from "@mui/system";
 
 export default function DashboardHeader() {
   return (
-    <Box
-      sx={{
-        marginTop: 6,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <Box className="pageHeading">
       <Typography component="h1" variant="h3">
         {/* TODO: have this render the logged in user's name instead of static text */}
         Hi there, Nate!
