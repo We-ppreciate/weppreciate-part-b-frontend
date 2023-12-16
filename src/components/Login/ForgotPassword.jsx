@@ -1,12 +1,8 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+
+import { Typography, Button, TextField, Container, Box } from "@mui/material";
+import { ArrowBack, SendIcon } from "@mui/icons-material";
 import LoginLogo from "./LoginLogo";
-import { Typography } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import { ArrowBack } from "@mui/icons-material";
 
 const ForgotPassword = ({ setView }) => {
   const handleSubmit = (event) => {
@@ -56,14 +52,7 @@ const ForgotPassword = ({ setView }) => {
           >
             Request reset link
           </Button>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              mt: 2,
-            }}
-          >
+          <Box className="buttonBox">
             <div>
               <Button
                 size="medium"

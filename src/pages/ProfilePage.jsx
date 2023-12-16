@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { ThemeProvider } from "@mui/material/styles";
+import { useParams } from "react-router-dom";
+
+import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
+
 import Header from "../components/Header";
-import { CircularProgress, CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
 import ProfileCard from "../components/Profile/ProfileCard";
-import { useParams } from "react-router-dom";
 
 export default function ProfilePage() {
   const { id } = useParams();
+
+  // Establishing states
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Importing user's details by id
   useEffect(() => {
     const fetchData = async () => {
+      // TODO: convert this fetch to axios
       try {
         const response = await fetch(
           `https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/users/one/id/${id}`
