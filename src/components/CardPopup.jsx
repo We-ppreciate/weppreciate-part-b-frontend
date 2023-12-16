@@ -99,7 +99,7 @@ export default function PopUp(props) {
   return (
     <div className="modal">
       {loading ? (
-        <div className="profileLoader">
+        <div className="loader">
           <CircularProgress />
         </div>
       ) : (
