@@ -8,6 +8,7 @@ import {
   CardContent,
   CardHeader,
   Chip,
+  CircularProgress,
   Typography,
 } from "@mui/material";
 import { AddReaction } from "@mui/icons-material";
@@ -71,63 +72,71 @@ export default function ProfileRecognition({ apiData }) {
   console.log(nominations);
 
   return (
-    // TODO: add loading spinner here
-
-    // TODO: update styling so CardHeader elements are all aligned centred
-
-    // TODO: update mobile styling on cards
-    
+    // TODO: update styling so CardHeader elements are all aligned vertically centred
     <Card>
       <CardHeader
         avatar={<AddReaction />}
-        title={"Cards"}
-        titleTypographyProps={{ variant: "h5" }}
+        title={`${userDetails.name.first}'s Cards`}
+        titleTypographyProps={{ variant: "h4" }}
       />
-      {nominations.map((nomination) => (
-        <Card className="profileNominationCard" key={nomination._id}>
-          <CardHeader
-            className="cardHeader"
-            avatar={
-              <AvatarGroup>
-                {/* Avatar for nominator - need to get URL import from DB once ready */}
-                {nomination.isNominatorFullUser ? (
-                  <Avatar
-                    alt={getFullName(
-                      nomination.nominatorFullUser
-                    )} /* Full user photo URL to go here */
-                  />
-                ) : (
-                  <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
-                    0
-                  )}${nomination.nominatorBasicUser.basicName.last.charAt(
-                    0
-                  )}`}</Avatar>
-                )}
-              </AvatarGroup>
-            }
-            action={
-              <Chip
-                style={{
-                  borderColor: getValueColor(nomination.nominationValue),
-                  backgroundColor: getValueColor(nomination.nominationValue),
-                }}
-                label={nomination.nominationValue}
-              />
-            }
-            title={nomination.nominationBody}
-            titleTypographyProps={{ variant: "h5" }}
-          />
 
-          <CardContent className="profileNominationsSubtitle">
-            <Typography variant="subtitle2">
-              {nomination.isNominatorFullUser
-                ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
-            </Typography>
-            <Typography variant="caption">{formatDate(nomination.nominationDate)}</Typography>
-          </CardContent>
-        </Card>
-      ))}
+      {loading ? (
+        <div className="loader">
+          <CircularProgress />
+        </div>
+      ) : (
+        <div>
+          {nominations.map((nomination) => (
+            <Card className="profileNominationCard" key={nomination._id}>
+              <CardHeader
+                className="nominationCardHeader"
+                avatar={
+                  <AvatarGroup>
+                    {/* Avatar for nominator - need to get URL import from DB once ready */}
+                    {nomination.isNominatorFullUser ? (
+                      <Avatar
+                        alt={getFullName(
+                          nomination.nominatorFullUser
+                        )} /* Full user photo URL to go here */
+                      />
+                    ) : (
+                      <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
+                        0
+                      )}${nomination.nominatorBasicUser.basicName.last.charAt(
+                        0
+                      )}`}</Avatar>
+                    )}
+                  </AvatarGroup>
+                }
+                action={
+                  <Chip
+                    style={{
+                      borderColor: getValueColor(nomination.nominationValue),
+                      backgroundColor: getValueColor(
+                        nomination.nominationValue
+                      ),
+                    }}
+                    label={nomination.nominationValue}
+                  />
+                }
+                title={nomination.nominationBody}
+                titleTypographyProps={{ variant: "h5" }}
+              />
+
+              <CardContent className="profileNominationsSubtitle">
+                <Typography variant="subtitle2">
+                  {nomination.isNominatorFullUser
+                    ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
+                    : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
+                </Typography>
+                <Typography variant="caption">
+                  {formatDate(nomination.nominationDate)}
+                </Typography>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </Card>
   );
 }
