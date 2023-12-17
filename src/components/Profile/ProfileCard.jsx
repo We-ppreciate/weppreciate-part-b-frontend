@@ -1,8 +1,7 @@
 // Purpose: the rendering for a user's profile using params/API data on ProfilePage.jsx
 
 import React from "react";
-import { Avatar, Card, CardContent, CardHeader, Grid } from "@mui/material";
-import { AddReaction } from "@mui/icons-material";
+import { Avatar, Card, CardContent, CardHeader } from "@mui/material";
 import SendCardButton from "../SendCardButton";
 
 export default function ProfileCard({ apiData }) {
@@ -10,7 +9,7 @@ export default function ProfileCard({ apiData }) {
   const { first: firstName, last: lastName } = userDetails.name;
   
   return (
-    <Grid className="cardGrid" container spacing={0}>
+  
       <Card className="profileCardHeader">
         <CardHeader
           className="profileCardHeader"
@@ -23,13 +22,5 @@ export default function ProfileCard({ apiData }) {
         />
         <CardContent className="profileCardTagline">{apiData.User.userTagLine}</CardContent>
       </Card>
-      
-      {/* commenting these out while testing something... */}
-      {/* <Card><CardHeader avatar={<EmojiEvents />} title={"Awards"} titleTypographyProps={{ variant: "h5" }}/><CardContent>Awards here...</CardContent></Card> */}
-      <Card><CardHeader avatar={<AddReaction />} title={"Cards"}titleTypographyProps={{ variant: "h5" }} /><CardContent>Recognition cards here...</CardContent></Card>
-    </Grid>
   );
 }
-
-
-// TODO: fetch and render the cards from API, example URL: https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/recipient/6575733ec77e4fcca14b175d
