@@ -2,6 +2,14 @@
 
 /* Common elements */
 
+.errorMessage {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  right: 30px;
+
+}
+
 .headerMenu {
   margin-top: 50px;
 }

@@ -18,9 +18,6 @@ import getValueColor from "../../utils/ValueColor";
 import formatDate from "../../utils/FormatDate";
 
 export default function ProfileRecognition({ apiData }) {
-  const userDetails = apiData.User;
-  //   const { first: firstName, last: lastName } = userDetails.name;
-
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,9 +27,18 @@ export default function ProfileRecognition({ apiData }) {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
+        // Retrieve JWT from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        // Include the token in the GET request header
         const response = await axios.get(
           "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/recipient/" +
-            userDetails._id
+            apiData._id,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
         );
         // Sort nominations by most recent date
         const sortedNominations = response.data.Nominations.sort(
@@ -47,13 +53,22 @@ export default function ProfileRecognition({ apiData }) {
     };
 
     fetchNominationData();
-  }, [userDetails._id]);
+  }, [apiData._id]);
 
   // Importing full users info for displaying sender name on cards
   useEffect(() => {
     const fetchFullUsers = async () => {
       try {
-        const response = await axios.get(fullUsersUrl);
+        // Retrieve JWT from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        // Include the token in the GET request header
+        const response = await axios.get(fullUsersUrl, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+
         setFullUsers(response.data.Users);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -69,14 +84,12 @@ export default function ProfileRecognition({ apiData }) {
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
   }
 
-  console.log(nominations);
-
   return (
     // TODO: update styling so CardHeader elements are all aligned vertically centred
     <Card>
       <CardHeader
         avatar={<AddReaction />}
-        title={`${userDetails.name.first}'s Cards`}
+        title={`${apiData.name.first}'s Cards`}
         titleTypographyProps={{ variant: "h4" }}
       />
 

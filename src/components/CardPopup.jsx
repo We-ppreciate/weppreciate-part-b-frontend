@@ -33,7 +33,15 @@ export default function PopUp(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(fullUsersUrl);
+        // Retrieve token from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        // Include the token in the GET request header
+        const response = await axios.get(fullUsersUrl, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
 
         const sortedUsers = response.data.Users.sort((a, b) =>
           `${a.name.first} ${a.name.last}`.localeCompare(
@@ -95,6 +103,8 @@ export default function PopUp(props) {
       [name]: newValue,
     }));
   };
+
+// TODO: drop-down menus are shifting elements on screen upon click, check styling for these to resolve
 
   return (
     <div className="modal">

@@ -6,8 +6,8 @@ import SendCardButton from "../SendCardButton";
 import { Container } from "@mui/system";
 
 export default function ProfileCard({ apiData }) {
-  const userDetails = apiData.User;
-  const { first: firstName, last: lastName } = userDetails.name;
+
+  const { first: firstName, last: lastName } = apiData.name;
   
   return (
   <Container className="profileContainer">
@@ -17,11 +17,11 @@ export default function ProfileCard({ apiData }) {
           avatar={<Avatar />} // Need to link this to the user's avatar
         //   Note - need to add validation later to change this to edit a profile for own user
           title={`${firstName} ${lastName}`}
-          subheader={apiData.User.businessUnit}
+          subheader={apiData.businessUnit}
           titleTypographyProps={{ variant: "h3" }}
           subheaderTypographyProps={{ variant: "subtitle1" }}
         />
-        <CardContent className="profileCardTagline">{apiData.User.userTagLine}</CardContent>
+        <CardContent className="profileCardTagline">{apiData.userTagLine}</CardContent>
       </Card>
       <Card className="profileButton"><SendCardButton/></Card>
       </Container>

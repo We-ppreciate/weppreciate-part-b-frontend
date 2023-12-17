@@ -21,16 +21,13 @@ export default class SendCardButton extends React.Component {
 
   render() {
     return (
-      <div>
-        <div onClick={this.togglePop}>
           <Box className="buttonBox">
-            <Button variant="contained" endIcon={<AddReaction />}>
+            <Button variant="contained" endIcon={<AddReaction />} onClick={this.togglePop}>
               Send recognition
             </Button>
+            {this.state.seen ? <PopUp toggle={this.togglePop} /> : null}
           </Box>
-        </div>
-        {this.state.seen ? <PopUp toggle={this.togglePop} /> : null}
-      </div>
+
     );
   }
 }

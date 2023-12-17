@@ -31,13 +31,22 @@ export default function CardElement() {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        const response = await axios.get(allNominationsUrl);
+        // Retrieve JWT token from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+  
+        // Include the token in the GET request headers
+        const response = await axios.get(allNominationsUrl, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+  
         // Sort nominations by most recent date
         const sortedNominations = response.data.Nominations.sort(
           (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
         );
         setNominations(sortedNominations);
-
+  
         // Initially, display the first 10 nominations
         // TODO - this isn't working as expected, to fix
         setVisibleNominations(sortedNominations.slice(0, 10));
@@ -47,7 +56,7 @@ export default function CardElement() {
         setLoading(false);
       }
     };
-
+  
     fetchNominationData();
   }, []);
 
@@ -68,13 +77,22 @@ export default function CardElement() {
   useEffect(() => {
     const fetchFullUsers = async () => {
       try {
-        const response = await axios.get(fullUsersUrl);
+        // Retrieve JWT token from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+  
+        // Include the token in the GET request headers
+        const response = await axios.get(fullUsersUrl, {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+  
         setFullUsers(response.data.Users);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching full users:", error);
       }
     };
-
+  
     fetchFullUsers();
   }, []);
 
