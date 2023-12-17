@@ -1,7 +1,7 @@
 // Purpose: for rendering the Dashboard, by pulling in the different components that form it
 
-import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import Header from "../components/Header";
 import DashboardHeader from "../components/Dashboard/DashboardHeader";
 import CardElement from "../components/Dashboard/CardElement";

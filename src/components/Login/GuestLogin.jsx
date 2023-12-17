@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Button, TextField, Container, Box } from "@mui/material";
-import { ArrowBack, SendIcon } from "@mui/icons-material";
+import { ArrowBack, Send } from "@mui/icons-material";
 
 import LoginText from "./LoginText";
 import LoginLogo from "./LoginLogo";
@@ -47,7 +47,7 @@ const GuestLogin = ({ setView }) => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            endIcon={<SendIcon />}
+            endIcon={<Send />}
           >
             {/* TODO: add validation on form and transition to next screen */}
             Request one-time code

@@ -1,30 +1,64 @@
 // Purpose: logic and rendering for the header for the application once user is logged in
 // Modelled from AppBar MUI component
 
-import * as React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
-  Avatar,
-  Typography,
   AppBar,
   Box,
   Toolbar,
   IconButton,
   MenuItem,
   Menu,
+  Avatar,
+  Typography,
+  InputBase,
+  alpha,
 } from "@mui/material";
-import {
-  AccountCircle,
-  Logout,
-  Settings,
-  SearchIcon,
-} from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
 import DashboardPage from "../pages/DashboardPage";
-import {
-  Search,
-  SearchIconWrapper,
-  StyledInputBase,
-} from "../styles/AppBarStyle";
+import { AccountCircle, Logout, Settings } from "@mui/icons-material";
+
+
+// Styling for Appbar
+// TODO - see if this can work in a separate file
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: "auto",
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
+    },
+  },
+}));
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = React.useState(null);

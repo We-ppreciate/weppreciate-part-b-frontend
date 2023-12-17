@@ -78,7 +78,7 @@ export default function CardElement() {
     fetchFullUsers();
   }, []);
 
-  // Extracts full name for cards based on id
+  // Extracts full name for cards based on id for nominations
   function getFullName(userId) {
     const fullUser = fullUsers.find((user) => user._id === userId);
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
