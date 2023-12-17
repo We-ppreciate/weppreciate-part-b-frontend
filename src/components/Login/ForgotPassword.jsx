@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Typography, Button, TextField, Container, Box } from "@mui/material";
-import { ArrowBack, SendIcon } from "@mui/icons-material";
+import { ArrowBack, Send } from "@mui/icons-material";
 import LoginLogo from "./LoginLogo";
 
 const ForgotPassword = ({ setView }) => {
@@ -48,7 +48,7 @@ const ForgotPassword = ({ setView }) => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
-            endIcon={<SendIcon />}
+            endIcon={<Send />}
           >
             Request reset link
           </Button>
