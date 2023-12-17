@@ -59,9 +59,9 @@ const SignIn = ({ setView }) => {
         return response.json();
       })
       .then((data) => {
-        // Sets a variable for the token and stores it locally
-        const token = data.token;
-        localStorage.setItem("jwtToken", token);
+        // Stores the token and logged in user's email in local storage
+        localStorage.setItem("jwtToken", data.token);
+        localStorage.setItem("loggedInEmail", formData.email);
 
         // Redirect to the Dashboard
         window.location.href = "/dashboard";
