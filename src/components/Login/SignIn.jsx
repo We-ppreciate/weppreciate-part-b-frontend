@@ -12,15 +12,64 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
+import { useState } from "react";
+import { loginUrl } from "../../utils/ApiPaths";
 
 const SignIn = ({ setView }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    // rememberMe: false,
+    // TODO: uncomment above when the backend of the route can handle this checkbox
+  });
+
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const val = type === "checkbox" ? checked : value;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: val,
+    }));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+
+    // Takes login form data and converts into correct JSON format for POST request
+    const jsonData = JSON.stringify({
+      email: formData.email,
+      password: formData.password,
     });
+
+    // Sending POST request for login
+    fetch(loginUrl, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonData,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          // Add front-end validation when this occurs
+          throw new Error("Login failed");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Sets a variable for the token and stores it locally
+        const token = data.token;
+        localStorage.setItem("jwtToken", token);
+
+        // Redirect to the Dashboard
+        window.location.href = "/dashboard";
+      })
+      .catch((error) => {
+        // Add front-end validation when this occurs
+        console.error("Error:", error);
+      });
   };
 
   const handleForgotPasswordClick = () => {
@@ -30,6 +79,8 @@ const SignIn = ({ setView }) => {
   const handleGoBackClick = () => {
     setView("default");
   };
+
+  // TODO: take inline styling into css file where possible
 
   return (
     <Container>
@@ -54,6 +105,8 @@ const SignIn = ({ setView }) => {
             name="email"
             autoComplete="email"
             autoFocus
+            value={formData.email}
+            onChange={handleChange}
           />
           <TextField
             margin="normal"
@@ -64,9 +117,18 @@ const SignIn = ({ setView }) => {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={formData.password}
+            onChange={handleChange}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={
+              <Checkbox
+                value={formData.rememberMe}
+                color="primary"
+                name="rememberMe"
+                onChange={handleChange}
+              />
+            }
             label="Remember me"
           />
           <Button
@@ -78,8 +140,7 @@ const SignIn = ({ setView }) => {
           >
             Log in
           </Button>
-          <Box className="buttonBox"
-          >
+          <Box className="buttonBox">
             <div>
               <Button size="medium" onClick={handleForgotPasswordClick}>
                 Forgot password?
