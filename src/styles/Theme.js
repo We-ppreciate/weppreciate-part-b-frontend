@@ -73,6 +73,16 @@ const appTheme = createTheme({
       },
     },
 
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          "&:last-child": {
+            paddingBottom: "16px"
+          }
+        }
+      }
+    },
+
     MuiChip: {
       styleOverrides: {
         root: {

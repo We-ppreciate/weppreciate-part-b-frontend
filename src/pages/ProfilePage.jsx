@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { CircularProgress, CssBaseline, ThemeProvider } from "@mui/material";
+import {
+  CircularProgress,
+  CssBaseline,
+  Grid,
+  ThemeProvider,
+} from "@mui/material";
 
 import Header from "../components/Header";
 import appTheme from "../styles/Theme";
 import ProfileCard from "../components/Profile/ProfileCard";
+import ProfileRecognition from "../components/Profile/ProfileRecognition";
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -14,6 +20,7 @@ export default function ProfilePage() {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // TODO: add error handling if id doesn't match one in DB
   // Importing user's details by id
   useEffect(() => {
     const fetchData = async () => {
@@ -41,10 +48,16 @@ export default function ProfilePage() {
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <Header />
+
       {loading ? (
-        <div className="loader"><CircularProgress/></div>
+        <div className="loader">
+          <CircularProgress />
+        </div>
       ) : (
-        <ProfileCard apiData={profileData} />
+        <Grid className="cardGrid" container spacing={0}>
+          <ProfileCard apiData={profileData} />
+          <ProfileRecognition apiData={profileData} />
+        </Grid>
       )}
     </ThemeProvider>
   );
