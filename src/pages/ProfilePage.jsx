@@ -12,6 +12,7 @@ import Header from "../components/Header";
 import appTheme from "../styles/Theme";
 import ProfileCard from "../components/Profile/ProfileCard";
 import ProfileRecognition from "../components/Profile/ProfileRecognition";
+import axios from "axios";
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -26,14 +27,19 @@ export default function ProfilePage() {
     const fetchData = async () => {
       // TODO: convert this fetch to axios
       try {
-        const response = await fetch(
-          `https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/users/one/id/${id}`
+        // Retrieve JWT from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        // Include the token in the GET request header
+        const response = await axios.get(
+          `https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/users/one/id/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
         );
-        if (!response.ok) {
-          throw new Error("Error with network response");
-        }
-        const json = await response.json();
-        setProfileData(json);
+        setProfileData(response.data.User);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
