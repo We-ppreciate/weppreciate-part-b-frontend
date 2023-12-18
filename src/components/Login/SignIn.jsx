@@ -80,9 +80,10 @@ const SignIn = ({ setView }) => {
         return response.json();
       })
       .then((data) => {
-        // Stores the token and logged in user's email in local storage
+        console.log(data)
+        // Stores the token and logged in user's details in local storage
         localStorage.setItem("jwtToken", data.token);
-        localStorage.setItem("loggedInEmail", formData.email);
+        localStorage.setItem("loggedInUser", JSON.stringify(data));
 
         // Redirect to the Dashboard
         window.location.href = "/dashboard";

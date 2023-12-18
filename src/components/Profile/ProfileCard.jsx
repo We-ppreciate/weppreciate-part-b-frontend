@@ -14,7 +14,8 @@ export default function ProfileCard({ apiData }) {
       <Card className="profileCardHeader">
         <CardHeader
           className="profileCardHeader"
-          avatar={<Avatar />} // Need to link this to the user's avatar
+          // TODO: make this avatar larger!
+          avatar={<Avatar alt={`${firstName} ${lastName}`} src={apiData.userPhotoKey}/>}
         //   Note - need to add validation later to change this to edit a profile for own user
           title={`${firstName} ${lastName}`}
           subheader={apiData.businessUnit}
