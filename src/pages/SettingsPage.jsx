@@ -29,6 +29,8 @@ import appTheme from "../styles/Theme";
 // TODO: make page interactive and each button go to action, team settings only showing for admins
 
 export default function SettingsPage() {
+  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
+
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
@@ -62,32 +64,36 @@ export default function SettingsPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader
-            title="Team settings"
-            titleTypographyProps={{ variant: "h4" }}
-          />
-          <CardContent>
-            <div>
-              <Button className="settingsButton" startIcon={<People />}>
-                Manage users
-              </Button>
-            </div>
-            <div>
-              <Button className="settingsButton" startIcon={<Diversity2 />}>
-                Configure values
-              </Button>
-            </div>
-            <div>
-              <Button
-                className="settingsButton"
-                startIcon={<WorkspacePremium />}
-              >
-                Configure awards
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+
+        {/* Team settings only displayed to admins: */}
+        {userData.isAdmin && (
+          <Card>
+            <CardHeader
+              title="Team settings"
+              titleTypographyProps={{ variant: "h4" }}
+            />
+            <CardContent>
+              <div>
+                <Button className="settingsButton" startIcon={<People />}>
+                  Manage users
+                </Button>
+              </div>
+              <div>
+                <Button className="settingsButton" startIcon={<Diversity2 />}>
+                  Configure values
+                </Button>
+              </div>
+              <div>
+                <Button
+                  className="settingsButton"
+                  startIcon={<WorkspacePremium />}
+                >
+                  Configure awards
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </Grid>
     </ThemeProvider>
   );
