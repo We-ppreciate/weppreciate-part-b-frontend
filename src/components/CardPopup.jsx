@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
 import teamValues from "../utils/Values";
-import { fullUsersUrl } from "../utils/ApiPaths";
+import { apiUrl } from "../utils/ApiUrl";
 
 export default function PopUp(props) {
   const userData = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -39,7 +39,7 @@ export default function PopUp(props) {
         const jwtToken = localStorage.getItem("jwtToken");
 
         // Include the token in the GET request header
-        const response = await axios.get(fullUsersUrl, {
+        const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -70,8 +70,6 @@ export default function PopUp(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // TODO: add API POST call here to submit
-
     // establishing correct date format
     const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
 
@@ -81,29 +79,30 @@ export default function PopUp(props) {
       nominatorFullUser: userData.id,
       nominationValue: [formData.value],
       nominationBody: formData.message,
-      nominationDate: new Date().toLocaleDateString("en-GB", dateOptions).replace(/\//g, '-'),
+      nominationDate: new Date()
+        .toLocaleDateString("en-GB", dateOptions)
+        .replace(/\//g, "-"),
       isNominatorFullUser: userData.isFullUser,
       isNominationInstant: !formData.award,
       isAward: formData.award,
       isReleased: false,
-      releaseDate: new Date().toLocaleDateString("en-GB", dateOptions).replace(/\//g, '-'),
+      releaseDate: new Date()
+        .toLocaleDateString("en-GB", dateOptions)
+        .replace(/\//g, "-"),
     });
 
     const jwtToken = localStorage.getItem("jwtToken");
 
     // Sending POST request for posting card
-    fetch(
-      "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/new",
-      {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-          "Content-Type": "application/json",
-        },
-        body: cardJSON,
-      }
-    )
+    fetch(apiUrl + "nominations/new", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+        "Content-Type": "application/json",
+      },
+      body: cardJSON,
+    })
       .then((response) => {
         if (!response.ok) {
           // TODO: front-end validation here

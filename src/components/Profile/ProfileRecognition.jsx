@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { AddReaction } from "@mui/icons-material";
 import axios from "axios";
-import { fullUsersUrl } from "../../utils/ApiPaths";
+import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 
 export default function ProfileRecognition({ apiData }) {
@@ -31,8 +31,7 @@ export default function ProfileRecognition({ apiData }) {
 
         // Include the token in the GET request header
         const response = await axios.get(
-          "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/all/recipient/" +
-            apiData._id,
+          apiUrl + "nominations/all/recipient/" + apiData._id,
           {
             headers: {
               Authorization: `Bearer ${jwtToken}`,
@@ -70,7 +69,7 @@ export default function ProfileRecognition({ apiData }) {
         const jwtToken = localStorage.getItem("jwtToken");
 
         // Include the token in the GET request header
-        const response = await axios.get(fullUsersUrl, {
+        const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },

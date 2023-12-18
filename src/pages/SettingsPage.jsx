@@ -17,7 +17,6 @@ import {
 import {
   Diversity2,
   Home,
-  Password,
   People,
   WorkspacePremium,
 } from "@mui/icons-material";
@@ -25,6 +24,7 @@ import {
 import DashboardPage from "./DashboardPage";
 import Header from "../components/Header";
 import appTheme from "../styles/Theme";
+import ChangePasswordButton from "../components/Settings/ChangePasswordButton";
 
 // TODO: make page interactive and each button go to action, team settings only showing for admins
 
@@ -52,11 +52,7 @@ export default function SettingsPage() {
             titleTypographyProps={{ variant: "h4" }}
           />
           <CardContent>
-            <div>
-              <Button className="settingsButton" startIcon={<Password />}>
-                Change password
-              </Button>
-            </div>
+            <ChangePasswordButton />
             <div>
               <Typography variant="caption">
                 Additional information can be updated on your profile.

@@ -14,7 +14,7 @@ import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import { useState } from "react";
-import { loginUrl } from "../../utils/ApiPaths";
+import { apiUrl } from "../../utils/ApiUrl";
 
 const SignIn = ({ setView }) => {
   // Establishing states
@@ -46,7 +46,7 @@ const SignIn = ({ setView }) => {
     });
 
     // Sending POST request for login
-    fetch(loginUrl, {
+    fetch(apiUrl + "auth/login", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -74,13 +74,13 @@ const SignIn = ({ setView }) => {
           setTimeout(() => {
             setErrorMessage("");
           }, 5000);
-          
+
           throw new Error("Login failed");
         }
         return response.json();
       })
       .then((data) => {
-        console.log(data)
+        console.log(data);
         // Stores the token and logged in user's details in local storage
         localStorage.setItem("jwtToken", data.token);
         localStorage.setItem("loggedInUser", JSON.stringify(data));

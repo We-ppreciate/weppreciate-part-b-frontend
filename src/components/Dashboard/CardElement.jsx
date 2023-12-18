@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { allNominationsUrl, fullUsersUrl } from "../../utils/ApiPaths";
+import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 
 export default function CardElement() {
@@ -34,7 +34,7 @@ export default function CardElement() {
         const jwtToken = localStorage.getItem("jwtToken");
 
         // Include the token in the GET request headers
-        const response = await axios.get(allNominationsUrl, {
+        const response = await axios.get(apiUrl + "nominations/all/", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
@@ -48,10 +48,10 @@ export default function CardElement() {
           const dateB = new Date(
             b.nominationDate.split("-").reverse().join("-")
           );
-        
+
           return dateB - dateA;
         });
-        
+
         setNominations(sortedNominations);
 
         // Initially, display the first 10 nominations
@@ -88,7 +88,7 @@ export default function CardElement() {
         const jwtToken = localStorage.getItem("jwtToken");
 
         // Include the token in the GET request headers
-        const response = await axios.get(fullUsersUrl, {
+        const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
