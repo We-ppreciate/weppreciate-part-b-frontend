@@ -16,7 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 
-import formatDate from "../../utils/FormatDate";
 import { allNominationsUrl, fullUsersUrl } from "../../utils/ApiPaths";
 import getValueColor from "../../utils/ValueColor";
 
@@ -42,9 +41,17 @@ export default function CardElement() {
         });
 
         // Sort nominations by most recent date
-        const sortedNominations = response.data.Nominations.sort(
-          (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
-        );
+        const sortedNominations = response.data.Nominations.sort((a, b) => {
+          const dateA = new Date(
+            a.nominationDate.split("-").reverse().join("-")
+          );
+          const dateB = new Date(
+            b.nominationDate.split("-").reverse().join("-")
+          );
+        
+          return dateB - dateA;
+        });
+        
         setNominations(sortedNominations);
 
         // Initially, display the first 10 nominations
@@ -163,7 +170,8 @@ export default function CardElement() {
                       ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
                       : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
                   }
-                  subheader={formatDate(nomination.nominationDate)}
+                  // subheader={formatDate(nomination.nominationDate)}
+                  subheader={nomination.nominationDate}
                   titleTypographyProps={{ variant: "subtitle1" }}
                 />
                 <CardContent>

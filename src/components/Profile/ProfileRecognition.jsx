@@ -15,7 +15,6 @@ import { AddReaction } from "@mui/icons-material";
 import axios from "axios";
 import { fullUsersUrl } from "../../utils/ApiPaths";
 import getValueColor from "../../utils/ValueColor";
-import formatDate from "../../utils/FormatDate";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
@@ -41,9 +40,17 @@ export default function ProfileRecognition({ apiData }) {
           }
         );
         // Sort nominations by most recent date
-        const sortedNominations = response.data.Nominations.sort(
-          (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
-        );
+        const sortedNominations = response.data.Nominations.sort((a, b) => {
+          const dateA = new Date(
+            a.nominationDate.split("-").reverse().join("-")
+          );
+          const dateB = new Date(
+            b.nominationDate.split("-").reverse().join("-")
+          );
+
+          return dateB - dateA;
+        });
+
         setNominations(sortedNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -148,7 +155,7 @@ export default function ProfileRecognition({ apiData }) {
                     : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
                 </Typography>
                 <Typography variant="caption">
-                  {formatDate(nomination.nominationDate)}
+                  {nomination.nominationDate}
                 </Typography>
               </CardContent>
             </Card>
