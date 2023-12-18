@@ -84,6 +84,12 @@ export default function ProfileRecognition({ apiData }) {
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
   }
 
+  // Extracts user's photo for cards based on id for nominations
+  function getUserPhoto(userId) {
+    const findUser = fullUsers.find((user) => user._id === userId);
+    return findUser ? findUser.userPhotoKey : "";
+  }
+
   return (
     // TODO: update styling so CardHeader elements are all aligned vertically centred
     <Card>
@@ -108,9 +114,8 @@ export default function ProfileRecognition({ apiData }) {
                     {/* Avatar for nominator - need to get URL import from DB once ready */}
                     {nomination.isNominatorFullUser ? (
                       <Avatar
-                        alt={getFullName(
-                          nomination.nominatorFullUser
-                        )} /* Full user photo URL to go here */
+                        alt={getFullName(nomination.nominatorFullUser)}
+                        src={getUserPhoto(nomination.nominatorFullUser)}
                       />
                     ) : (
                       <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(

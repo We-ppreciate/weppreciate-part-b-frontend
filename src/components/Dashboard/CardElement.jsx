@@ -128,7 +128,6 @@ export default function CardElement() {
                   className="cardHeader"
                   avatar={
                     <AvatarGroup>
-                      {/* Avatar for nominator - need to get URL import from DB once ready */}
                       {nomination.isNominatorFullUser ? (
                         <Avatar
                           alt={getFullName(nomination.nominatorFullUser)}
