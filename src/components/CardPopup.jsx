@@ -72,6 +72,54 @@ export default function PopUp(props) {
 
     // TODO: add API POST call here to submit
 
+    // establishing correct date format
+    const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
+
+    // Takes card form data and converts into correct JSON format for POST request
+    const cardJSON = JSON.stringify({
+      recipientUser: formData.recipient,
+      nominatorFullUser: userData.id,
+      nominationValue: [formData.value],
+      nominationBody: formData.message,
+      nominationDate: new Date().toLocaleDateString("en-GB", dateOptions).replace(/\//g, '-'),
+      isNominatorFullUser: userData.isFullUser,
+      isNominationInstant: !formData.award,
+      isAward: formData.award,
+      isReleased: false,
+      releaseDate: new Date().toLocaleDateString("en-GB", dateOptions).replace(/\//g, '-'),
+    });
+
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    // Sending POST request for posting card
+    fetch(
+      "https://weppreciate-api-05b8eaa3cdc2.herokuapp.com/nominations/new",
+      {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+        body: cardJSON,
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          // TODO: front-end validation here
+          throw new Error("Login failed");
+        }
+        console.log(response);
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        // TODO: Add front-end validation when this occurs
+        console.error("Error:", error);
+      });
+
     // If successful, set the success message and clear the form data
     setSuccessMessage(
       <Alert severity="success">
