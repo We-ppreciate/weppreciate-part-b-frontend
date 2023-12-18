@@ -16,6 +16,8 @@ import teamValues from "../utils/Values";
 import { fullUsersUrl } from "../utils/ApiPaths";
 
 export default function PopUp(props) {
+  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
+
   // Set default values of formData
   const [formData, setFormData] = useState({
     recipient: "",
@@ -104,7 +106,7 @@ export default function PopUp(props) {
     }));
   };
 
-// TODO: drop-down menus are shifting elements on screen upon click, check styling for these to resolve
+  // TODO: drop-down menus are shifting elements on screen upon click, check styling for these to resolve
 
   return (
     <div className="modal">
@@ -134,15 +136,25 @@ export default function PopUp(props) {
                     variant="outlined"
                     onChange={handleChange}
                   >
-                    {fullUsers.map((user) => (
-                      <MenuItem
-                        className="cardFormValues"
-                        key={user._id}
-                        value={user._id}
-                      >
-                        {user.name.first} {user.name.last}
-                      </MenuItem>
-                    ))}
+                    {fullUsers.map((user) => {
+                      const userName = `${user.name.first} ${user.name.last}`;
+                      if (
+                        userName !==
+                        `${userData.name.first} ${userData.name.last}`
+                      ) {
+                        return (
+                          <MenuItem
+                            className="cardFormValues"
+                            key={user._id}
+                            value={user._id}
+                          >
+                            {userName}
+                          </MenuItem>
+                        );
+                      }
+                      // If there is a match with the logged in user's name, it won't be rendered on the list
+                      return null;
+                    })}
                   </TextField>
                 </div>
                 <div className="formSelect">

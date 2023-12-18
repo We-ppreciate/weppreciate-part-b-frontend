@@ -1,7 +1,7 @@
 // Purpose: logic and rendering for the header for the application once user is logged in
 // Modelled from AppBar MUI component
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   AppBar,
@@ -19,8 +19,6 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import DashboardPage from "../pages/DashboardPage";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
-import axios from "axios";
-import { fullUsersUrl } from "../utils/ApiPaths";
 
 // Styling for Appbar
 // TODO - see if this can work in a separate file
@@ -62,36 +60,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Header() {
-  const userEmail = localStorage.getItem("loggedInEmail");
-
-  // Establishing states
-  const [user, setUser] = useState([]);
-
-  // Importing full users info
-  useEffect(() => {
-    const fetchFullUsers = async () => {
-      try {
-        // Retrieve JWT token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request headers
-        const response = await axios.get(fullUsersUrl, {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        // TODO: convert userEmail to lowercase when comparing for edge cases
-        const matchingUser = response.data.Users.find(
-          (user) => user.email === userEmail
-        );
-        setUser(matchingUser);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchFullUsers();
-  }, [userEmail]);
+  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -126,7 +95,7 @@ export default function Header() {
       {/* TODO: need to update the styling on this menu and have other options show conditionally based on user role */}
 
       {/* Need to link to the own user's profile by fetching their id: */}
-      <Link to={"/profile/" + user._id} className="menu">
+      <Link to={"/profile/" + userData.id} className="menu">
         <MenuItem onClick={handleMenuClose}>
           <AccountCircle />
           <Typography className="menuItem">Profile</Typography>
@@ -182,7 +151,7 @@ export default function Header() {
             >
               {/* Need to adjust so this renders actual user photo and only uses base avatar if no photo is uploaded */}
 
-              <Avatar />
+              <Avatar alt={`${userData.name.first} ${userData.name.last}`} src={userData.userPhotoKey}/>
             </IconButton>
           </Box>
         </Toolbar>
