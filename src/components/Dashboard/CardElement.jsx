@@ -13,13 +13,17 @@ import {
   Chip,
   CircularProgress,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
 
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
+import { Comment, Delete } from "@mui/icons-material";
 
 export default function CardElement() {
+  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
+
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -174,30 +178,35 @@ export default function CardElement() {
                   subheader={nomination.nominationDate}
                   titleTypographyProps={{ variant: "subtitle1" }}
                 />
-                <CardContent>
-                  <div>
-                    <Typography variant="h5">
-                      {nomination.nominationBody}
-                    </Typography>
+
+                <CardContent className="cardMain">
+                  <div className="cardGuts">
+                    <div className="cardBody">
+                      <Typography variant="h5">
+                        {nomination.nominationBody}
+                      </Typography>
+                    </div>
+                    <div className="cardRecipient">
+                      <Typography variant="caption">
+                        {" "}
+                        Recognition for{" "}
+                        <Link
+                          className="userLink"
+                          to={`/profile/${nomination.recipientUser}`}
+                        >
+                          {getFullName(nomination.recipientUser)}
+                        </Link>
+                      </Typography>
+                    </div>
                   </div>
-                  <div className="cardRecipient">
-                    <Typography variant="caption">
-                      {" "}
-                      Recognition for{" "}
-                      <Link
-                        className="userLink"
-                        to={`/profile/${nomination.recipientUser}`}
-                      >
-                        {getFullName(nomination.recipientUser)}
-                      </Link>
-                    </Typography>
+                  {/* TODO: add interaction on comment button */}
+                  {/* TODO: add interaction on admin delete button */}
+
+                  <div className="cardComment">                    
+                    <Button startIcon={<Comment />}>Comments</Button>
+                    {userData.isAdmin && (<IconButton color='primary'><Delete/></IconButton>)}
                   </div>
                 </CardContent>
-                {/* TODO: Add comment button back in when API is ready */}
-
-                {/* <CardActions className="cardComment">
-            <Button startIcon={<Comment />}>Comments</Button>
-          </CardActions> */}
               </Card>
             ))}
           </Grid>
