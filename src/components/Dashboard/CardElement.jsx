@@ -33,20 +33,20 @@ export default function CardElement() {
       try {
         // Retrieve JWT token from local storage
         const jwtToken = localStorage.getItem("jwtToken");
-  
+
         // Include the token in the GET request headers
         const response = await axios.get(allNominationsUrl, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-  
+
         // Sort nominations by most recent date
         const sortedNominations = response.data.Nominations.sort(
           (a, b) => new Date(b.nominationDate) - new Date(a.nominationDate)
         );
         setNominations(sortedNominations);
-  
+
         // Initially, display the first 10 nominations
         // TODO - this isn't working as expected, to fix
         setVisibleNominations(sortedNominations.slice(0, 10));
@@ -56,7 +56,7 @@ export default function CardElement() {
         setLoading(false);
       }
     };
-  
+
     fetchNominationData();
   }, []);
 
@@ -79,20 +79,20 @@ export default function CardElement() {
       try {
         // Retrieve JWT token from local storage
         const jwtToken = localStorage.getItem("jwtToken");
-  
+
         // Include the token in the GET request headers
         const response = await axios.get(fullUsersUrl, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-  
+
         setFullUsers(response.data.Users);
       } catch (error) {
         console.error("Error fetching full users:", error);
       }
     };
-  
+
     fetchFullUsers();
   }, []);
 
@@ -100,6 +100,12 @@ export default function CardElement() {
   function getFullName(userId) {
     const fullUser = fullUsers.find((user) => user._id === userId);
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
+  }
+
+  // Extracts user's photo for cards based on id for nominations
+  function getUserPhoto(userId) {
+    const findUser = fullUsers.find((user) => user._id === userId);
+    return findUser ? findUser.userPhotoKey : "";
   }
 
   return (
@@ -125,9 +131,8 @@ export default function CardElement() {
                       {/* Avatar for nominator - need to get URL import from DB once ready */}
                       {nomination.isNominatorFullUser ? (
                         <Avatar
-                          alt={getFullName(
-                            nomination.nominatorFullUser
-                          )} /* Full user photo URL to go here */
+                          alt={getFullName(nomination.nominatorFullUser)}
+                          src={getUserPhoto(nomination.nominatorFullUser)}
                         />
                       ) : (
                         <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
@@ -137,11 +142,9 @@ export default function CardElement() {
                         )}`}</Avatar>
                       )}
 
-                      {/* Avatar for recipient - need to get URL import from DB once ready */}
                       <Avatar
-                        alt={getFullName(
-                          nomination.recipientUser
-                        )} /* Recipient photo URL to go here */
+                        alt={getFullName(nomination.recipientUser)}
+                        src={getUserPhoto(nomination.recipientUser)}
                       />
                     </AvatarGroup>
                   }
