@@ -12,8 +12,9 @@ import {
   TextField,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import teamValues from "../utils/Values";
-import { apiUrl } from "../utils/ApiUrl";
+import { apiUrl } from "../../utils/ApiUrl";
+import teamValues from "../../utils/Values";
+
 
 export default function PopUp(props) {
   const userData = JSON.parse(localStorage.getItem("loggedInUser"));

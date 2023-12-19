@@ -2,21 +2,21 @@
 
 import React from "react";
 import { Avatar, Card, CardContent, CardHeader } from "@mui/material";
-import SendCardButton from "../SendCardButton";
 import { Container } from "@mui/system";
+import SendCardButton from "../Dashboard/SendCardButton";
 
 export default function ProfileCard({ apiData }) {
+  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
 
   const { first: firstName, last: lastName } = apiData.name;
+  
   
   return (
   <Container className="profileContainer">
       <Card className="profileCardHeader">
         <CardHeader
           className="profileCardHeader"
-          // TODO: make this avatar larger!
-          avatar={<Avatar alt={`${firstName} ${lastName}`} src={apiData.userPhotoKey}/>}
-        //   Note - need to add validation later to change this to edit a profile for own user
+          avatar={<Avatar className="profileImage" alt={`${firstName} ${lastName}`} src={apiData.userPhotoKey}/>}
           title={`${firstName} ${lastName}`}
           subheader={apiData.businessUnit}
           titleTypographyProps={{ variant: "h3" }}
@@ -24,7 +24,8 @@ export default function ProfileCard({ apiData }) {
         />
         <CardContent className="profileCardTagline">{apiData.userTagLine}</CardContent>
       </Card>
-      <Card className="profileButton"><SendCardButton/></Card>
+      {/* Send card button hidden on user's own profile */}
+      {(apiData._id !== userData.id) && <Card className="profileButton"><SendCardButton/></Card>}
       </Container>
   );
 }

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 
 import {
-  Diversity2,
+  Edit,
   Home,
   People,
   WorkspacePremium,
@@ -21,8 +21,6 @@ import {
 
 import DashboardPage from "../../pages/DashboardPage";
 import ChangePasswordButton from "./ChangePasswordButton";
-
-// TODO: make page interactive and each button go to action, team settings only showing for admins
 
 const MainSettings = ({ setView }) => {
   const userData = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -51,11 +49,7 @@ const MainSettings = ({ setView }) => {
           />
           <CardContent>
             <ChangePasswordButton />
-            <div>
-              <Typography variant="caption">
-                Additional information can be updated on your profile.
-              </Typography>
-            </div>
+            <Button startIcon={<Edit/>}>Edit profile tagline</Button>
           </CardContent>
         </Card>
 
@@ -72,17 +66,13 @@ const MainSettings = ({ setView }) => {
                   Manage users
                 </Button>
               </div>
-              <div>
-                <Button className="settingsButton" startIcon={<Diversity2 />}>
-                  Configure values
-                </Button>
-              </div>
+              
               <div>
                 <Button
                   className="settingsButton"
                   startIcon={<WorkspacePremium />}
                 >
-                  Configure awards
+                  Release awards
                 </Button>
               </div>
             </CardContent>

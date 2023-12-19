@@ -94,7 +94,6 @@ export default function Header() {
     >
       {/* TODO: need to update the styling on this menu and have other options show conditionally based on user role */}
 
-      {/* Need to link to the own user's profile by fetching their id: */}
       <Link to={"/profile/" + userData.id} className="menu">
         <MenuItem onClick={handleMenuClose}>
           <AccountCircle />

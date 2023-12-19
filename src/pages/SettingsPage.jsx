@@ -1,11 +1,12 @@
-// This will be the page component to hold all other components specific to the Login page
+// Purpose: for rendering the Settings page, by pulling in the different components that form it
 
 import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+
 import appTheme from "../styles/Theme";
-import MainSettings from "../components/Settings/MainSettings";
 import Header from "../components/Header";
+import MainSettings from "../components/Settings/MainSettings";
 import ManageUsers from "../components/Settings/ManageUsers";
 
 export default function SettingsPage() {
@@ -23,7 +24,6 @@ export default function SettingsPage() {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-
       <Header />
       {renderView()}
     </ThemeProvider>

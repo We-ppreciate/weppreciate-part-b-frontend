@@ -19,7 +19,7 @@ import {
 
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
-import { Comment, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
 
 export default function CardElement() {
   const userData = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -198,11 +198,10 @@ export default function CardElement() {
                       </Typography>
                     </div>
                   </div>
-                  {/* TODO: add interaction on comment button */}
                   {/* TODO: add interaction on admin delete button */}
 
                   <div className="cardComment">                    
-                    <Button startIcon={<Comment />}>Comments</Button>
+                    {/* <Button startIcon={<Comment />}>Comments</Button> */}
                     {userData.isAdmin && (<IconButton color='primary'><Delete/></IconButton>)}
                   </div>
                 </CardContent>

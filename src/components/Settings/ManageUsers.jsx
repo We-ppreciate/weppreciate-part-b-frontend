@@ -12,10 +12,11 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-import { Settings } from "@mui/icons-material";
-import AddUserButton from "./AddUserButton";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Settings } from "@mui/icons-material";
+
+import AddUserButton from "./AddUserButton";
 import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
@@ -31,7 +32,6 @@ const ManageUsers = ({ setView }) => {
   // eslint-disable-next-line no-unused-vars
   const [selectedUser, setSelectedUser] = useState(null);
   //   const [successMessage, setSuccessMessage] = useState("");
-
 
   // Importing full users list to render in form
   useEffect(() => {
@@ -102,13 +102,10 @@ const ManageUsers = ({ setView }) => {
                 <TableRow>
                   <TableCell>Name</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Admin</TableCell>
-                  <TableCell>Senior manager</TableCell>
-                  <TableCell>Line manager</TableCell>
                   <TableCell>Business unit</TableCell>
                   <TableCell>Manager</TableCell>
-                  <TableCell></TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>Edit</TableCell>
+                  <TableCell>Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -123,18 +120,13 @@ const ManageUsers = ({ setView }) => {
                         {userName}
                       </TableCell>
                       <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.isAdmin ? "Yes" : "No"}</TableCell>
-                      <TableCell>
-                        {user.isSeniorManager ? "Yes" : "No"}
-                      </TableCell>
-                      <TableCell>{user.isLineManager ? "Yes" : "No"}</TableCell>
                       <TableCell>{user.businessUnit}</TableCell>
                       <TableCell>{getFullName(user.lineManagerId)}</TableCell>
                       <TableCell>
                         <EditUserButton user={user} onEdit={handleEditUser} />
                       </TableCell>
                       <TableCell>
-                      <DeleteUserButton user={user} onEdit={handleEditUser} />
+                        <DeleteUserButton user={user} onEdit={handleEditUser} />
                       </TableCell>
                     </TableRow>
                   );
