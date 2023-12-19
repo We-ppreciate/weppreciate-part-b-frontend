@@ -174,7 +174,6 @@ export default function CardElement() {
                       ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
                       : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
                   }
-                  // subheader={formatDate(nomination.nominationDate)}
                   subheader={nomination.nominationDate}
                   titleTypographyProps={{ variant: "subtitle1" }}
                 />
