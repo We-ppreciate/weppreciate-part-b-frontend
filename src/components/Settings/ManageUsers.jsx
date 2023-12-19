@@ -12,12 +12,13 @@ import {
   CircularProgress,
 } from "@mui/material";
 
-import { Delete, Settings } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import AddUserButton from "./AddUserButton";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
+import DeleteUserButton from "./DeleteUserButton";
 
 const ManageUsers = ({ setView }) => {
   const handleGoBackClick = () => {
@@ -133,7 +134,7 @@ const ManageUsers = ({ setView }) => {
                         <EditUserButton user={user} onEdit={handleEditUser} />
                       </TableCell>
                       <TableCell>
-                        <Delete />
+                      <DeleteUserButton user={user} onEdit={handleEditUser} />
                       </TableCell>
                     </TableRow>
                   );
