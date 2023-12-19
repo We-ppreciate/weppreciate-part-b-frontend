@@ -200,7 +200,6 @@
 
 .formHeading {
   font-size: 2rem;
-  margin-bottom: 2rem;
 }
 
 .cardForm {
@@ -211,6 +210,7 @@
 .formRow {
   display: flex;
   flex-direction: row;
+  margin: 0.5rem 0;
 }
 
 .formSelect {
@@ -224,7 +224,7 @@
 }
 
 .formSelector {
-  width: 70%;
+  width: 80%;
 }
 
 .cardFormValues {
@@ -238,13 +238,21 @@
 @media screen and (max-width: 640px) {
   .formHeading {
     font-size: 1.5rem;
-    margin-bottom: 0;
   }
   .formRow {
     flex-direction: column;
+    margin: 0;
   }
   .formSelect {
-    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  .formSelector {
+    width: 100%;
+  }
+
+  .cardMessage {
+    margin: 0 0 0.5rem 0;
   }
 }
 
@@ -267,4 +275,8 @@
 
 .passwordField {
   margin: 0.5rem 0;
+}
+
+.usersTable {
+  width: 90vw;
 }

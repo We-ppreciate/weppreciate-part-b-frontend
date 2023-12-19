@@ -99,7 +99,25 @@ const appTheme = createTheme({
         },
       },
     },
+
+    MuiTable: {
+      styleOverrides: {
+        root: {
+          border: "2px solid #0B4EA2",
+        }
+      }
+    },
+
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#0B4EA2",
+          color: "#ffffff",
+        }
+      }
+    }
   },
+
 });
 
 export default appTheme;

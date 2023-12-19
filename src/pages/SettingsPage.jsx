@@ -1,96 +1,31 @@
-// TODO
-// This will be the page component to hold all other components specific to the Settings page
+// This will be the page component to hold all other components specific to the Login page
 
-import { Link } from "react-router-dom";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CssBaseline,
-  Grid,
-  Typography,
-  ThemeProvider,
-  Box,
-} from "@mui/material";
-
-import {
-  Diversity2,
-  Home,
-  People,
-  WorkspacePremium,
-} from "@mui/icons-material";
-
-import DashboardPage from "./DashboardPage";
-import Header from "../components/Header";
+import { useState } from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline } from "@mui/material";
 import appTheme from "../styles/Theme";
-import ChangePasswordButton from "../components/Settings/ChangePasswordButton";
-
-// TODO: make page interactive and each button go to action, team settings only showing for admins
+import MainSettings from "../components/Settings/MainSettings";
+import Header from "../components/Header";
+import ManageUsers from "../components/Settings/ManageUsers";
 
 export default function SettingsPage() {
-  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
+  const [view, setView] = useState("default");
+
+  const renderView = () => {
+    switch (view) {
+      case "manageUsers":
+        return <ManageUsers setView={setView} />;
+      default:
+        return <MainSettings setView={setView} />;
+    }
+  };
 
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-      <Header />
-      <Link to="/dashboard" element={<DashboardPage />}>
-        <Button className="backButton" startIcon={<Home />}>
-          Back to Dashboard
-        </Button>
-      </Link>
-      <Box className="pageHeading">
-        <Typography component="h1" variant="h3">
-          Settings
-        </Typography>
-      </Box>
-      <Grid className="cardGrid" container spacing={0}>
-        <Card>
-          <CardHeader
-            title="Account settings"
-            titleTypographyProps={{ variant: "h4" }}
-          />
-          <CardContent>
-            <ChangePasswordButton />
-            <div>
-              <Typography variant="caption">
-                Additional information can be updated on your profile.
-              </Typography>
-            </div>
-          </CardContent>
-        </Card>
 
-        {/* Team settings only displayed to admins: */}
-        {userData.isAdmin && (
-          <Card>
-            <CardHeader
-              title="Team settings"
-              titleTypographyProps={{ variant: "h4" }}
-            />
-            <CardContent>
-              <div>
-                <Button className="settingsButton" startIcon={<People />}>
-                  Manage users
-                </Button>
-              </div>
-              <div>
-                <Button className="settingsButton" startIcon={<Diversity2 />}>
-                  Configure values
-                </Button>
-              </div>
-              <div>
-                <Button
-                  className="settingsButton"
-                  startIcon={<WorkspacePremium />}
-                >
-                  Configure awards
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-      </Grid>
+      <Header />
+      {renderView()}
     </ThemeProvider>
   );
 }
