@@ -12,17 +12,19 @@ import { useEffect, useState } from "react";
 import { apiUrl } from "../../utils/ApiUrl";
 import axios from "axios";
 
-export default function AddUser(props) {
+export default function EditUser(props) {
+  const { user } = props;
+
   // Set default values of formData
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    businessUnit: "",
-    userLineManager: "",
-    isAdmin: false,
-    isSeniorManager: false,
-    isLineManager: false,
+    firstName: user.name.first,
+    lastName: user.name.last,
+    email: user.email,
+    businessUnit: user.businessUnit,
+    userLineManager: user.userLineManager,
+    isAdmin: user.isAdmin,
+    isSeniorManager: user.isSeniorManager,
+    isLineManager: user.isLineManager,
   });
 
   // Establishing states
@@ -69,6 +71,7 @@ export default function AddUser(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+
     // Takes card form data and converts into correct JSON format for POST request
     const cardJSON = JSON.stringify({
       name: {
@@ -78,17 +81,16 @@ export default function AddUser(props) {
       email: formData.email,
       businessUnit: formData.businessUnit,
       isLineManager: formData.isLineManager,
-      isFullUser: true,
       isAdmin: formData.isAdmin,
       isSeniorManager: formData.isSeniorManager,
-      userLineManager: formData.userLineManager,
+    //   userLineManager: formData.userLineManager,
     });
-
+    console.log(cardJSON)
     const jwtToken = localStorage.getItem("jwtToken");
 
-    // Sending POST request for posting new user
-    fetch(apiUrl + "users/new", {
-      method: "POST",
+    // Sending PATCH request for posting editing user
+    fetch(apiUrl + "users/update/admin/"+ user._id, {
+      method: "PATCH",
       mode: "cors",
       headers: {
         Authorization: `Bearer ${jwtToken}`,
@@ -97,48 +99,35 @@ export default function AddUser(props) {
       body: cardJSON,
     })
       .then((response) => {
+        console.log(response)
         if (!response.ok) {
           throw new Error("Request failed");
         }
         return response.json();
       })
-
-      // TODO: clean this up so error message is displayed (instead of success one) and page doesn't refresh, but then the state is updated so the user can submit
       .catch((error) => {
         setSuccessMessage(
           <Alert severity="error">
-            Uh oh, we're having a little difficulty here! Please check the email
-            address hasn't been taken, and try again.
+            Uh oh, we're having a little difficulty here! Please try again.
           </Alert>
         );
         console.error("Error:", error);
       });
 
-    // If successful, set the success message
+    // If successful, set the success message and clear the form data
+
     setSuccessMessage(
       <Alert severity="success">
-        User added! The page will refresh in 3 seconds...
+        User updated! The page will refresh in 3 seconds...
       </Alert>
     );
 
-    // Clear the form data once submitted
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      businessUnit: "",
-      userLineManager: "",
-      isAdmin: false,
-      isSeniorManager: false,
-      isLineManager: false,
-    });
-
     // Close the modal and refresh page after delay
-    setTimeout(() => {
-      props.toggle();
-      setSuccessMessage("");
-      window.location.reload();
-    }, 3000);
+    // setTimeout(() => {
+    //   props.toggle();
+    //   setSuccessMessage("");
+    //   window.location.reload();
+    // }, 3000);
   };
 
   // Updates formData when change is made to a form value
@@ -163,7 +152,7 @@ export default function AddUser(props) {
           <span className="close" onClick={handleClick}>
             &times;
           </span>
-          <h2 className="formHeading">Add user</h2>
+          <h2 className="formHeading">Edit user</h2>
           <form onSubmit={handleSubmit}>
             <div className="cardForm">
               <div className="formRow">
@@ -253,7 +242,7 @@ export default function AddUser(props) {
                 </div>
               </div>
               <div className="formRow">
-                <FormControlLabel
+              <FormControlLabel
                   control={<Checkbox />}
                   label="Admin"
                   id="isAdmin"
@@ -281,7 +270,7 @@ export default function AddUser(props) {
             </div>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>
-                Add user
+                Update
               </Button>
             </div>
           </form>

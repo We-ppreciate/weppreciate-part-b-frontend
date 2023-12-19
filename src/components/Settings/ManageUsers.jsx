@@ -9,30 +9,70 @@ import {
   TableCell,
   TableBody,
   Grid,
+  CircularProgress,
 } from "@mui/material";
 
-import { Delete, Edit, Settings } from "@mui/icons-material";
+import { Delete, Settings } from "@mui/icons-material";
 import AddUserButton from "./AddUserButton";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { apiUrl } from "../../utils/ApiUrl";
+import EditUserButton from "./EditUserButton";
 
 const ManageUsers = ({ setView }) => {
-  //   const userData = JSON.parse(localStorage.getItem("loggedInUser"));
-
   const handleGoBackClick = () => {
     setView("default");
   };
 
-  //   dummy data for table - to remove
-  function createData(name, email, userRole, businessUnit, lineManager) {
-    return { name, email, userRole, businessUnit, lineManager };
+  // Establishing states
+  const [fullUsers, setFullUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedUser, setSelectedUser] = useState(null);
+  //   const [successMessage, setSuccessMessage] = useState("");
+
+
+  // Importing full users list to render in form
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Retrieve token from local storage
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        // Include the token in the GET request header
+        const response = await axios.get(apiUrl + "users/all/fullusers", {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+
+        const sortedUsers = response.data.Users.sort((a, b) =>
+          `${a.name.first} ${a.name.last}`.localeCompare(
+            `${b.name.first} ${b.name.last}`
+          )
+        );
+
+        setFullUsers(sortedUsers);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Extracts full name of managers based on id
+  function getFullName(userId) {
+    const fullUser = fullUsers.find((user) => user._id === userId);
+    return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
   }
 
-  const rows = [
-    createData("Katie Lock", "katie.lock@yourcompany.com", "Admin", "HR Business Partnership", "Jo Newton"),
-    createData("Nate Picone", "nate.picone@yourcompany.com", "Standard", "Business Services", "Jo Newton"),
-    createData("Hannah Sallows", "hannah.sallows@yourcompany.com", "Senior Manager", "Business Services", "Jo Newton"),
-    createData("Alex Greatbeard", "alex.greatbeard@yourcompany.com", "Standard", "Stuff", "Jo Newton"),
-    createData("Ed Dougherty", "ed.dougherty@yourcompany.com", "Standard", "Things", "Jo Newton"),
-  ];
+  // Function to handle edit button click
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+  };
 
   return (
     <div>
@@ -48,43 +88,61 @@ const ManageUsers = ({ setView }) => {
           Manage users
         </Typography>
       </Box>
-      {/* TODO: update styling on button, put into own component */}
-      <AddUserButton/>
-      <Grid className="cardGrid" container spacing={0}>
+      <AddUserButton />
+      {loading ? (
+        <div className="loader">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Grid className="cardGrid" container spacing={0}>
           <TableContainer className="usersTable">
-            <Table aria-label="simple table" >
+            <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
                   <TableCell>Name</TableCell>
-                  <TableCell >Email</TableCell>
-                  <TableCell>User role</TableCell>
-                  <TableCell>Business unit</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Admin</TableCell>
+                  <TableCell>Senior manager</TableCell>
                   <TableCell>Line manager</TableCell>
-                  <TableCell align="right"></TableCell>
-                  <TableCell align="right"></TableCell>
+                  <TableCell>Business unit</TableCell>
+                  <TableCell>Manager</TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {row.name}
-                    </TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell>{row.userRole}</TableCell>
-                    <TableCell>{row.businessUnit}</TableCell>
-                    <TableCell>{row.lineManager}</TableCell>
-                    <TableCell align="right"><Edit/></TableCell>
-                    <TableCell align="right"><Delete/></TableCell>
-                  </TableRow>
-                ))}
+                {fullUsers.map((user) => {
+                  const userName = `${user.name.first} ${user.name.last}`;
+                  return (
+                    <TableRow
+                      key={user.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {userName}
+                      </TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.isAdmin ? "Yes" : "No"}</TableCell>
+                      <TableCell>
+                        {user.isSeniorManager ? "Yes" : "No"}
+                      </TableCell>
+                      <TableCell>{user.isLineManager ? "Yes" : "No"}</TableCell>
+                      <TableCell>{user.businessUnit}</TableCell>
+                      <TableCell>{getFullName(user.lineManagerId)}</TableCell>
+                      <TableCell>
+                        <EditUserButton user={user} onEdit={handleEditUser} />
+                      </TableCell>
+                      <TableCell>
+                        <Delete />
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
-      </Grid>
+        </Grid>
+      )}
     </div>
   );
 };
