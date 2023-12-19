@@ -48,14 +48,23 @@
 /* Dashboard */
 
 .cardContainer {
-  display: "flex";
-  flex-direction: "column";
-  align-items: "center";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .cardRecipient {
   font-style: italic;
   margin-top: 10px;
+}
+
+.cardMain {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardGuts {
+  width: 70%;
 }
 
 .userLink {
@@ -64,6 +73,10 @@
 }
 
 .cardComment {
+  display: flex;
+  width: 30%;
+  min-width: 200px;
+  height: 64px;
   justify-content: flex-end;
 }
 
@@ -73,6 +86,20 @@
     align-items: flex-start;
     padding: 16px 16px 0px 16px;
   }
+
+  .cardMain {
+    flex-direction: column;
+
+  }
+  .cardGuts {
+    width: auto;
+  }
+
+  .cardComment {
+    width: auto;
+    justify-content: flex-start;
+  }
+
 }
 
 /* Profile */
@@ -173,7 +200,6 @@
 
 .formHeading {
   font-size: 2rem;
-  margin-bottom: 2rem;
 }
 
 .cardForm {
@@ -184,6 +210,7 @@
 .formRow {
   display: flex;
   flex-direction: row;
+  margin: 0.5rem 0;
 }
 
 .formSelect {
@@ -197,7 +224,7 @@
 }
 
 .formSelector {
-  width: 70%;
+  width: 80%;
 }
 
 .cardFormValues {
@@ -211,13 +238,21 @@
 @media screen and (max-width: 640px) {
   .formHeading {
     font-size: 1.5rem;
-    margin-bottom: 0;
   }
   .formRow {
     flex-direction: column;
+    margin: 0;
   }
   .formSelect {
-    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  .formSelector {
+    width: 100%;
+  }
+
+  .cardMessage {
+    margin: 0 0 0.5rem 0;
   }
 }
 
@@ -236,4 +271,12 @@
   min-width: 170px;
   justify-content: flex-start;
   padding: 10px;
+}
+
+.passwordField {
+  margin: 0.5rem 0;
+}
+
+.usersTable {
+  width: 90vw;
 }
