@@ -11,8 +11,6 @@ export default function HomePage() {
         <ul>
             <li><Link to="/login">Login</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
-            <li><Link to="/profile/6575733ec77e4fcca14b175d">Profile for Ed</Link></li>
-            <li><Link to="/reports">Reports</Link></li>
         </ul>
         </div>
     )

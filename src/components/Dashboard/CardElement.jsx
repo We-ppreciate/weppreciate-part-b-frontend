@@ -6,7 +6,6 @@ import axios from "axios";
 import {
   Avatar,
   AvatarGroup,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -19,25 +18,19 @@ import {
 
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
-import { Comment, Delete } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
+import { jwtToken, userData } from "../../utils/LocalStorage";
 
 export default function CardElement() {
-  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
-
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [visibleNominations, setVisibleNominations] = useState([]);
   const [fullUsers, setFullUsers] = useState([]);
 
   // Importing nominations
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        // Retrieve JWT token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request headers
         const response = await axios.get(apiUrl + "nominations/all/", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -52,58 +45,32 @@ export default function CardElement() {
           const dateB = new Date(
             b.nominationDate.split("-").reverse().join("-")
           );
-
           return dateB - dateA;
         });
-
         setNominations(sortedNominations);
-
-        // Initially, display the first 10 nominations
-        // TODO - this isn't working as expected, to fix
-        setVisibleNominations(sortedNominations.slice(0, 10));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchNominationData();
   }, []);
-
-  // Logic for "load more button" at bottom
-  function handleLoadMore() {
-    const currentLength = visibleNominations.length;
-    const nextNominations = nominations.slice(
-      currentLength,
-      currentLength + 10
-    );
-    setVisibleNominations((prevNominations) => [
-      ...prevNominations,
-      ...nextNominations,
-    ]);
-  }
 
   // Importing full users info
   useEffect(() => {
     const fetchFullUsers = async () => {
       try {
-        // Retrieve JWT token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request headers
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-
         setFullUsers(response.data.Users);
       } catch (error) {
         console.error("Error fetching full users:", error);
       }
     };
-
     fetchFullUsers();
   }, []);
 
@@ -151,7 +118,6 @@ export default function CardElement() {
                           0
                         )}`}</Avatar>
                       )}
-
                       <Avatar
                         alt={getFullName(nomination.recipientUser)}
                         src={getUserPhoto(nomination.recipientUser)}
@@ -177,7 +143,6 @@ export default function CardElement() {
                   subheader={nomination.nominationDate}
                   titleTypographyProps={{ variant: "subtitle1" }}
                 />
-
                 <CardContent className="cardMain">
                   <div className="cardGuts">
                     <div className="cardBody">
@@ -198,21 +163,17 @@ export default function CardElement() {
                       </Typography>
                     </div>
                   </div>
-                  {/* TODO: add interaction on comment button */}
                   {/* TODO: add interaction on admin delete button */}
-
-                  <div className="cardComment">                    
-                    <Button startIcon={<Comment />}>Comments</Button>
-                    {userData.isAdmin && (<IconButton color='primary'><Delete/></IconButton>)}
+                  <div className="cardComment">
+                    {userData.isAdmin && (
+                      <IconButton color="primary">
+                        <Delete />
+                      </IconButton>
+                    )}
                   </div>
                 </CardContent>
               </Card>
             ))}
-          </Grid>
-          <Grid className="cardGrid" container spacing={2}>
-            {visibleNominations.length < nominations.length && (
-              <Button onClick={handleLoadMore}>Load more</Button>
-            )}
           </Grid>
         </div>
       )}

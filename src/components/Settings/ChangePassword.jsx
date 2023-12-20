@@ -88,7 +88,6 @@ export default function ChangePassword(props) {
               value={formData.currentPassword}
               onChange={handleChange}
             />
-
             <TextField
               className="passwordField"
               required
@@ -100,7 +99,6 @@ export default function ChangePassword(props) {
               value={formData.newPassword}
               onChange={handleChange}
             />
-
             <TextField
               className="passwordField"
               required

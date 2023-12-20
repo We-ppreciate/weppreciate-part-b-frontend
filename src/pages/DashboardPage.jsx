@@ -2,12 +2,12 @@
 
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+
 import Header from "../components/Header";
 import DashboardHeader from "../components/Dashboard/DashboardHeader";
 import CardElement from "../components/Dashboard/CardElement";
-// import PaginationElement from "../components/Dashboard/PaginationElement";
-import SendCardButton from "../components/SendCardButton";
 import appTheme from "../styles/Theme";
+import SendCardButton from "../components/Dashboard/SendCardButton";
 
 export default function DashboardPage() {
   return (
@@ -17,8 +17,6 @@ export default function DashboardPage() {
       <DashboardHeader />
       <SendCardButton />
       <CardElement />
-      {/* TODO: add back pagination once logic can be added */}
-      {/* <PaginationElement/> */}
     </ThemeProvider>
   );
 }

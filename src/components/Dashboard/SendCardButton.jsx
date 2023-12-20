@@ -6,7 +6,7 @@ import { AddReaction } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 
-import PopUp from "../components/CardPopup";
+import PopUp from "./CardPopup";
 
 export default class SendCardButton extends React.Component {
   state = {

@@ -1,29 +1,21 @@
 import * as React from "react";
-
-import {
-  Button,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Box,
-  Container,
-  Alert,
-} from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { useState } from "react";
+import { Button, TextField, Box, Container, Alert } from "@mui/material";
+import { ArrowForward } from "@mui/icons-material";
 
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
-import { useState } from "react";
 import { apiUrl } from "../../utils/ApiUrl";
+import { useNavigate } from "react-router-dom";
 
-const SignIn = ({ setView }) => {
+const SignIn = () => {
+  const navigate = useNavigate();
+
   // Establishing states
   const [errorMessage, setErrorMessage] = useState("");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    // rememberMe: false,
-    // TODO: uncomment above when the backend of the route can handle this checkbox
   });
 
   const handleChange = (event) => {
@@ -86,7 +78,7 @@ const SignIn = ({ setView }) => {
         localStorage.setItem("loggedInUser", JSON.stringify(data));
 
         // Redirect to the Dashboard
-        window.location.href = "/dashboard";
+        navigate("/dashboard");
       })
       .catch((error) => {
         // Add front-end validation when this occurs
@@ -94,31 +86,13 @@ const SignIn = ({ setView }) => {
       });
   };
 
-  const handleForgotPasswordClick = () => {
-    setView("forgotPasswordView");
-  };
-
-  const handleGoBackClick = () => {
-    setView("default");
-  };
-
-  // TODO: take inline styling into css file where possible
-
   return (
     <div>
       {/* Display any error message here */}
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       <Container>
-        <Box
-          sx={{
-            marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+        <Box className="loginBox">
           <LoginLogo />
-
           <LoginText />
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
@@ -145,17 +119,6 @@ const SignIn = ({ setView }) => {
               value={formData.password}
               onChange={handleChange}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  value={formData.rememberMe}
-                  color="primary"
-                  name="rememberMe"
-                  onChange={handleChange}
-                />
-              }
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -165,22 +128,6 @@ const SignIn = ({ setView }) => {
             >
               Log in
             </Button>
-            <Box className="buttonBox">
-              <div>
-                <Button size="medium" onClick={handleForgotPasswordClick}>
-                  Forgot password?
-                </Button>
-              </div>
-              <div>
-                <Button
-                  size="medium"
-                  onClick={handleGoBackClick}
-                  startIcon={<ArrowBack />}
-                >
-                  Go back
-                </Button>
-              </div>
-            </Box>
           </Box>
         </Box>
       </Container>

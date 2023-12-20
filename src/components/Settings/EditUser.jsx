@@ -9,8 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../../utils/ApiUrl";
 import axios from "axios";
+
+import { apiUrl } from "../../utils/ApiUrl";
+import { jwtToken } from "../../utils/LocalStorage";
 
 export default function EditUser(props) {
   const { user } = props;
@@ -36,10 +38,6 @@ export default function EditUser(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -59,7 +57,6 @@ export default function EditUser(props) {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -70,7 +67,6 @@ export default function EditUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-
 
     // Takes card form data and converts into correct JSON format for POST request
     const cardJSON = JSON.stringify({
@@ -86,7 +82,6 @@ export default function EditUser(props) {
     //   userLineManager: formData.userLineManager,
     });
     console.log(cardJSON)
-    const jwtToken = localStorage.getItem("jwtToken");
 
     // Sending PATCH request for posting editing user
     fetch(apiUrl + "users/update/admin/"+ user._id, {
@@ -115,7 +110,6 @@ export default function EditUser(props) {
       });
 
     // If successful, set the success message and clear the form data
-
     setSuccessMessage(
       <Alert severity="success">
         User updated! The page will refresh in 3 seconds...
@@ -181,7 +175,6 @@ export default function EditUser(props) {
                   />
                 </div>
               </div>
-
               <div className="formRow">
                 <div className="formSelect">
                   {/* add front-end validation on email regex */}
@@ -197,7 +190,6 @@ export default function EditUser(props) {
                   />
                 </div>
               </div>
-
               <div className="formRow">
                 <div className="formSelect">
                   <TextField
@@ -235,7 +227,6 @@ export default function EditUser(props) {
                           </MenuItem>
                         );
                       }
-
                       return null;
                     })}
                   </TextField>

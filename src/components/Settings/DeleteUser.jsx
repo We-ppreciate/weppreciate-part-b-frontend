@@ -1,7 +1,9 @@
 import { Send } from "@mui/icons-material";
 import { Alert, Button } from "@mui/material";
 import { useState } from "react";
+
 import { apiUrl } from "../../utils/ApiUrl";
+import { jwtToken } from "../../utils/LocalStorage";
 
 export default function DeleteUser(props) {
   const { user } = props;
@@ -16,8 +18,6 @@ export default function DeleteUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const jwtToken = localStorage.getItem("jwtToken");
 
     // Sending PATCH request for posting editing user
     fetch(apiUrl + "users/delete/admin/" + user._id, {
@@ -43,8 +43,7 @@ export default function DeleteUser(props) {
         console.error("Error:", error);
       });
 
-    // If successful, set the success message and clear the form data
-
+    // If successful, set the success message
     setSuccessMessage(
       <Alert severity="success">
         User deleted! The page will refresh in 3 seconds...

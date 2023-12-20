@@ -13,8 +13,10 @@ import {
 } from "@mui/material";
 import { AddReaction } from "@mui/icons-material";
 import axios from "axios";
+
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
+import { jwtToken } from "../../utils/LocalStorage";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
@@ -26,10 +28,6 @@ export default function ProfileRecognition({ apiData }) {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        // Retrieve JWT from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(
           apiUrl + "nominations/all/recipient/" + apiData._id,
           {
@@ -46,10 +44,8 @@ export default function ProfileRecognition({ apiData }) {
           const dateB = new Date(
             b.nominationDate.split("-").reverse().join("-")
           );
-
           return dateB - dateA;
         });
-
         setNominations(sortedNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,7 +53,6 @@ export default function ProfileRecognition({ apiData }) {
         setLoading(false);
       }
     };
-
     fetchNominationData();
   }, [apiData._id]);
 
@@ -65,22 +60,16 @@ export default function ProfileRecognition({ apiData }) {
   useEffect(() => {
     const fetchFullUsers = async () => {
       try {
-        // Retrieve JWT from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-
         setFullUsers(response.data.Users);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchFullUsers();
   }, []);
 
@@ -104,7 +93,6 @@ export default function ProfileRecognition({ apiData }) {
         title={`${apiData.name.first}'s Cards`}
         titleTypographyProps={{ variant: "h4" }}
       />
-
       {loading ? (
         <div className="loader">
           <CircularProgress />
@@ -117,7 +105,6 @@ export default function ProfileRecognition({ apiData }) {
                 className="nominationCardHeader"
                 avatar={
                   <AvatarGroup>
-                    {/* Avatar for nominator - need to get URL import from DB once ready */}
                     {nomination.isNominatorFullUser ? (
                       <Avatar
                         alt={getFullName(nomination.nominatorFullUser)}
@@ -146,7 +133,6 @@ export default function ProfileRecognition({ apiData }) {
                 title={nomination.nominationBody}
                 titleTypographyProps={{ variant: "h5" }}
               />
-
               <CardContent className="profileNominationsSubtitle">
                 <Typography variant="subtitle2">
                   {nomination.isNominatorFullUser
