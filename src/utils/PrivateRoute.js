@@ -1,4 +1,4 @@
-// Purpose: checks if the user has a valid JWT and if not, redirects to login page
+// Checks if the user has a valid JWT and if not, redirects to login page
 
 import React from 'react';
 import { Navigate } from 'react-router-dom';

@@ -1,11 +1,12 @@
 import { Send } from "@mui/icons-material";
 import { Alert, Button, TextField } from "@mui/material";
 import { useState } from "react";
+import { apiUrl } from "../../utils/ApiUrl";
+import { jwtToken, userData } from "../../utils/LocalStorage";
 
 export default function ChangePassword(props) {
   // Set default values of formData
   const [formData, setFormData] = useState({
-    currentPassword: "",
     newPassword: "",
     repeatNewPassword: "",
   });
@@ -22,33 +23,55 @@ export default function ChangePassword(props) {
     event.preventDefault();
 
     if (formData.newPassword === formData.repeatNewPassword) {
-        
-      // TODO: get request for current user data, compare current password before submitting change
-
-      // TODO: post request for new password
-
-      // If successful, set the success message and clear the form data
-
-      setSuccessMessage(
-        <Alert severity="success">
-          Password change successful! The page will refresh in 3 seconds...
-        </Alert>
-      );
-
-      // Clear the form data once submitted
-      setFormData({
-        currentPassword: "",
-        newPassword: "",
-        repeatNewPassword: "",
+      // Preparing JSON data for API request
+      const jsonData = JSON.stringify({
+        newPassword: formData.newPassword,
       });
 
-      // Close the modal and refresh page after delay
-      setTimeout(() => {
-        props.toggle();
-        setSuccessMessage("");
-        window.location.reload();
-      }, 3000);
+      // Sending PATCH request for changing own password
+      fetch(apiUrl + "auth/reset/" + userData.id, {
+        method: "PATCH",
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+        body: jsonData,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Request failed");
+          } else {
+            // If successful, set the success message
+            setSuccessMessage(
+              <Alert severity="success">
+                Password change successful! The page will refresh in 3
+                seconds...
+              </Alert>
+            );
 
+            // Clear the form data once submitted
+            setFormData({
+              newPassword: "",
+              repeatNewPassword: "",
+            });
+
+            // Close the modal and refresh page after delay
+            setTimeout(() => {
+              props.toggle();
+              setSuccessMessage("");
+              window.location.reload();
+            }, 3000);
+          }
+        })
+        .catch((error) => {
+          setSuccessMessage(
+            <Alert severity="error">
+              Uh oh, we're having a little difficulty here! Please try again.
+            </Alert>
+          );
+          console.error("Error:", error);
+        });
     } else {
       //   If passwords don't match at front-end
       setSuccessMessage(
@@ -77,17 +100,6 @@ export default function ChangePassword(props) {
         <h2 className="formHeading">Change password</h2>
         <form onSubmit={handleSubmit}>
           <div className="cardForm">
-            <TextField
-              className="passwordField"
-              required
-              id="currentPassword"
-              name="currentPassword"
-              type="password"
-              variant="outlined"
-              label="Current password"
-              value={formData.currentPassword}
-              onChange={handleChange}
-            />
             <TextField
               className="passwordField"
               required
