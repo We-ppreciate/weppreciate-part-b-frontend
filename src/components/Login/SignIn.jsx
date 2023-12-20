@@ -9,7 +9,7 @@ import { apiUrl } from "../../utils/ApiUrl";
 import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
-  const navigate   = useNavigate();
+  const navigate = useNavigate();
 
   // Establishing states
   const [errorMessage, setErrorMessage] = useState("");

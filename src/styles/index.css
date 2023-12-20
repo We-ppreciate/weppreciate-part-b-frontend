@@ -293,3 +293,12 @@
 .usersTable {
   width: 90vw;
 }
+
+.logOutButton {
+  display: flex;
+  flex-direction: row;
+}
+
+.loginLogo {
+  margin-bottom: 24px;
+}

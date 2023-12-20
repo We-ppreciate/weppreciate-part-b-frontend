@@ -1,6 +1,7 @@
 import React from "react";
 import { Edit } from "@mui/icons-material";
 import { Box } from "@mui/system";
+
 import EditUser from "./EditUser";
 
 export default class EditUserButton extends React.Component {
@@ -16,7 +17,6 @@ export default class EditUserButton extends React.Component {
 
   render() {
     const { user } = this.props;
-
     return (
       <Box>
         <Edit onClick={this.togglePop} />

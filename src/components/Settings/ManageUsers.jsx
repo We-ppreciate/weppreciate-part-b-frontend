@@ -20,6 +20,7 @@ import AddUserButton from "./AddUserButton";
 import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
+import { jwtToken } from "../../utils/LocalStorage";
 
 const ManageUsers = ({ setView }) => {
   const handleGoBackClick = () => {
@@ -37,10 +38,6 @@ const ManageUsers = ({ setView }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -52,7 +49,6 @@ const ManageUsers = ({ setView }) => {
             `${b.name.first} ${b.name.last}`
           )
         );
-
         setFullUsers(sortedUsers);
       } catch (error) {
         console.error("Error fetching data:", error);

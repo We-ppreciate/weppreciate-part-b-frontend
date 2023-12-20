@@ -19,6 +19,7 @@ import ProfileCard from "../components/Profile/ProfileCard";
 import ProfileRecognition from "../components/Profile/ProfileRecognition";
 import DashboardPage from "./DashboardPage";
 import { apiUrl } from "../utils/ApiUrl";
+import { jwtToken } from "../utils/LocalStorage";
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -32,10 +33,6 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve JWT from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + `users/one/id/${id}`, {
           headers: {
             Authorization: `Bearer ${jwtToken}`,

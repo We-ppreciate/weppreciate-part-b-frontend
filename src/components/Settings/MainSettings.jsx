@@ -21,10 +21,9 @@ import {
 
 import DashboardPage from "../../pages/DashboardPage";
 import ChangePasswordButton from "./ChangePasswordButton";
+import { userData } from "../../utils/LocalStorage";
 
 const MainSettings = ({ setView }) => {
-  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
-
   const handleManageUsersClick = () => {
     setView("manageUsers");
   };
@@ -66,7 +65,6 @@ const MainSettings = ({ setView }) => {
                   Manage users
                 </Button>
               </div>
-              
               <div>
                 <Button
                   className="settingsButton"

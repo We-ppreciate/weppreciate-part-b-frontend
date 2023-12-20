@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material";
+import { userData } from "../../utils/LocalStorage";
 
 export default function DashboardHeader() {
-  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
 
   return (
     <Box className="pageHeading">

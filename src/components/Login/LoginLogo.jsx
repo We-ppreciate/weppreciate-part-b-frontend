@@ -1,21 +1,20 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { IconButton } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function LoginLogo() {
   return (
-    <Box
-      sx={{
-        marginBottom: 3,
-      }}
-    >
-      {/* TODO: add a link here later to the homepage */}
-      <IconButton>
-        <img
-          src={require("../../assets/weppreciate-logo.png")}
-          alt={"We'ppreciate logo"}
-        />
-      </IconButton>
-    </Box>
+    <Link to="/">
+      <Box className="loginLogo" 
+      >
+        <IconButton>
+          <img
+            src={require("../../assets/weppreciate-logo.png")}
+            alt={"We'ppreciate logo"}
+          />
+        </IconButton>
+      </Box>
+    </Link>
   );
 }

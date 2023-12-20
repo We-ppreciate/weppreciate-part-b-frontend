@@ -4,8 +4,8 @@ import React from "react";
 import { PersonAdd } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-import AddUser from "./AddUser";
 
+import AddUser from "./AddUser";
 
 export default class AddUserButton extends React.Component {
   state = {
@@ -26,7 +26,6 @@ export default class AddUserButton extends React.Component {
             </Button>
             {this.state.seen ? <AddUser toggle={this.togglePop} /> : null}
           </Box>
-
     );
   }
 }

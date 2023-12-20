@@ -12,13 +12,12 @@ import {
   TextField,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
+
 import { apiUrl } from "../../utils/ApiUrl";
 import teamValues from "../../utils/Values";
-
+import { jwtToken, userData } from "../../utils/LocalStorage";
 
 export default function PopUp(props) {
-  const userData = JSON.parse(localStorage.getItem("loggedInUser"));
-
   // Set default values of formData
   const [formData, setFormData] = useState({
     recipient: "",
@@ -36,10 +35,6 @@ export default function PopUp(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
@@ -59,7 +54,6 @@ export default function PopUp(props) {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -92,8 +86,6 @@ export default function PopUp(props) {
         .replace(/\//g, "-"),
     });
 
-    const jwtToken = localStorage.getItem("jwtToken");
-
     // Sending POST request for posting card
     fetch(apiUrl + "nominations/new", {
       method: "POST",
@@ -120,7 +112,7 @@ export default function PopUp(props) {
         console.error("Error:", error);
       });
 
-    // If successful, set the success message and clear the form data
+    // If successful, set the success message
     setSuccessMessage(
       <Alert severity="success">
         Recognition submitted! The page will refresh in 3 seconds...
@@ -172,7 +164,6 @@ export default function PopUp(props) {
             <div className="cardForm">
               <div className="formRow">
                 <div className="formSelect">
-                  {/* TODO: update this menu so it renders like this only on the Dashboard, and pre-fills based on the profile ID on the profile */}
                   <TextField
                     required
                     name="recipient"
@@ -229,7 +220,6 @@ export default function PopUp(props) {
                   </TextField>
                 </div>
               </div>
-
               <TextField
                 className="cardMessage"
                 required

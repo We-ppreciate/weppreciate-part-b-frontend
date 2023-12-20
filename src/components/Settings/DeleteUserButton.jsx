@@ -1,6 +1,7 @@
 import React from "react";
 import { Delete } from "@mui/icons-material";
 import { Box } from "@mui/system";
+
 import DeleteUser from "./DeleteUser";
 
 export default class DeleteUserButton extends React.Component {

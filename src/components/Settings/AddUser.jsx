@@ -9,8 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { apiUrl } from "../../utils/ApiUrl";
 import axios from "axios";
+
+import { apiUrl } from "../../utils/ApiUrl";
+import { jwtToken } from "../../utils/LocalStorage";
 
 export default function AddUser(props) {
   // Set default values of formData
@@ -34,22 +36,16 @@ export default function AddUser(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve token from local storage
-        const jwtToken = localStorage.getItem("jwtToken");
-
-        // Include the token in the GET request header
         const response = await axios.get(apiUrl + "users/all/fullusers", {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-
         const sortedUsers = response.data.Users.sort((a, b) =>
           `${a.name.first} ${a.name.last}`.localeCompare(
             `${b.name.first} ${b.name.last}`
           )
         );
-
         setFullUsers(sortedUsers);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -83,8 +79,6 @@ export default function AddUser(props) {
       isSeniorManager: formData.isSeniorManager,
       userLineManager: formData.userLineManager,
     });
-
-    const jwtToken = localStorage.getItem("jwtToken");
 
     // Sending POST request for posting new user
     fetch(apiUrl + "users/new", {
@@ -192,7 +186,6 @@ export default function AddUser(props) {
                   />
                 </div>
               </div>
-
               <div className="formRow">
                 <div className="formSelect">
                   {/* add front-end validation on email regex */}
@@ -208,7 +201,6 @@ export default function AddUser(props) {
                   />
                 </div>
               </div>
-
               <div className="formRow">
                 <div className="formSelect">
                   <TextField
@@ -246,7 +238,6 @@ export default function AddUser(props) {
                           </MenuItem>
                         );
                       }
-
                       return null;
                     })}
                   </TextField>
