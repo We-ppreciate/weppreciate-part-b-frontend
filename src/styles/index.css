@@ -207,12 +207,24 @@
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 2;
   transform: translate(-50%, -50%);
   width: clamp(400px, 80%, 800px);
   padding: 20px;
   border-radius: 4px;
   border: 3px solid #0b4ea2;
-  
+}
+
+.modal_content_ontop {
+  background-color: white;
+  position: fixed;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  width: clamp(400px, 80vw, 800px);
+  height: 60vh;
+  padding: 20px;
+  border-radius: 4px;
+  border: 3px solid #0b4ea2;
 }
 
 .close {
@@ -308,21 +320,21 @@
   width: 90vw;
 }
 
-.tableHeaderRow, .tableEmailHeaderRow, .tableManagerHeaderRow {
+.tableHeaderRow, .tableUnitHeaderRow, .tableManagerHeaderRow {
   color: #ffffff;
   font-weight: 600;
 }
 
 /* Hides a column on smaller screens */
 @media screen and (max-width: 900px) {
-  .tableEmailHeaderRow, .tableEmailRow {
+  .tableManagerHeaderRow, .tableManagerRow {
     display: none;
   }
 }
 
 /* Hides another column on even smaller screens */
 @media screen and (max-width: 600px) {
-  .tableManagerHeaderRow, .tableManagerRow {
+  .tableUnitHeaderRow, .tableUnitRow {
     display: none;
   }
 }

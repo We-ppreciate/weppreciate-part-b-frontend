@@ -21,6 +21,7 @@ import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
 import { jwtToken } from "../../utils/LocalStorage";
+import ResetPasswordButton from "./ResetPasswordButton";
 
 const ManageUsers = ({ setView }) => {
   const handleGoBackClick = () => {
@@ -97,10 +98,14 @@ const ManageUsers = ({ setView }) => {
               <TableHead>
                 <TableRow>
                   <TableCell className="tableHeaderRow">Name</TableCell>
-                  <TableCell className="tableEmailHeaderRow">Email</TableCell>
-                  <TableCell className="tableHeaderRow">Business unit</TableCell>
-                  <TableCell className="tableManagerHeaderRow">Manager</TableCell>
+                  <TableCell className="tableUnitHeaderRow">
+                    Business unit
+                  </TableCell>
+                  <TableCell className="tableManagerHeaderRow">
+                    Manager
+                  </TableCell>
                   <TableCell className="tableHeaderRow">Edit</TableCell>
+                  <TableCell className="tableHeaderRow">Reset</TableCell>
                   <TableCell className="tableHeaderRow">Delete</TableCell>
                 </TableRow>
               </TableHead>
@@ -109,17 +114,24 @@ const ManageUsers = ({ setView }) => {
                   const userName = `${user.name.first} ${user.name.last}`;
                   return (
                     <TableRow
-                      key={user.id}
+                      key={user._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
                         {userName}
                       </TableCell>
-                      <TableCell className="tableEmailRow">{user.email}</TableCell>
-                      <TableCell>{user.businessUnit}</TableCell>
-                      <TableCell className="tableManagerRow">{getFullName(user.lineManagerId)}</TableCell>
+                      <TableCell className="tableUnitRow">{user.businessUnit}</TableCell>
+                      <TableCell className="tableManagerRow">
+                        {getFullName(user.lineManagerId)}
+                      </TableCell>
                       <TableCell>
                         <EditUserButton user={user} onEdit={handleEditUser} />
+                      </TableCell>
+                      <TableCell>
+                        <ResetPasswordButton
+                          user={user}
+                          onEdit={handleEditUser}
+                        />
                       </TableCell>
                       <TableCell>
                         <DeleteUserButton user={user} onEdit={handleEditUser} />
