@@ -2,9 +2,11 @@ import { Send } from "@mui/icons-material";
 import { Alert, Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { apiUrl } from "../../utils/ApiUrl";
-import { jwtToken, userData } from "../../utils/LocalStorage";
+import { jwtToken } from "../../utils/LocalStorage";
 
-export default function ChangePassword(props) {
+export default function ResetPassword(props) {
+  const { user } = props;
+
   // Set default values of formData
   const [formData, setFormData] = useState({
     newPassword: "",
@@ -28,8 +30,8 @@ export default function ChangePassword(props) {
         newPassword: formData.newPassword,
       });
 
-      // Sending PATCH request for changing own password
-      fetch(apiUrl + "auth/reset/" + userData.id, {
+      // Sending PATCH request for changing user's password
+      fetch(apiUrl + "auth/reset/" + user._id, {
         method: "PATCH",
         mode: "cors",
         headers: {
@@ -92,48 +94,44 @@ export default function ChangePassword(props) {
   };
 
   return (
-    <div className="modal">
-      <div className="modal_content">
-        <span className="close" onClick={handleClick}>
-          &times;
-        </span>
-        <h2 className="formHeading">Change password</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="cardForm">
-            <TextField
-              className="passwordField"
-              required
-              id="newPassword"
-              name="newPassword"
-              type="password"
-              variant="outlined"
-              label="New password"
-              value={formData.newPassword}
-              onChange={handleChange}
-            />
-            <TextField
-              className="passwordField"
-              required
-              id="repeatNewPassword"
-              name="repeatNewPassword"
-              type="password"
-              variant="outlined"
-              label="Repeat new password"
-              value={formData.repeatNewPassword}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<Send />}>
-              Submit change
-            </Button>
-          </div>
-        </form>
-        {/* Display the success message */}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
-      </div>
+    <div className="modal_content">
+      <span className="close" onClick={handleClick}>
+        &times;
+      </span>
+      <h2 className="formHeading">Reset {user.name.first}'s password</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="cardForm">
+          <TextField
+            className="passwordField"
+            required
+            id="newPassword"
+            name="newPassword"
+            type="password"
+            variant="outlined"
+            label="New password"
+            value={formData.newPassword}
+            onChange={handleChange}
+          />
+          <TextField
+            className="passwordField"
+            required
+            id="repeatNewPassword"
+            name="repeatNewPassword"
+            type="password"
+            variant="outlined"
+            label="Repeat new password"
+            value={formData.repeatNewPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="formButton">
+          <Button type="submit" variant="contained" endIcon={<Send />}>
+            Submit change
+          </Button>
+        </div>
+      </form>
+      {/* Display the success message */}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
     </div>
   );
 }
