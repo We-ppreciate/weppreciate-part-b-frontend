@@ -66,7 +66,7 @@ const ManageUsers = ({ setView }) => {
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
   }
 
-  // Function to handle edit button click
+  // Function to handle edit and delete button clicks
   const handleEditUser = (user) => {
     setSelectedUser(user);
   };
