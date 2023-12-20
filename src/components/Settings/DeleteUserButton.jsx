@@ -20,7 +20,7 @@ export default class DeleteUserButton extends React.Component {
 
     return (
       <Box>
-        <Delete onClick={this.togglePop} />
+        <Delete color={"primary"} onClick={this.togglePop} />
         {this.state.seen ? (
           <DeleteUser user={user} toggle={this.togglePop} />
         ) : null}

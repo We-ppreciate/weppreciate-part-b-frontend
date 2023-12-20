@@ -19,7 +19,7 @@ export default class EditUserButton extends React.Component {
     const { user } = this.props;
     return (
       <Box>
-        <Edit onClick={this.togglePop} />
+        <Edit color={"primary"} onClick={this.togglePop} />
         {this.state.seen ? (
           <EditUser user={user} toggle={this.togglePop} />
         ) : null}

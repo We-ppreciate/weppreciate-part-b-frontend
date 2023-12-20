@@ -96,12 +96,12 @@ const ManageUsers = ({ setView }) => {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Business unit</TableCell>
-                  <TableCell>Manager</TableCell>
-                  <TableCell>Edit</TableCell>
-                  <TableCell>Delete</TableCell>
+                  <TableCell className="tableHeaderRow">Name</TableCell>
+                  <TableCell className="tableEmailHeaderRow">Email</TableCell>
+                  <TableCell className="tableHeaderRow">Business unit</TableCell>
+                  <TableCell className="tableManagerHeaderRow">Manager</TableCell>
+                  <TableCell className="tableHeaderRow">Edit</TableCell>
+                  <TableCell className="tableHeaderRow">Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -115,9 +115,9 @@ const ManageUsers = ({ setView }) => {
                       <TableCell component="th" scope="row">
                         {userName}
                       </TableCell>
-                      <TableCell>{user.email}</TableCell>
+                      <TableCell className="tableEmailRow">{user.email}</TableCell>
                       <TableCell>{user.businessUnit}</TableCell>
-                      <TableCell>{getFullName(user.lineManagerId)}</TableCell>
+                      <TableCell className="tableManagerRow">{getFullName(user.lineManagerId)}</TableCell>
                       <TableCell>
                         <EditUserButton user={user} onEdit={handleEditUser} />
                       </TableCell>
