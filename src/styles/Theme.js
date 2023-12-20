@@ -112,7 +112,7 @@ const appTheme = createTheme({
       styleOverrides: {
         root: {
           backgroundColor: "#0B4EA2",
-        }
+        },
       }
     }
   },

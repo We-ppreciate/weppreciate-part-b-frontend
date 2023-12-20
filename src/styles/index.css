@@ -1,12 +1,5 @@
 /* This file is for styling for specific elements outside of the MUI theme */
 
-.loginBox {
-  margin-top: 64px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 
 /* Common elements */
 
@@ -15,7 +8,6 @@
   z-index: 1;
   top: 30px;
   right: 30px;
-
 }
 
 .headerMenu {
@@ -29,6 +21,11 @@
 
 .menuItem {
   padding-left: 10px;
+}
+
+.logOutButton {
+  display: flex;
+  flex-direction: row;
 }
 
 .loader {
@@ -53,7 +50,21 @@
   align-items: center;
 }
 
-/* Dashboard */
+
+/* Login page */
+
+.loginBox {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginLogo {
+  margin-bottom: 24px;
+}
+
+/* Dashboard and Profile */
 
 .cardContainer {
   display: flex;
@@ -84,39 +95,20 @@
   display: flex;
   width: 30%;
   min-width: 200px;
-  height: 64px;
   justify-content: flex-end;
 }
-
-@media screen and (max-width: 640px) {
-  .cardHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 16px 0px 16px;
-  }
-
-  .cardMain {
-    flex-direction: column;
-
-  }
-  .cardGuts {
-    width: auto;
-  }
-
-  .cardComment {
-    width: auto;
-    justify-content: flex-start;
-  }
-
-}
-
-/* Profile */
 
 .cardGrid {
   direction: column;
   align-items: center;
   justify-content: center;
   margin: 2rem 0;
+}
+
+.deleteButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .profileCardHeader {
@@ -143,18 +135,6 @@
   height: 100px;
 }
 
-@media screen and (max-width: 640px) {
-  .profileCardHeader, .nominationCardHeader, .profileContainer, .profileButton  {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .profileButton {
-    margin-top: -20px;
-  }
-}
-
-
 .profileCardTagline {
   padding: 0;
   margin-top: 20px;
@@ -176,17 +156,50 @@
   padding-bottom: 8px;
 }
 
-/* Send recognition modal popup */
+/* Adjustments for smaller screens */
+@media screen and (max-width: 600px) {
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 16px 0px 16px;
+  }
 
-/* TODO: make this stretch the full length of page (beyond scroll view?) */
+  .cardMain {
+    flex-direction: column;
+
+  }
+  .cardGuts {
+    width: auto;
+  }
+
+  .cardComment {
+    width: auto;
+    margin-top: 10px;
+    justify-content: flex-start;
+  }
+
+  .profileCardHeader, .nominationCardHeader, .profileContainer, .profileButton  {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profileButton {
+    margin-top: -20px;
+  }
+}
+
+
+/* Modal popups */
 .modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  
 }
 
 .modal_content {
@@ -199,6 +212,7 @@
   padding: 20px;
   border-radius: 4px;
   border: 3px solid #0b4ea2;
+  
 }
 
 .close {
@@ -248,7 +262,8 @@
   margin: 1.5rem 0 0.5rem 0;
 }
 
-@media screen and (max-width: 640px) {
+/* Adjustments for smaller screens */
+@media screen and (max-width: 600px) {
   .formHeading {
     font-size: 1.5rem;
   }
@@ -263,7 +278,6 @@
   .formSelector {
     width: 100%;
   }
-
   .cardMessage {
     margin: 0 0 0.5rem 0;
   }
@@ -294,11 +308,21 @@
   width: 90vw;
 }
 
-.logOutButton {
-  display: flex;
-  flex-direction: row;
+.tableHeaderRow, .tableEmailHeaderRow, .tableManagerHeaderRow {
+  color: #ffffff;
+  font-weight: 600;
 }
 
-.loginLogo {
-  margin-bottom: 24px;
+/* Hides a column on smaller screens */
+@media screen and (max-width: 900px) {
+  .tableEmailHeaderRow, .tableEmailRow {
+    display: none;
+  }
+}
+
+/* Hides another column on even smaller screens */
+@media screen and (max-width: 600px) {
+  .tableManagerHeaderRow, .tableManagerRow {
+    display: none;
+  }
 }

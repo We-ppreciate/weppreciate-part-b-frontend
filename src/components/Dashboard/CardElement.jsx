@@ -12,20 +12,21 @@ import {
   Chip,
   CircularProgress,
   Grid,
-  IconButton,
   Typography,
 } from "@mui/material";
 
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
-import { Delete } from "@mui/icons-material";
 import { jwtToken, userData } from "../../utils/LocalStorage";
+import DeleteCardButton from "./DeleteCardButton";
 
 export default function CardElement() {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [fullUsers, setFullUsers] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedCard, setSelectedCard] = useState(null);
 
   // Importing nominations
   useEffect(() => {
@@ -85,6 +86,11 @@ export default function CardElement() {
     const findUser = fullUsers.find((user) => user._id === userId);
     return findUser ? findUser.userPhotoKey : "";
   }
+
+  // Function to handle delete button clicks
+  const handleDeleteCard = (nomination) => {
+    setSelectedCard(nomination);
+  };
 
   return (
     <div>
@@ -165,11 +171,7 @@ export default function CardElement() {
                   </div>
                   {/* TODO: add interaction on admin delete button */}
                   <div className="cardComment">
-                    {userData.isAdmin && (
-                      <IconButton color="primary">
-                        <Delete />
-                      </IconButton>
-                    )}
+                    {userData.isAdmin && <DeleteCardButton nomination={nomination} onClick={handleDeleteCard}/>}
                   </div>
                 </CardContent>
               </Card>

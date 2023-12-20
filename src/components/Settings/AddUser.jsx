@@ -20,6 +20,7 @@ export default function AddUser(props) {
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
     businessUnit: "",
     userLineManager: "",
     isAdmin: false,
@@ -72,6 +73,7 @@ export default function AddUser(props) {
         last: formData.lastName,
       },
       email: formData.email,
+      // add password here once the process is known
       businessUnit: formData.businessUnit,
       isLineManager: formData.isLineManager,
       isFullUser: true,
@@ -120,6 +122,7 @@ export default function AddUser(props) {
       firstName: "",
       lastName: "",
       email: "",
+      password: "",
       businessUnit: "",
       userLineManager: "",
       isAdmin: false,
@@ -197,6 +200,19 @@ export default function AddUser(props) {
                     label="Email"
                     className="formSelector"
                     value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="formSelect">
+                  <TextField
+                    required
+                    id="password"
+                    name="password"
+                    variant="outlined"
+                    type="password"
+                    label="Password"
+                    className="formSelector"
+                    value={formData.password}
                     onChange={handleChange}
                   />
                 </div>

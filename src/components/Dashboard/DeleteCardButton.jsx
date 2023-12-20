@@ -2,9 +2,9 @@ import React from "react";
 import { Delete } from "@mui/icons-material";
 import { Box } from "@mui/system";
 
-import DeleteUser from "./DeleteUser";
+import DeleteCard from "./DeleteCard";
 
-export default class DeleteUserButton extends React.Component {
+export default class DeleteCardButton extends React.Component {
   state = {
     seen: false,
   };
@@ -16,13 +16,13 @@ export default class DeleteUserButton extends React.Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { nomination } = this.props;
 
     return (
-      <Box>
+      <Box className="deleteButton">
         <Delete color={"primary"} onClick={this.togglePop} />
         {this.state.seen ? (
-          <DeleteUser user={user} toggle={this.togglePop} />
+          <DeleteCard nomination={nomination} toggle={this.togglePop} />
         ) : null}
       </Box>
     );

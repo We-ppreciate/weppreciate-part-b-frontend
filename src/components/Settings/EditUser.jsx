@@ -23,7 +23,7 @@ export default function EditUser(props) {
     lastName: user.name.last,
     email: user.email,
     businessUnit: user.businessUnit,
-    userLineManager: user.userLineManager,
+    userLineManager: user.lineManagerId,
     isAdmin: user.isAdmin,
     isSeniorManager: user.isSeniorManager,
     isLineManager: user.isLineManager,
@@ -51,6 +51,11 @@ export default function EditUser(props) {
         );
 
         setFullUsers(sortedUsers);
+        // Set the initial value for userLineManager based on user.lineManagerId
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          userLineManager: user.lineManagerId,
+        }));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -58,7 +63,7 @@ export default function EditUser(props) {
       }
     };
     fetchData();
-  }, []);
+  }, [user.lineManagerId]);
 
   const handleClick = () => {
     props.toggle();
@@ -79,12 +84,11 @@ export default function EditUser(props) {
       isLineManager: formData.isLineManager,
       isAdmin: formData.isAdmin,
       isSeniorManager: formData.isSeniorManager,
-    //   userLineManager: formData.userLineManager,
+      lineManagerId: formData.userLineManager,
     });
-    console.log(cardJSON)
 
     // Sending PATCH request for posting editing user
-    fetch(apiUrl + "users/update/admin/"+ user._id, {
+    fetch(apiUrl + "users/update/admin/" + user._id, {
       method: "PATCH",
       mode: "cors",
       headers: {
@@ -94,7 +98,6 @@ export default function EditUser(props) {
       body: cardJSON,
     })
       .then((response) => {
-        console.log(response)
         if (!response.ok) {
           throw new Error("Request failed");
         }
@@ -117,11 +120,11 @@ export default function EditUser(props) {
     );
 
     // Close the modal and refresh page after delay
-    // setTimeout(() => {
-    //   props.toggle();
-    //   setSuccessMessage("");
-    //   window.location.reload();
-    // }, 3000);
+    setTimeout(() => {
+      props.toggle();
+      setSuccessMessage("");
+      window.location.reload();
+    }, 3000);
   };
 
   // Updates formData when change is made to a form value
@@ -212,6 +215,7 @@ export default function EditUser(props) {
                     label="Manager"
                     defaultValue=""
                     variant="outlined"
+                    value={formData.userLineManager}
                     onChange={handleChange}
                   >
                     {fullUsers.map((user) => {
@@ -233,7 +237,7 @@ export default function EditUser(props) {
                 </div>
               </div>
               <div className="formRow">
-              <FormControlLabel
+                <FormControlLabel
                   control={<Checkbox />}
                   label="Admin"
                   id="isAdmin"

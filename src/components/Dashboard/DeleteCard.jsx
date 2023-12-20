@@ -5,8 +5,8 @@ import { useState } from "react";
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
 
-export default function DeleteUser(props) {
-  const { user } = props;
+export default function DeleteCard(props) {
+  const { nomination } = props;
 
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
@@ -19,8 +19,8 @@ export default function DeleteUser(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Sending DELETE request for deleting user
-    fetch(apiUrl + "users/delete/admin/" + user._id, {
+    // Sending DELETE request for deleting nomination
+    fetch(apiUrl + "nominations/delete/" + nomination._id, {
       method: "DELETE",
       mode: "cors",
       headers: {
@@ -28,7 +28,6 @@ export default function DeleteUser(props) {
       },
     })
       .then((response) => {
-        console.log(response);
         if (!response.ok) {
           throw new Error("Request failed");
         }
@@ -46,7 +45,7 @@ export default function DeleteUser(props) {
     // If successful, set the success message
     setSuccessMessage(
       <Alert severity="success">
-        User deleted! The page will refresh in 3 seconds...
+        Card deleted! The page will refresh in 3 seconds...
       </Alert>
     );
 
@@ -65,7 +64,7 @@ export default function DeleteUser(props) {
           &times;
         </span>
         <h3 className="formHeading">
-          Are you sure you want to delete {user.name.first}?
+          Are you sure you want to delete this card?
         </h3>
         <form onSubmit={handleSubmit}>
           <div className="formButton">
