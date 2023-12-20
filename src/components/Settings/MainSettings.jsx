@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 import {
-  Edit,
   Home,
   People,
   WorkspacePremium,
@@ -22,6 +21,7 @@ import {
 import DashboardPage from "../../pages/DashboardPage";
 import ChangePasswordButton from "./ChangePasswordButton";
 import { userData } from "../../utils/LocalStorage";
+import EditTaglineButton from "./EditTaglineButton";
 
 const MainSettings = ({ setView }) => {
   const handleManageUsersClick = () => {
@@ -48,7 +48,7 @@ const MainSettings = ({ setView }) => {
           />
           <CardContent>
             <ChangePasswordButton />
-            <Button startIcon={<Edit/>}>Edit profile tagline</Button>
+            <EditTaglineButton/>
           </CardContent>
         </Card>
 

@@ -112,7 +112,7 @@ export default function EditUser(props) {
         console.error("Error:", error);
       });
 
-    // If successful, set the success message and clear the form data
+    // If successful, set the success message
     setSuccessMessage(
       <Alert severity="success">
         User updated! The page will refresh in 3 seconds...
