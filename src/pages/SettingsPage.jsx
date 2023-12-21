@@ -8,6 +8,7 @@ import appTheme from "../styles/Theme";
 import Header from "../components/Header";
 import MainSettings from "../components/Settings/MainSettings";
 import ManageUsers from "../components/Settings/ManageUsers";
+import ReleaseAwards from "../components/Settings/ReleaseAwards";
 
 export default function SettingsPage() {
   const [view, setView] = useState("default");
@@ -16,6 +17,8 @@ export default function SettingsPage() {
     switch (view) {
       case "manageUsers":
         return <ManageUsers setView={setView} />;
+      case "releaseAwards":
+        return <ReleaseAwards setView={setView} />;
       default:
         return <MainSettings setView={setView} />;
     }

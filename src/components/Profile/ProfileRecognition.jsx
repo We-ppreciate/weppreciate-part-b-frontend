@@ -9,6 +9,7 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
+  Grid,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -96,7 +97,7 @@ export default function ProfileRecognition({ apiData }) {
           <CircularProgress />
         </div>
       ) : (
-        <div>
+        <Grid sx={{ width: "100%" }}>
           {nominations.map((nomination) => (
             <Card className="profileNominationCard" key={nomination._id}>
               <CardHeader
@@ -147,7 +148,7 @@ export default function ProfileRecognition({ apiData }) {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </Grid>
       )}
     </Card>
   );

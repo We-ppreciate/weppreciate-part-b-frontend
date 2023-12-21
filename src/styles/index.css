@@ -170,8 +170,8 @@
 
 .profileNominationCard {
   border: 2px solid #9da7ae;
-  width: auto;
-  margin: 15px 5px;
+  width: 100%;
+  margin: 15px 0px;
   display: flex;
   flex-direction: column;
 }
@@ -186,12 +186,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: none;
 }
 
 /* Adjustments for smaller screens */
 @media screen and (max-width: 900px) {
   .profileContainer,
-  .nominationCard {
+  .nominationCard, .profileCards {
     width: 80vw;
   }
 
@@ -330,6 +331,11 @@
 }
 
 /* Settings page */
+
+.settingsCard {
+  display: flex;
+  flex-direction: column;
+}
 
 .backButton {
   margin-left: 10px;
