@@ -22,6 +22,7 @@ export default function EditUser(props) {
     firstName: user.name.first,
     lastName: user.name.last,
     email: user.email,
+    userPhotoKey: user.userPhotoKey,
     businessUnit: user.businessUnit,
     userLineManager: user.lineManagerId,
     isAdmin: user.isAdmin,
@@ -80,6 +81,7 @@ export default function EditUser(props) {
         last: formData.lastName,
       },
       email: formData.email,
+      userPhotoKey: formData.userPhotoKey,
       businessUnit: formData.businessUnit,
       isLineManager: formData.isLineManager,
       isAdmin: formData.isAdmin,
@@ -189,6 +191,17 @@ export default function EditUser(props) {
                     label="Email"
                     className="formSelector"
                     value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="formSelect">
+                  <TextField
+                    id="userPhotoKey"
+                    name="userPhotoKey"
+                    variant="outlined"
+                    label="Photo URL"
+                    className="formSelector"
+                    value={formData.userPhotoKey}
                     onChange={handleChange}
                   />
                 </div>

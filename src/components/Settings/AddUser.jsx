@@ -20,6 +20,7 @@ export default function AddUser(props) {
     firstName: "",
     lastName: "",
     email: "",
+    userPhotoKey: "",
     businessUnit: "",
     userLineManager: "",
     isAdmin: false,
@@ -72,6 +73,7 @@ export default function AddUser(props) {
         last: formData.lastName,
       },
       email: formData.email,
+      userPhotoKey: formData.userPhotoKey,
       businessUnit: formData.businessUnit,
       isLineManager: formData.isLineManager,
       isFullUser: true,
@@ -120,6 +122,7 @@ export default function AddUser(props) {
       firstName: "",
       lastName: "",
       email: "",
+      userPhotoKey: "",
       businessUnit: "",
       userLineManager: "",
       isAdmin: false,
@@ -197,6 +200,17 @@ export default function AddUser(props) {
                     label="Email"
                     className="formSelector"
                     value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="formSelect">
+                  <TextField
+                    id="userPhotoKey"
+                    name="userPhotoKey"
+                    variant="outlined"
+                    label="Photo URL"
+                    className="formSelector"
+                    value={formData.userPhotoKey}
                     onChange={handleChange}
                   />
                 </div>

@@ -97,7 +97,6 @@ export default function SendCard(props) {
       body: cardJSON,
     })
       .then((response) => {
-        console.log(response)
         if (!response.ok) {
           // TODO: front-end validation here
           throw new Error("Card post failed");
@@ -128,11 +127,11 @@ export default function SendCard(props) {
     });
 
     // Close the modal and refresh page after delay
-    // setTimeout(() => {
-    //   props.toggle();
-    //   setSuccessMessage("");
-    //   window.location.reload();
-    // }, 3000);
+    setTimeout(() => {
+      props.toggle();
+      setSuccessMessage("");
+      window.location.reload();
+    }, 3000);
   };
 
   // Updates formData when change is made to a form value
