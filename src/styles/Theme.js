@@ -114,8 +114,17 @@ const appTheme = createTheme({
           backgroundColor: "#0B4EA2",
         },
       }
+    },
+    // Temp styling while trying to apply the StyledInputBase against this
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          width: "300px",
+        }
+      }
     }
   },
+  
 
 });
 

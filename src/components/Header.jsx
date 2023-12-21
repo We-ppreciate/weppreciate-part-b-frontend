@@ -19,7 +19,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 
 import DashboardPage from "../pages/DashboardPage";
-import { userData } from "../utils/LocalStorage";
+import { jwtToken, userData } from "../utils/LocalStorage";
+import { useState } from "react";
+import { apiUrl } from "../utils/ApiUrl";
 
 // Styling for Appbar
 // TODO - see if this can work in a separate file
@@ -60,13 +62,67 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const SearchResultsContainer = styled("div")(({ theme }) => ({
+  position: "absolute",
+  top: "100%",
+  width: "100%",
+  zIndex: theme.zIndex.appBar,
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: theme.shape.borderRadius,
+  boxShadow: theme.shadows[8],
+  marginTop: theme.spacing(1),
+  overflow: "hidden",
+}));
+
 export default function Header() {
+  // Establishing states
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = async (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    // Don't make the API request for blank search
+    if (query === "") {
+      setSearchResults([]);
+      return;
+    }
+
+    try {
+      // Fetch data from the API using the search query
+      const response = await fetch(apiUrl + `users/search/${query}`, {
+        method: "GET",
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data && data.Users) {
+        setSearchResults(data.Users);
+      } else {
+        console.error("API response is missing expected structure:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
+  };
+
   // Logic for clicking on log out button
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("loggedInUser");
-  
+
     // Navigate to the login page
     navigate("/login");
   };
@@ -140,7 +196,24 @@ export default function Header() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
+
+            {/* Display search results dropdown */}
+            {searchResults && searchResults.length > 0 && (
+              <SearchResultsContainer>
+                {searchResults.map((user) => (
+                  <Link
+                    to={`/profile/${user._id}`}
+                    key={user._id}
+                    className="searchResult"
+                  >
+                    {user.name.first} {user.name.last}
+                  </Link>
+                ))}
+              </SearchResultsContainer>
+            )}
           </Search>
           <Box>
             <IconButton

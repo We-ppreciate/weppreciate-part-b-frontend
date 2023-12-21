@@ -20,7 +20,7 @@ import AddUserButton from "./AddUserButton";
 import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
-import { jwtToken } from "../../utils/LocalStorage";
+import { jwtToken, userData } from "../../utils/LocalStorage";
 import ResetPasswordButton from "./ResetPasswordButton";
 
 const ManageUsers = ({ setView }) => {
@@ -33,7 +33,6 @@ const ManageUsers = ({ setView }) => {
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const [selectedUser, setSelectedUser] = useState(null);
-  //   const [successMessage, setSuccessMessage] = useState("");
 
   // Importing full users list to render in form
   useEffect(() => {
@@ -70,6 +69,11 @@ const ManageUsers = ({ setView }) => {
   // Function to handle edit and delete button clicks
   const handleEditUser = (user) => {
     setSelectedUser(user);
+  };
+
+  // Checks for current user so that they can't edit their own user in this screen
+  const isCurrentUser = (userId) => {
+    return userData.id === userId;
   };
 
   return (
@@ -112,6 +116,7 @@ const ManageUsers = ({ setView }) => {
               <TableBody>
                 {fullUsers.map((user) => {
                   const userName = `${user.name.first} ${user.name.last}`;
+                  const isCurrent = isCurrentUser(user._id);
                   return (
                     <TableRow
                       key={user._id}
@@ -120,21 +125,32 @@ const ManageUsers = ({ setView }) => {
                       <TableCell component="th" scope="row">
                         {userName}
                       </TableCell>
-                      <TableCell className="tableUnitRow">{user.businessUnit}</TableCell>
+                      <TableCell className="tableUnitRow">
+                        {user.businessUnit}
+                      </TableCell>
                       <TableCell className="tableManagerRow">
                         {getFullName(user.lineManagerId)}
                       </TableCell>
                       <TableCell>
-                        <EditUserButton user={user} onEdit={handleEditUser} />
+                        {!isCurrent && (
+                          <EditUserButton user={user} onEdit={handleEditUser} />
+                        )}
                       </TableCell>
                       <TableCell>
-                        <ResetPasswordButton
-                          user={user}
-                          onEdit={handleEditUser}
-                        />
+                        {!isCurrent && (
+                          <ResetPasswordButton
+                            user={user}
+                            onEdit={handleEditUser}
+                          />
+                        )}
                       </TableCell>
                       <TableCell>
-                        <DeleteUserButton user={user} onEdit={handleEditUser} />
+                        {!isCurrent && (
+                          <DeleteUserButton
+                            user={user}
+                            onEdit={handleEditUser}
+                          />
+                        )}
                       </TableCell>
                     </TableRow>
                   );

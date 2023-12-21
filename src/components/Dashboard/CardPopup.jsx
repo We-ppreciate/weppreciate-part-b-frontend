@@ -101,7 +101,6 @@ export default function PopUp(props) {
           // TODO: front-end validation here
           throw new Error("Login failed");
         }
-        console.log(response);
         return response.json();
       })
       .then((data) => {

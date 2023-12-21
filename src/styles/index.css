@@ -51,6 +51,17 @@
 }
 
 
+.searchResult {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #0b4ea2;
+}
+
+.searchResult:hover {
+  background-color: #88b8f74c;
+}
+
 /* Login page */
 
 .loginBox {
