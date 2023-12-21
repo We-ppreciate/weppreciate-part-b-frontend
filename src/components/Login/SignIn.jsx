@@ -28,62 +28,66 @@ const SignIn = () => {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Takes login form data and converts into correct JSON format for POST request
-    const jsonData = JSON.stringify({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    // Sending POST request for login
-    fetch(apiUrl + "auth/login", {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: jsonData,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 400) {
-            setErrorMessage(
-              <Alert severity="error">
-                Incorrect email or password, please try again.
-              </Alert>
-            );
-          } else {
-            setErrorMessage(
-              <Alert severity="error">
-                Uh oh, we couldn't log you in! Please try again.
-              </Alert>
-            );
-          }
-
-          // Clear the error message after 5 seconds
-          setTimeout(() => {
-            setErrorMessage("");
-          }, 5000);
-
-          throw new Error("Login failed");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        // Stores the token and logged in user's details in local storage
-        localStorage.setItem("jwtToken", data.token);
-        localStorage.setItem("loggedInUser", JSON.stringify(data));
-
-        // Redirect to the Dashboard
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        // Add front-end validation when this occurs
-        console.error("Error:", error);
+    try {
+      // Takes login form data and converts into the correct JSON format for the POST request
+      const jsonData = JSON.stringify({
+        email: formData.email,
+        password: formData.password,
       });
+
+      // Sending POST request for login
+      const response = await fetch(apiUrl + "auth/login", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonData,
+      });
+
+      if (!response.ok) {
+        if (response.status === 400) {
+          setErrorMessage(
+            <Alert severity="error">
+              Incorrect email or password, please try again.
+            </Alert>
+          );
+        } else {
+          setErrorMessage(
+            <Alert severity="error">
+              Uh oh, we couldn't log you in! Please try again.
+            </Alert>
+          );
+        }
+
+        // Clear the error message after 5 seconds
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 5000);
+
+        throw new Error("Login failed");
+      }
+
+      const data = await response.json();
+
+      // Stores the token and logged in user's details in local storage
+      localStorage.setItem("jwtToken", data.token);
+      localStorage.setItem("loggedInUser", JSON.stringify(data));
+
+      // Navigate to the Dashboard after a short delay
+      setTimeout(() => {
+        navigate("/dashboard");
+
+        // Force a page refresh after navigation
+        window.location.reload();
+      }, 100);
+    } catch (error) {
+      // Add front-end validation when this occurs
+      console.error("Error:", error);
+    }
   };
 
   return (
