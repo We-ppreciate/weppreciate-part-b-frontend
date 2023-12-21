@@ -5,9 +5,9 @@ import { CssBaseline } from "@mui/material";
 
 import Header from "../components/Header";
 import DashboardHeader from "../components/Dashboard/DashboardHeader";
-import CardElement from "../components/Dashboard/CardElement";
 import appTheme from "../styles/Theme";
 import SendCardButton from "../components/Dashboard/SendCardButton";
+import DashboardCards from "../components/Dashboard/DashboardCards";
 
 export default function DashboardPage() {
   return (
@@ -16,7 +16,7 @@ export default function DashboardPage() {
       <Header />
       <DashboardHeader />
       <SendCardButton />
-      <CardElement />
+      <DashboardCards />
     </ThemeProvider>
   );
 }

@@ -20,7 +20,7 @@ import getValueColor from "../../utils/ValueColor";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 import DeleteCardButton from "./DeleteCardButton";
 
-export default function CardElement() {
+export default function DashboardCards() {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);

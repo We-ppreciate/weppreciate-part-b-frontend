@@ -17,7 +17,7 @@ import { apiUrl } from "../../utils/ApiUrl";
 import teamValues from "../../utils/Values";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 
-export default function PopUp(props) {
+export default function SendCard(props) {
   // Set default values of formData
   const [formData, setFormData] = useState({
     recipient: "",
@@ -72,7 +72,7 @@ export default function PopUp(props) {
     const cardJSON = JSON.stringify({
       recipientUser: formData.recipient,
       nominatorFullUser: userData.id,
-      nominationValue: [formData.value],
+      nominationValue: formData.value,
       nominationBody: formData.message,
       nominationDate: new Date()
         .toLocaleDateString("en-GB", dateOptions)
@@ -97,9 +97,10 @@ export default function PopUp(props) {
       body: cardJSON,
     })
       .then((response) => {
+        console.log(response)
         if (!response.ok) {
           // TODO: front-end validation here
-          throw new Error("Login failed");
+          throw new Error("Card post failed");
         }
         return response.json();
       })
@@ -127,11 +128,11 @@ export default function PopUp(props) {
     });
 
     // Close the modal and refresh page after delay
-    setTimeout(() => {
-      props.toggle();
-      setSuccessMessage("");
-      window.location.reload();
-    }, 3000);
+    // setTimeout(() => {
+    //   props.toggle();
+    //   setSuccessMessage("");
+    //   window.location.reload();
+    // }, 3000);
   };
 
   // Updates formData when change is made to a form value
