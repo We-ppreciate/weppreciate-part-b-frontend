@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Avatar,
   AvatarGroup,
   Card,
@@ -9,6 +10,7 @@ import {
   CardHeader,
   Chip,
   CircularProgress,
+  Grid,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -36,17 +38,30 @@ export default function ProfileRecognition({ apiData }) {
             },
           }
         );
-        // Sort nominations by most recent date
-        const sortedNominations = response.data.Nominations.sort((a, b) => {
-          const dateA = new Date(
-            a.nominationDate.split("-").reverse().join("-")
-          );
-          const dateB = new Date(
-            b.nominationDate.split("-").reverse().join("-")
-          );
+        // Filter and sort nominations
+        const filteredNominations = response.data.Nominations.filter(
+          (nomination) => {
+            if (nomination.isNominationInstant) {
+              // Show nominations where isNominationInstant is true
+              nomination.displayDate = nomination.nominationDate;
+              return true;
+            } else if (
+              !nomination.isNominationInstant &&
+              nomination.isReleased
+            ) {
+              // Show nominations where isNominationInstant is false and isReleased is true
+              nomination.displayDate = nomination.releaseDate;
+              return true;
+            }
+            return false;
+          }
+        ).sort((a, b) => {
+          const dateA = new Date(a.displayDate.split("-").reverse().join("-"));
+          const dateB = new Date(b.displayDate.split("-").reverse().join("-"));
           return dateB - dateA;
         });
-        setNominations(sortedNominations);
+
+        setNominations(filteredNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -96,58 +111,78 @@ export default function ProfileRecognition({ apiData }) {
           <CircularProgress />
         </div>
       ) : (
-        <div>
-          {nominations.map((nomination) => (
-            <Card className="profileNominationCard" key={nomination._id}>
-              <CardHeader
-                className="nominationCardHeader"
-                avatar={
-                  <AvatarGroup>
-                    <Avatar
-                      alt="animal working hard"
-                      src={getValueImage(nomination.nominationValue)}
-                    />
-                    {nomination.isNominatorFullUser ? (
+        <Grid sx={{ width: "100%" }}>
+          {nominations.length === 0 ? (
+            // Render a special message when there are no nominations
+            <Alert severity="info" className="noCards">{apiData.name.first} doesn't have any cards to show yet... why not send them one? 🤔</Alert>
+          ) : (
+            // Render the list of nominations
+            nominations.map((nomination) => (
+              <Card
+                className="profileNominationCard"
+                key={nomination._id}
+                style={{
+                  borderColor: getValueColor(nomination.nominationValue),
+                }}
+              >
+                <CardHeader
+                  className="nominationCardHeader"
+                  avatar={
+                    <AvatarGroup>
                       <Avatar
-                        alt={getFullName(nomination.nominatorFullUser)}
-                        src={getUserPhoto(nomination.nominatorFullUser)}
+                        alt="animal working hard"
+                        src={getValueImage(nomination.nominationValue)}
                       />
-                    ) : (
-                      <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
-                        0
-                      )}${nomination.nominatorBasicUser.basicName.last.charAt(
-                        0
-                      )}`}</Avatar>
-                    )}
-                  </AvatarGroup>
-                }
-                action={
-                  <Chip
-                    style={{
-                      borderColor: getValueColor(nomination.nominationValue),
-                      backgroundColor: getValueColor(
-                        nomination.nominationValue
-                      ),
-                    }}
-                    label={nomination.nominationValue}
-                  />
-                }
-                title={nomination.nominationBody}
-                titleTypographyProps={{ variant: "h5" }}
-              />
-              <CardContent className="profileNominationsSubtitle">
-                <Typography variant="subtitle2">
-                  {nomination.isNominatorFullUser
-                    ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                    : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
-                </Typography>
-                <Typography variant="caption">
-                  {nomination.nominationDate}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                      {nomination.isNominatorFullUser ? (
+                        <Avatar
+                          alt={getFullName(nomination.nominatorFullUser)}
+                          src={getUserPhoto(nomination.nominatorFullUser)}
+                        />
+                      ) : (
+                        <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
+                          0
+                        )}${nomination.nominatorBasicUser.basicName.last.charAt(
+                          0
+                        )}`}</Avatar>
+                      )}
+                    </AvatarGroup>
+                  }
+                  action={
+                    <Chip
+                      style={{
+                        borderColor: getValueColor(nomination.nominationValue),
+                        backgroundColor: getValueColor(
+                          nomination.nominationValue
+                        ),
+                      }}
+                      label={nomination.nominationValue}
+                    />
+                  }
+                  title={nomination.nominationBody}
+                  titleTypographyProps={{ variant: "h5" }}
+                />
+                <CardContent className="profileNominationsSubtitle">
+                  <Typography variant="subtitle2">
+                    {nomination.isNominationInstant
+                      ? nomination.isNominatorFullUser
+                        ? `Posted by ${getFullName(
+                            nomination.nominatorFullUser
+                          )}`
+                        : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
+                      : nomination.isNominatorFullUser
+                      ? `Nominated by ${getFullName(
+                          nomination.nominatorFullUser
+                        )}`
+                      : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
+                  </Typography>
+                  <Typography variant="caption">
+                    {nomination.displayDate}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </Grid>
       )}
     </Card>
   );

@@ -167,8 +167,16 @@ export default function DashboardCards() {
                     }
                     title={
                       nomination.isNominationInstant
-                        ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                        : `Nominated by ${getFullName(nomination.nominatorFullUser)}`
+                        ? nomination.isNominatorFullUser
+                          ? `Posted by ${getFullName(
+                              nomination.nominatorFullUser
+                            )}`
+                          : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
+                        : nomination.isNominatorFullUser
+                        ? `Nominated by ${getFullName(
+                            nomination.nominatorFullUser
+                          )}`
+                        : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
                     }
                     subheader={nomination.displayDate}
                     titleTypographyProps={{ variant: "subtitle1" }}

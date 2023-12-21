@@ -12,11 +12,7 @@ import {
   Box,
 } from "@mui/material";
 
-import {
-  Home,
-  People,
-  WorkspacePremium,
-} from "@mui/icons-material";
+import { Home, People, WorkspacePremium } from "@mui/icons-material";
 
 import DashboardPage from "../../pages/DashboardPage";
 import ChangePasswordButton from "./ChangePasswordButton";
@@ -26,6 +22,9 @@ import EditTaglineButton from "./EditTaglineButton";
 const MainSettings = ({ setView }) => {
   const handleManageUsersClick = () => {
     setView("manageUsers");
+  };
+  const handleReleaseAwardsClick = () => {
+    setView("releaseAwards");
   };
 
   return (
@@ -41,34 +40,42 @@ const MainSettings = ({ setView }) => {
         </Typography>
       </Box>
       <Grid className="cardGrid" container spacing={0}>
-        <Card>
+        <Card className="settingsCard">
           <CardHeader
             title="Account settings"
             titleTypographyProps={{ variant: "h4" }}
           />
           <CardContent>
             <ChangePasswordButton />
-            <EditTaglineButton/>
+            <EditTaglineButton />
           </CardContent>
         </Card>
 
-        {/* Team settings only displayed to admins: */}
-        {userData.isAdmin && (
-          <Card>
+        {/* Team settings only displayed to senior managers/admins: */}
+        {(userData.isAdmin || userData.isSeniorManager) && (
+          <Card className="settingsCard">
             <CardHeader
               title="Team settings"
               titleTypographyProps={{ variant: "h4" }}
             />
+
             <CardContent>
-              <div>
-                <Button className="settingsButton" startIcon={<People />} onClick={handleManageUsersClick}>
-                  Manage users
-                </Button>
-              </div>
+              {userData.isAdmin && (
+                <div>
+                  <Button
+                    className="settingsButton"
+                    startIcon={<People />}
+                    onClick={handleManageUsersClick}
+                  >
+                    Manage users
+                  </Button>
+                </div>
+              )}
               <div>
                 <Button
                   className="settingsButton"
                   startIcon={<WorkspacePremium />}
+                  onClick={handleReleaseAwardsClick}
                 >
                   Release awards
                 </Button>
