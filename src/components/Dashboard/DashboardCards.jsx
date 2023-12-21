@@ -19,6 +19,7 @@ import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 import DeleteCardButton from "./DeleteCardButton";
+import getValueImage from "../../utils/ValueImage";
 
 export default function DashboardCards() {
   // Establishing states
@@ -38,17 +39,30 @@ export default function DashboardCards() {
           },
         });
 
-        // Sort nominations by most recent date
-        const sortedNominations = response.data.Nominations.sort((a, b) => {
-          const dateA = new Date(
-            a.nominationDate.split("-").reverse().join("-")
-          );
-          const dateB = new Date(
-            b.nominationDate.split("-").reverse().join("-")
-          );
+        // Filter and sort nominations
+        const filteredNominations = response.data.Nominations.filter(
+          (nomination) => {
+            if (nomination.isNominationInstant) {
+              // Show nominations where isNominationInstant is true
+              nomination.displayDate = nomination.nominationDate;
+              return true;
+            } else if (
+              !nomination.isNominationInstant &&
+              nomination.isReleased
+            ) {
+              // Show nominations where isNominationInstant is false and isReleased is true
+              nomination.displayDate = nomination.releaseDate;
+              return true;
+            }
+            return false;
+          }
+        ).sort((a, b) => {
+          const dateA = new Date(a.displayDate.split("-").reverse().join("-"));
+          const dateB = new Date(b.displayDate.split("-").reverse().join("-"));
           return dateB - dateA;
         });
-        setNominations(sortedNominations);
+
+        setNominations(filteredNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -103,77 +117,105 @@ export default function DashboardCards() {
           <Grid className="cardGrid" container spacing={2}>
             {nominations.map((nomination) => (
               <Card
+                className="nominationCard"
                 key={nomination._id}
                 style={{
                   borderColor: getValueColor(nomination.nominationValue),
                 }}
               >
-                <CardHeader
-                  className="cardHeader"
-                  avatar={
-                    <AvatarGroup>
-                      {nomination.isNominatorFullUser ? (
-                        <Avatar
-                          alt={getFullName(nomination.nominatorFullUser)}
-                          src={getUserPhoto(nomination.nominatorFullUser)}
-                        />
-                      ) : (
-                        <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
-                          0
-                        )}${nomination.nominatorBasicUser.basicName.last.charAt(
-                          0
-                        )}`}</Avatar>
-                      )}
-                      <Avatar
-                        alt={getFullName(nomination.recipientUser)}
-                        src={getUserPhoto(nomination.recipientUser)}
-                      />
-                    </AvatarGroup>
-                  }
-                  action={
-                    <Chip
-                      style={{
-                        borderColor: getValueColor(nomination.nominationValue),
-                        backgroundColor: getValueColor(
-                          nomination.nominationValue
-                        ),
-                      }}
-                      label={nomination.nominationValue}
-                    />
-                  }
-                  title={
-                    nomination.isNominatorFullUser
-                      ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
-                      : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
-                  }
-                  subheader={nomination.nominationDate}
-                  titleTypographyProps={{ variant: "subtitle1" }}
+                <Avatar
+                  className="valueImage"
+                  alt="animal working hard"
+                  src={getValueImage(nomination.nominationValue)}
                 />
-                <CardContent className="cardMain">
-                  <div className="cardGuts">
-                    <div className="cardBody">
-                      <Typography variant="h5">
-                        {nomination.nominationBody}
-                      </Typography>
+                <div className="cardWrapper">
+                  <CardHeader
+                    className="cardHeader"
+                    avatar={
+                      <AvatarGroup>
+                        {nomination.isNominatorFullUser ? (
+                          <Avatar
+                            alt={getFullName(nomination.nominatorFullUser)}
+                            src={getUserPhoto(nomination.nominatorFullUser)}
+                          />
+                        ) : (
+                          <Avatar>{`${nomination.nominatorBasicUser.basicName.first.charAt(
+                            0
+                          )}${nomination.nominatorBasicUser.basicName.last.charAt(
+                            0
+                          )}`}</Avatar>
+                        )}
+                        <Avatar
+                          alt={getFullName(nomination.recipientUser)}
+                          src={getUserPhoto(nomination.recipientUser)}
+                        />
+                      </AvatarGroup>
+                    }
+                    action={
+                      <Chip
+                        className="valueChip"
+                        style={{
+                          borderColor: getValueColor(
+                            nomination.nominationValue
+                          ),
+                          backgroundColor: getValueColor(
+                            nomination.nominationValue
+                          ),
+                        }}
+                        label={nomination.nominationValue}
+                      />
+                    }
+                    title={
+                      nomination.isNominationInstant
+                        ? `Posted by ${getFullName(nomination.nominatorFullUser)}`
+                        : `Nominated by ${getFullName(nomination.nominatorFullUser)}`
+                    }
+                    subheader={nomination.displayDate}
+                    titleTypographyProps={{ variant: "subtitle1" }}
+                  />
+                  <CardContent className="cardMain">
+                    <div className="cardGuts">
+                      <div className="cardBody">
+                        <Typography variant="h5">
+                          {nomination.nominationBody}
+                        </Typography>
+                      </div>
+                      <div className="cardRecipient">
+                        <Typography variant="caption">
+                          {nomination.isNominationInstant ? (
+                            <>
+                              Recognition for{" "}
+                              <Link
+                                className="userLink"
+                                to={`/profile/${nomination.recipientUser}`}
+                              >
+                                {getFullName(nomination.recipientUser)}
+                              </Link>
+                            </>
+                          ) : (
+                            <>
+                              Award for{" "}
+                              <Link
+                                className="userLink"
+                                to={`/profile/${nomination.recipientUser}`}
+                              >
+                                {getFullName(nomination.recipientUser)}
+                              </Link>
+                            </>
+                          )}
+                        </Typography>
+                      </div>
                     </div>
-                    <div className="cardRecipient">
-                      <Typography variant="caption">
-                        {" "}
-                        Recognition for{" "}
-                        <Link
-                          className="userLink"
-                          to={`/profile/${nomination.recipientUser}`}
-                        >
-                          {getFullName(nomination.recipientUser)}
-                        </Link>
-                      </Typography>
+                    <div className="cardComment">
+                      {userData.isAdmin && (
+                        <DeleteCardButton
+                          nomination={nomination}
+                          onClick={handleDeleteCard}
+                        />
+                      )}
                     </div>
-                  </div>
-                  {/* TODO: add interaction on admin delete button */}
-                  <div className="cardComment">
-                    {userData.isAdmin && <DeleteCardButton nomination={nomination} onClick={handleDeleteCard}/>}
-                  </div>
-                </CardContent>
+                  </CardContent>
+                </div>
               </Card>
             ))}
           </Grid>

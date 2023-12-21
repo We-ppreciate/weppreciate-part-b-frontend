@@ -14,7 +14,7 @@ export default function ProfileCard({ apiData }) {
     <Container className="profileContainer">
       <Card className="profileCardHeader">
         <CardHeader
-          className="profileCardHeader"
+          
           avatar={
             <Avatar
               className="profileImage"

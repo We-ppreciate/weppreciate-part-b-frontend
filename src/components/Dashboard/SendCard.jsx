@@ -8,6 +8,7 @@ import {
   Checkbox,
   CircularProgress,
   FormControlLabel,
+  FormHelperText,
   MenuItem,
   TextField,
 } from "@mui/material";
@@ -79,11 +80,8 @@ export default function SendCard(props) {
         .replace(/\//g, "-"),
       isNominatorFullUser: userData.isFullUser,
       isNominationInstant: !formData.award,
-      isAward: formData.award,
+      isAward: false,
       isReleased: false,
-      releaseDate: new Date()
-        .toLocaleDateString("en-GB", dateOptions)
-        .replace(/\//g, "-"),
     });
 
     // Sending POST request for posting card
@@ -97,7 +95,6 @@ export default function SendCard(props) {
       body: cardJSON,
     })
       .then((response) => {
-        console.log(response)
         if (!response.ok) {
           // TODO: front-end validation here
           throw new Error("Card post failed");
@@ -128,11 +125,11 @@ export default function SendCard(props) {
     });
 
     // Close the modal and refresh page after delay
-    // setTimeout(() => {
-    //   props.toggle();
-    //   setSuccessMessage("");
-    //   window.location.reload();
-    // }, 3000);
+    setTimeout(() => {
+      props.toggle();
+      setSuccessMessage("");
+      window.location.reload();
+    }, 3000);
   };
 
   // Updates formData when change is made to a form value
@@ -231,16 +228,15 @@ export default function SendCard(props) {
                 value={formData.message}
                 onChange={handleChange}
               />
-              <div className="formRow">
-                <FormControlLabel
-                  control={<Checkbox />}
-                  label="Nominate for award"
-                  id="award"
-                  name="award"
-                  checked={formData.award}
-                  onChange={handleChange}
-                />
-              </div>
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Nominate for award"
+                    id="award"
+                    name="award"
+                    checked={formData.award}
+                    onChange={handleChange}
+                  />
+                <FormHelperText>Award nominations will be reviewed by managers</FormHelperText>
             </div>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>

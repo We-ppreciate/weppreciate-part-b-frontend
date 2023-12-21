@@ -1,6 +1,5 @@
 /* This file is for styling for specific elements outside of the MUI theme */
 
-
 /* Common elements */
 
 .errorMessage {
@@ -50,7 +49,6 @@
   align-items: center;
 }
 
-
 .searchResult {
   display: block;
   padding: 10px;
@@ -77,6 +75,18 @@
 
 /* Dashboard and Profile */
 
+.valueImage {
+  width: 150px;
+  height: 150px;
+  margin-right: 15px;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .cardContainer {
   display: flex;
   flex-direction: column;
@@ -94,7 +104,7 @@
 }
 
 .cardGuts {
-  width: 70%;
+  width: 90%;
 }
 
 .userLink {
@@ -104,8 +114,7 @@
 
 .cardComment {
   display: flex;
-  width: 30%;
-  min-width: 200px;
+  width: 10%;
   justify-content: flex-end;
 }
 
@@ -125,12 +134,15 @@
 .profileCardHeader {
   border: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .profileContainer {
   display: flex;
   flex-direction: row;
-  width: 80vw;
+  width: 70vw;
   padding: 0;
 }
 
@@ -139,6 +151,7 @@
   padding: 0;
   justify-content: flex-end;
   align-items: flex-end;
+  max-width: 200px;
 }
 
 .profileImage {
@@ -158,7 +171,9 @@
 .profileNominationCard {
   border: 2px solid #9da7ae;
   width: auto;
-  margin: 15px;
+  margin: 15px 5px;
+  display: flex;
+  flex-direction: column;
 }
 
 .profileNominationsSubtitle:last-child {
@@ -167,29 +182,35 @@
   padding-bottom: 8px;
 }
 
+.profileCards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 /* Adjustments for smaller screens */
+@media screen and (max-width: 900px) {
+  .profileContainer,
+  .nominationCard {
+    width: 80vw;
+  }
+
+  .valueImage {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* Adjustments for even smaller screens */
 @media screen and (max-width: 600px) {
-  .cardHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px 16px 0px 16px;
+  .valueChip {
+    display: none;
   }
 
-  .cardMain {
-    flex-direction: column;
-
-  }
-  .cardGuts {
-    width: auto;
-  }
-
-  .cardComment {
-    width: auto;
-    margin-top: 10px;
-    justify-content: flex-start;
-  }
-
-  .profileCardHeader, .nominationCardHeader, .profileContainer, .profileButton  {
+  .profileCardHeader,
+  .nominationCardHeader,
+  .profileContainer,
+  .profileButton {
     flex-direction: column;
     align-items: flex-start;
   }
@@ -197,8 +218,11 @@
   .profileButton {
     margin-top: -20px;
   }
-}
 
+  .valueImage {
+    display: none;
+  }
+}
 
 /* Modal popups */
 .modal {
@@ -210,7 +234,6 @@
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(2px);
-  
 }
 
 .modal_content {
@@ -331,21 +354,25 @@
   width: 90vw;
 }
 
-.tableHeaderRow, .tableUnitHeaderRow, .tableManagerHeaderRow {
+.tableHeaderRow,
+.tableUnitHeaderRow,
+.tableManagerHeaderRow {
   color: #ffffff;
   font-weight: 600;
 }
 
 /* Hides a column on smaller screens */
 @media screen and (max-width: 900px) {
-  .tableManagerHeaderRow, .tableManagerRow {
+  .tableManagerHeaderRow,
+  .tableManagerRow {
     display: none;
   }
 }
 
 /* Hides another column on even smaller screens */
 @media screen and (max-width: 600px) {
-  .tableUnitHeaderRow, .tableUnitRow {
+  .tableUnitHeaderRow,
+  .tableUnitRow {
     display: none;
   }
 }
