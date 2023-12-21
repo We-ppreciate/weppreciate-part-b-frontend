@@ -64,9 +64,11 @@ export default function Header() {
   // Logic for clicking on log out button
   const navigate = useNavigate();
   const handleLogout = () => {
-    localStorage.setItem("jwtToken", "");
-    localStorage.setItem("loggedInUser", "");
-    navigate("/login", { state: { from: window.location.pathname } });
+    localStorage.removeItem("jwtToken");
+    localStorage.removeItem("loggedInUser");
+  
+    // Navigate to the login page
+    navigate("/login");
   };
 
   // Establishing menu logic

@@ -1,20 +1,14 @@
-// Checks if the user has a valid JWT and if not, redirects to login page
+// Checks if a user is authorised before accessing a page restricted to logged in users, redirects to login if invalid
 
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { useAuth } from '../components/Authentication/AuthContext';
+
 
 const PrivateRoute = ({ element }) => {
-  const isAuthenticated = () => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      const decoded = jwtDecode(token);
-      return decoded.exp > Date.now() / 1000;
-    }
-    return false;
-  };
+  const { authenticated } = useAuth();
 
-  return isAuthenticated() ? (
+  return authenticated ? (
     element
   ) : (
     <Navigate to="/login" replace state={{ from: window.location.pathname }} />
