@@ -11,12 +11,12 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { AddReaction } from "@mui/icons-material";
 import axios from "axios";
 
 import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 import { jwtToken } from "../../utils/LocalStorage";
+import getValueImage from "../../utils/ValueImage";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
@@ -86,11 +86,9 @@ export default function ProfileRecognition({ apiData }) {
   }
 
   return (
-    // TODO: update styling so CardHeader elements are all aligned vertically centred
-    <Card>
+    <Card className="profileCards">
       <CardHeader
-        avatar={<AddReaction />}
-        title={`${apiData.name.first}'s Cards`}
+        title={`${apiData.name.first}'s recognition and awards`}
         titleTypographyProps={{ variant: "h4" }}
       />
       {loading ? (
@@ -105,6 +103,10 @@ export default function ProfileRecognition({ apiData }) {
                 className="nominationCardHeader"
                 avatar={
                   <AvatarGroup>
+                    <Avatar
+                      alt="animal working hard"
+                      src={getValueImage(nomination.nominationValue)}
+                    />
                     {nomination.isNominatorFullUser ? (
                       <Avatar
                         alt={getFullName(nomination.nominatorFullUser)}

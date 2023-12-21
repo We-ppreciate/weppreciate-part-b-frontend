@@ -19,6 +19,7 @@ import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 import DeleteCardButton from "./DeleteCardButton";
+import getValueImage from "../../utils/ValueImage";
 
 export default function DashboardCards() {
   // Establishing states
@@ -102,12 +103,14 @@ export default function DashboardCards() {
         <div>
           <Grid className="cardGrid" container spacing={2}>
             {nominations.map((nomination) => (
-              <Card
+              <Card className="nominationCard"
                 key={nomination._id}
                 style={{
                   borderColor: getValueColor(nomination.nominationValue),
                 }}
               >
+                <Avatar className="valueImage" alt="animal working hard" src={getValueImage(nomination.nominationValue)}/>
+                <div className="cardWrapper">
                 <CardHeader
                   className="cardHeader"
                   avatar={
@@ -131,7 +134,7 @@ export default function DashboardCards() {
                     </AvatarGroup>
                   }
                   action={
-                    <Chip
+                    <Chip className="valueChip"
                       style={{
                         borderColor: getValueColor(nomination.nominationValue),
                         backgroundColor: getValueColor(
@@ -169,11 +172,10 @@ export default function DashboardCards() {
                       </Typography>
                     </div>
                   </div>
-                  {/* TODO: add interaction on admin delete button */}
                   <div className="cardComment">
                     {userData.isAdmin && <DeleteCardButton nomination={nomination} onClick={handleDeleteCard}/>}
                   </div>
-                </CardContent>
+                </CardContent></div>
               </Card>
             ))}
           </Grid>

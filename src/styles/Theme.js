@@ -49,10 +49,10 @@ const appTheme = createTheme({
         root: {
           boxShadow: "none",
           border: "3px solid #0B4EA2",
-          width: "80vw",
+          width: "70vw",
           marginTop: "20px",
           display: "flex",
-          flexDirection: "column",
+          flexDirection: "row",
           padding: "10px",
         },
       },
@@ -76,6 +76,7 @@ const appTheme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
+          padding: "5px",
           "&:last-child": {
             paddingBottom: "16px",
           },
