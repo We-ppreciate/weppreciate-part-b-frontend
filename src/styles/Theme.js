@@ -77,17 +77,17 @@ const appTheme = createTheme({
       styleOverrides: {
         root: {
           "&:last-child": {
-            paddingBottom: "16px"
-          }
-        }
-      }
+            paddingBottom: "16px",
+          },
+        },
+      },
     },
 
     MuiChip: {
       styleOverrides: {
         root: {
           fontSize: "1rem",
-          padding: "8px"
+          padding: "8px",
         },
       },
     },
@@ -104,8 +104,8 @@ const appTheme = createTheme({
       styleOverrides: {
         root: {
           border: "2px solid #0B4EA2",
-        }
-      }
+        },
+      },
     },
 
     MuiTableHead: {
@@ -113,19 +113,9 @@ const appTheme = createTheme({
         root: {
           backgroundColor: "#0B4EA2",
         },
-      }
+      },
     },
-    // Temp styling while trying to apply the StyledInputBase against this
-    MuiAutocomplete: {
-      styleOverrides: {
-        root: {
-          width: "300px",
-        }
-      }
-    }
   },
-  
-
 });
 
 export default appTheme;
