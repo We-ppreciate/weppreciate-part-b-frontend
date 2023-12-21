@@ -189,6 +189,12 @@
   border: none;
 }
 
+.noCards {
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Adjustments for smaller screens */
 @media screen and (max-width: 900px) {
   .profileContainer,
