@@ -6,7 +6,7 @@ import { AddReaction } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 
-import PopUp from "./CardPopup";
+import SendCard from "./SendCard";
 
 export default class SendCardButton extends React.Component {
   state = {
@@ -25,7 +25,7 @@ export default class SendCardButton extends React.Component {
             <Button variant="contained" endIcon={<AddReaction />} onClick={this.togglePop}>
               Send recognition
             </Button>
-            {this.state.seen ? <PopUp toggle={this.togglePop} /> : null}
+            {this.state.seen ? <SendCard toggle={this.togglePop} /> : null}
           </Box>
 
     );
