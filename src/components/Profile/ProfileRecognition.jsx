@@ -173,7 +173,7 @@ export default function ProfileRecognition({ apiData }) {
                       ? `Nominated by ${getFullName(
                           nomination.nominatorFullUser
                         )}`
-                      : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
+                      : `Nominated by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
                   </Typography>
                   <Typography variant="caption">
                     {nomination.displayDate}

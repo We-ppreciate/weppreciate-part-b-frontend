@@ -106,9 +106,9 @@
   width: 50px;
 }
 
-.errorMessage {
+.errorMessage, .successMessage {
   position: absolute;
-  z-index: 1;
+  z-index: 4;
   top: 30px;
   right: 30px;
 }
@@ -458,7 +458,7 @@
 }
 
 .settingsButton {
-  min-width: 170px;
+  min-width: 180px;
   justify-content: flex-start;
   padding: 10px;
 }

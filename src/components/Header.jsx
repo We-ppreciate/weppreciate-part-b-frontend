@@ -12,7 +12,7 @@ import {
   Avatar,
   Typography,
   InputBase,
-  alpha,
+  alpha
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -154,6 +154,7 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+
       <Link to={"/profile/" + userData.id} className="menu">
         <MenuItem onClick={handleMenuClose}>
           <AccountCircle />
@@ -182,8 +183,10 @@ export default function Header() {
           <Link to="/dashboard" element={<DashboardPage />}>
             <IconButton>
               <img
-              className="logoSmall"
-                src={"https://storage.googleapis.com/weppreciate-store/logo/weppreciate-logo-v1.png"}
+                className="logoSmall"
+                src={
+                  "https://storage.googleapis.com/weppreciate-store/logo/weppreciate-logo-v1.png"
+                }
                 alt={"We'ppreciate logo"}
               />
             </IconButton>

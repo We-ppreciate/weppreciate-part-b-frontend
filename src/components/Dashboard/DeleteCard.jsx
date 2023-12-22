@@ -10,6 +10,7 @@ export default function DeleteCard(props) {
 
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClick = () => {
     props.toggle();
@@ -29,54 +30,60 @@ export default function DeleteCard(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setErrorMessage(
+            <Alert severity="error">
+              Uh oh, we're having a little difficulty here! Please try again.
+            </Alert>
+          );
+          // Clear the error message after 5 seconds
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 5000);
           throw new Error("Request failed");
         }
         return response.json();
       })
-      .catch((error) => {
+      .then((data) => {
+        // If successful, set the success message
         setSuccessMessage(
-          <Alert severity="error">
-            Uh oh, we're having a little difficulty here! Please try again.
+          <Alert severity="success">
+            Card deleted! The page will refresh in 3 seconds...
           </Alert>
         );
+
+        // Close the modal and refresh page after delay
+        setTimeout(() => {
+          props.toggle();
+          setSuccessMessage("");
+          window.location.reload();
+        }, 3000);
+      })
+      .catch((error) => {
         console.error("Error:", error);
       });
-
-    // If successful, set the success message
-    setSuccessMessage(
-      <Alert severity="success">
-        Card deleted! The page will refresh in 3 seconds...
-      </Alert>
-    );
-
-    // Close the modal and refresh page after delay
-    setTimeout(() => {
-      props.toggle();
-      setSuccessMessage("");
-      window.location.reload();
-    }, 3000);
   };
 
   return (
-    <div className="modal">
-      <div className="modal_content">
-        <span className="close" onClick={handleClick}>
-          &times;
-        </span>
-        <h3 className="formHeading">
-          Are you sure you want to delete this card?
-        </h3>
-        <form onSubmit={handleSubmit}>
-          <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<Send />}>
-              Confirm delete
-            </Button>
-          </div>
-        </form>
-        {/* Display the success message */}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
+    <div>
+      {/* Display the success or error message */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
+      <div className="modal">
+        <div className="modal_content">
+          <span className="close" onClick={handleClick}>
+            &times;
+          </span>
+          <h3 className="formHeading">
+            Are you sure you want to delete this card?
+          </h3>
+          <form onSubmit={handleSubmit}>
+            <div className="formButton">
+              <Button type="submit" variant="contained" endIcon={<Send />}>
+                Confirm delete
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
