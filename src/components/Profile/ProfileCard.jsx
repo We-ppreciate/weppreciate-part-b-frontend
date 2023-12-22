@@ -24,7 +24,7 @@ export default function ProfileCard({ apiData }) {
           }
           title={`${firstName} ${lastName}`}
           subheader={apiData.businessUnit}
-          titleTypographyProps={{ variant: "h3" }}
+          titleTypographyProps={{ variant: "h4" }}
           subheaderTypographyProps={{ variant: "subtitle1" }}
         />
         <CardContent className="profileCardTagline">

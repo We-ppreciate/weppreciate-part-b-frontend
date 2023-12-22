@@ -31,6 +31,7 @@ export default function SendCard(props) {
   const [fullUsers, setFullUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Importing full users list to render in form
   useEffect(() => {
@@ -96,40 +97,48 @@ export default function SendCard(props) {
     })
       .then((response) => {
         if (!response.ok) {
-          // TODO: front-end validation here
-          throw new Error("Card post failed");
+          setErrorMessage(
+            <Alert severity="error">
+              Uh oh, an error occurred! Please try again.
+            </Alert>
+          );
+
+          // Clear the error message after 5 seconds
+          setTimeout(() => {
+            setErrorMessage("");
+          }, 5000);
+
+          throw new Error("Login failed");
         }
         return response.json();
       })
       .then((data) => {
         console.log(data);
+        // If successful, set the success message
+        setSuccessMessage(
+          <Alert severity="success">
+            Recognition submitted! The page will refresh in 3 seconds...
+          </Alert>
+        );
+
+        // Clear the form data once submitted
+        setFormData({
+          recipient: "",
+          value: "",
+          message: "",
+          award: false,
+        });
+
+        // Close the modal and refresh page after delay
+        setTimeout(() => {
+          props.toggle();
+          setSuccessMessage("");
+          window.location.reload();
+        }, 3000);
       })
       .catch((error) => {
-        // TODO: Add front-end validation when this occurs
         console.error("Error:", error);
       });
-
-    // If successful, set the success message
-    setSuccessMessage(
-      <Alert severity="success">
-        Recognition submitted! The page will refresh in 3 seconds...
-      </Alert>
-    );
-
-    // Clear the form data once submitted
-    setFormData({
-      recipient: "",
-      value: "",
-      message: "",
-      award: false,
-    });
-
-    // Close the modal and refresh page after delay
-    setTimeout(() => {
-      props.toggle();
-      setSuccessMessage("");
-      window.location.reload();
-    }, 3000);
   };
 
   // Updates formData when change is made to a form value
@@ -143,113 +152,114 @@ export default function SendCard(props) {
     }));
   };
 
-  // TODO: drop-down menus are shifting elements on screen upon click, check styling for these to resolve
-
   return (
-    <div className="modal">
-      {loading ? (
-        <div className="loader">
-          <CircularProgress />
-        </div>
-      ) : (
-        <div className="modal_content">
-          <span className="close" onClick={handleClick}>
-            &times;
-          </span>
-          <h2 className="formHeading">Let's send some recognition!</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="cardForm">
-              <div className="formRow">
-                <div className="formSelect">
-                  <TextField
-                    required
-                    name="recipient"
-                    className="formSelector"
-                    id="recipient"
-                    select
-                    label="Card recipient"
-                    defaultValue=""
-                    variant="outlined"
-                    onChange={handleChange}
-                  >
-                    {fullUsers.map((user) => {
-                      const userName = `${user.name.first} ${user.name.last}`;
-                      if (
-                        userName !==
-                        `${userData.name.first} ${userData.name.last}`
-                      ) {
-                        return (
-                          <MenuItem
-                            className="cardFormValues"
-                            key={user._id}
-                            value={user._id}
-                          >
-                            {userName}
-                          </MenuItem>
-                        );
-                      }
-                      // If there is a match with the logged in user's name, it won't be rendered on the list
-                      return null;
-                    })}
-                  </TextField>
+    <div>
+      {/* Display the success or error message */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
+      <div className="modal">
+        {loading ? (
+          <div className="loader">
+            <CircularProgress />
+          </div>
+        ) : (
+          <div className="modal_content">
+            <span className="close" onClick={handleClick}>
+              &times;
+            </span>
+            <h2 className="formHeading">Let's send some recognition!</h2>
+            <form onSubmit={handleSubmit}>
+              <div className="cardForm">
+                <div className="formRow">
+                  <div className="formSelect">
+                    <TextField
+                      required
+                      name="recipient"
+                      className="formSelector"
+                      id="recipient"
+                      select
+                      label="Card recipient"
+                      defaultValue=""
+                      variant="outlined"
+                      onChange={handleChange}
+                    >
+                      {fullUsers.map((user) => {
+                        const userName = `${user.name.first} ${user.name.last}`;
+                        if (
+                          userName !==
+                          `${userData.name.first} ${userData.name.last}`
+                        ) {
+                          return (
+                            <MenuItem
+                              className="cardFormValues"
+                              key={user._id}
+                              value={user._id}
+                            >
+                              {userName}
+                            </MenuItem>
+                          );
+                        }
+                        // If there is a match with the logged in user's name, it won't be rendered on the list
+                        return null;
+                      })}
+                    </TextField>
+                  </div>
+                  <div className="formSelect">
+                    <TextField
+                      required
+                      name="value"
+                      className="formSelector"
+                      id="value"
+                      select
+                      label="Select a value"
+                      defaultValue=""
+                      variant="outlined"
+                      onChange={handleChange}
+                    >
+                      {teamValues.map((option) => (
+                        <MenuItem
+                          className="cardFormValues"
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
                 </div>
-                <div className="formSelect">
-                  <TextField
-                    required
-                    name="value"
-                    className="formSelector"
-                    id="value"
-                    select
-                    label="Select a value"
-                    defaultValue=""
-                    variant="outlined"
-                    onChange={handleChange}
-                  >
-                    {teamValues.map((option) => (
-                      <MenuItem
-                        className="cardFormValues"
-                        key={option.value}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </div>
+                <TextField
+                  className="cardMessage"
+                  required
+                  multiline
+                  id="message"
+                  name="message"
+                  variant="outlined"
+                  label="Card message"
+                  value={formData.message}
+                  onChange={handleChange}
+                />
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Nominate for award"
+                  id="award"
+                  name="award"
+                  checked={formData.award}
+                  onChange={handleChange}
+                />
+                <FormHelperText>
+                  Award nominations will be reviewed by managers
+                </FormHelperText>
               </div>
-              <TextField
-                className="cardMessage"
-                required
-                multiline
-                id="message"
-                name="message"
-                variant="outlined"
-                label="Card message"
-                value={formData.message}
-                onChange={handleChange}
-              />
-                  <FormControlLabel
-                    control={<Checkbox />}
-                    label="Nominate for award"
-                    id="award"
-                    name="award"
-                    checked={formData.award}
-                    onChange={handleChange}
-                  />
-                <FormHelperText>Award nominations will be reviewed by managers</FormHelperText>
-            </div>
-            <div className="formButton">
-              <Button type="submit" variant="contained" endIcon={<Send />}>
-                Submit
-              </Button>
-            </div>
-          </form>
-          {/* Display the success message */}
-          {successMessage && (
-            <div className="successMessage">{successMessage}</div>
-          )}
-        </div>
-      )}
+              <div className="formButton">
+                <Button type="submit" variant="contained" endIcon={<Send />}>
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

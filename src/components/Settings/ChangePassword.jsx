@@ -13,6 +13,7 @@ export default function ChangePassword(props) {
 
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClick = () => {
     props.toggle();
@@ -40,43 +41,51 @@ export default function ChangePassword(props) {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error("Request failed");
-          } else {
-            // If successful, set the success message
-            setSuccessMessage(
-              <Alert severity="success">
-                Password change successful! The page will refresh in 3
-                seconds...
+            setErrorMessage(
+              <Alert severity="error">
+                Uh oh, we're having a little difficulty here! Please try again.
               </Alert>
             );
-
-            // Clear the form data once submitted
-            setFormData({
-              newPassword: "",
-              repeatNewPassword: "",
-            });
-
-            // Close the modal and refresh page after delay
+            // Clear the error message after 5 seconds
             setTimeout(() => {
-              props.toggle();
-              setSuccessMessage("");
-              window.location.reload();
-            }, 3000);
+              setErrorMessage("");
+            }, 5000);
+            throw new Error("Request failed");
           }
         })
-        .catch((error) => {
+        .then((data) => {
+          // If successful, set the success message
           setSuccessMessage(
-            <Alert severity="error">
-              Uh oh, we're having a little difficulty here! Please try again.
+            <Alert severity="success">
+              Password change successful! The page will refresh in 3 seconds...
             </Alert>
           );
+
+          // Clear the form data once submitted
+          setFormData({
+            newPassword: "",
+            repeatNewPassword: "",
+          });
+
+          // Close the modal and refresh page after delay
+          setTimeout(() => {
+            props.toggle();
+            setSuccessMessage("");
+            window.location.reload();
+          }, 3000);
+        })
+        .catch((error) => {
           console.error("Error:", error);
         });
     } else {
       //   If passwords don't match at front-end
-      setSuccessMessage(
+      setErrorMessage(
         <Alert severity="error">Passwords do not match! Please try again</Alert>
       );
+      // Clear the error message after 5 seconds
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
     }
   };
 
@@ -92,47 +101,48 @@ export default function ChangePassword(props) {
   };
 
   return (
-    <div className="modal">
-      <div className="modal_content">
-        <span className="close" onClick={handleClick}>
-          &times;
-        </span>
-        <h2 className="formHeading">Change password</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="cardForm">
-            <TextField
-              className="passwordField"
-              required
-              id="newPassword"
-              name="newPassword"
-              type="password"
-              variant="outlined"
-              label="New password"
-              value={formData.newPassword}
-              onChange={handleChange}
-            />
-            <TextField
-              className="passwordField"
-              required
-              id="repeatNewPassword"
-              name="repeatNewPassword"
-              type="password"
-              variant="outlined"
-              label="Repeat new password"
-              value={formData.repeatNewPassword}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<Send />}>
-              Submit change
-            </Button>
-          </div>
-        </form>
-        {/* Display the success message */}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
+    <div>
+      {/* Display the success or error message */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
+      <div className="modal">
+        <div className="modal_content">
+          <span className="close" onClick={handleClick}>
+            &times;
+          </span>
+          <h2 className="formHeading">Change password</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="cardForm">
+              <TextField
+                className="passwordField"
+                required
+                id="newPassword"
+                name="newPassword"
+                type="password"
+                variant="outlined"
+                label="New password"
+                value={formData.newPassword}
+                onChange={handleChange}
+              />
+              <TextField
+                className="passwordField"
+                required
+                id="repeatNewPassword"
+                name="repeatNewPassword"
+                type="password"
+                variant="outlined"
+                label="Repeat new password"
+                value={formData.repeatNewPassword}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="formButton">
+              <Button type="submit" variant="contained" endIcon={<Send />}>
+                Submit change
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

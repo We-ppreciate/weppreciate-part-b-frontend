@@ -77,6 +77,7 @@ const appTheme = createTheme({
       styleOverrides: {
         root: {
           padding: "5px",
+          paddingTop: "16px",
           "&:last-child": {
             paddingBottom: "16px",
           },

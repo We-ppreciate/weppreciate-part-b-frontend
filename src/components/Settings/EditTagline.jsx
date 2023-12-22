@@ -12,6 +12,7 @@ export default function EditTagline(props) {
 
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleClick = () => {
     props.toggle();
@@ -38,34 +39,41 @@ export default function EditTagline(props) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Request failed");
-        } else {
-          // If successful, set the success message
-          setSuccessMessage(
-            <Alert severity="success">
-              Tagline update successful! The page will refresh in 3 seconds...
+          setErrorMessage(
+            <Alert severity="error">
+              Uh oh, we're having a little difficulty here! Please try again.
             </Alert>
           );
-
-          // Clear the form data once submitted
-          setFormData({
-            userTagLine: "",
-          });
-
-          // Close the modal and refresh page after delay
+          // Clear the error message after 5 seconds
           setTimeout(() => {
-            props.toggle();
-            setSuccessMessage("");
-            window.location.reload();
-          }, 3000);
+            setErrorMessage("");
+          }, 5000);
+          throw new Error("Request failed");
         }
+
+        return response.json();
       })
-      .catch((error) => {
+      .then((data) => {
+        // If successful, set the success message
         setSuccessMessage(
-          <Alert severity="error">
-            Uh oh, we're having a little difficulty here! Please try again.
+          <Alert severity="success">
+            Tagline update successful! The page will refresh in 3 seconds...
           </Alert>
         );
+
+        // Clear the form data once submitted
+        setFormData({
+          userTagLine: "",
+        });
+
+        // Close the modal and refresh page after delay
+        setTimeout(() => {
+          props.toggle();
+          setSuccessMessage("");
+          window.location.reload();
+        }, 3000);
+      })
+      .catch((error) => {
         console.error("Error:", error);
       });
   };
@@ -82,35 +90,36 @@ export default function EditTagline(props) {
   };
 
   return (
-    <div className="modal">
-      <div className="modal_content">
-        <span className="close" onClick={handleClick}>
-          &times;
-        </span>
-        <h2 className="formHeading">Edit profile tagline</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="cardForm">
-            <TextField
-              required
-              multiline
-              id="userTagLine"
-              name="userTagLine"
-              variant="outlined"
-              label="Your tagline"
-              value={formData.userTagLine}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="formButton">
-            <Button type="submit" variant="contained" endIcon={<Send />}>
-              Submit change
-            </Button>
-          </div>
-        </form>
-        {/* Display the success message */}
-        {successMessage && (
-          <div className="successMessage">{successMessage}</div>
-        )}
+    <div>
+      {/* Display the success or error message */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
+      {successMessage && <div className="successMessage">{successMessage}</div>}
+      <div className="modal">
+        <div className="modal_content">
+          <span className="close" onClick={handleClick}>
+            &times;
+          </span>
+          <h2 className="formHeading">Edit profile tagline</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="cardForm">
+              <TextField
+                required
+                multiline
+                id="userTagLine"
+                name="userTagLine"
+                variant="outlined"
+                label="Your tagline"
+                value={formData.userTagLine}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="formButton">
+              <Button type="submit" variant="contained" endIcon={<Send />}>
+                Submit change
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
