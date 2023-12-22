@@ -8,6 +8,7 @@ import DashboardHeader from "../components/Dashboard/DashboardHeader";
 import appTheme from "../styles/Theme";
 import SendCardButton from "../components/Dashboard/SendCardButton";
 import DashboardCards from "../components/Dashboard/DashboardCards";
+import "../styles/dashboardprofile.css"
 
 export default function DashboardPage() {
   return (

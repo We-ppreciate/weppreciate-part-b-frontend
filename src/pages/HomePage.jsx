@@ -5,6 +5,7 @@ import { CssBaseline } from "@mui/material";
 import HomeHeader from "../components/Home/HomeHeader";
 import HomeContent from "../components/Home/HomeContent";
 import appTheme from "../styles/Theme";
+import "../styles/home.css"
 
 export default function HomePage() {
   return (

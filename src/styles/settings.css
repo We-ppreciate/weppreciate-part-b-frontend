@@ -1,0 +1,53 @@
+/* css style overrides of MUI theme/component that is specific to the Settings pages */
+
+.settingsCard {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .backButton {
+    margin-left: 10px;
+    margin-bottom: -64px;
+    margin-top: -14px;
+    font-size: 0.8rem;
+    color: #9da7ae;
+    border: none;
+  }
+  
+  .settingsButton {
+    min-width: 180px;
+    justify-content: flex-start;
+    padding: 10px;
+  }
+  
+  .passwordField {
+    margin: 0.5rem 0;
+  }
+  
+  .usersTable {
+    width: 90vw;
+  }
+  
+  .tableHeaderRow,
+  .tableUnitHeaderRow,
+  .tableManagerHeaderRow {
+    color: #ffffff;
+    font-weight: 600;
+  }
+  
+  /* Hides a column on smaller screens */
+  @media screen and (max-width: 900px) {
+    .tableManagerHeaderRow,
+    .tableManagerRow {
+      display: none;
+    }
+  }
+  
+  /* Hides another column on even smaller screens */
+  @media screen and (max-width: 600px) {
+    .tableUnitHeaderRow,
+    .tableUnitRow {
+      display: none;
+    }
+  }
+  

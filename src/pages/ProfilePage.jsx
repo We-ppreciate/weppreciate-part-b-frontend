@@ -20,6 +20,7 @@ import ProfileRecognition from "../components/Profile/ProfileRecognition";
 import DashboardPage from "./DashboardPage";
 import { apiUrl } from "../utils/ApiUrl";
 import { jwtToken } from "../utils/LocalStorage";
+import "../styles/dashboardprofile.css"
 
 export default function ProfilePage() {
   const { id } = useParams();

@@ -1,5 +1,5 @@
 // This file is to create a theme using MUI's ThemeProvider to override the default MUI theming
-// Changes for specific components will be done via CSS selectors in index.css
+// Changes for specific components will be done via CSS selectors in the css files within the styles folder
 
 import { createTheme } from "@mui/material/styles";
 
