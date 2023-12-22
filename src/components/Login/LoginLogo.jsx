@@ -9,8 +9,8 @@ export default function LoginLogo() {
       <Box className="loginLogo" 
       >
         <IconButton>
-          <img
-            src={require("../../assets/weppreciate-logo.png")}
+          <img className="logoSmall"
+            src={"https://storage.googleapis.com/weppreciate-store/logo/weppreciate-logo-v1.png"}
             alt={"We'ppreciate logo"}
           />
         </IconButton>
