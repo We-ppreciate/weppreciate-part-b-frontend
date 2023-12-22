@@ -105,7 +105,6 @@ export default function Header() {
       }
 
       const data = await response.json();
-      console.log(data);
 
       if (data && data.Users) {
         setSearchResults(data.Users);

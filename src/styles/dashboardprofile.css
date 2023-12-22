@@ -1,0 +1,158 @@
+/* css style overrides of MUI theme/component that are specific to the Dashboard and Profile pages */
+
+.valueImage {
+    width: 150px;
+    height: 150px;
+    margin-right: 15px;
+  }
+  
+  .cardWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .cardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cardRecipient {
+    font-style: italic;
+    margin-top: 10px;
+  }
+  
+  .cardMain {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .cardGuts {
+    width: 90%;
+  }
+  
+  .userLink {
+    text-decoration: none;
+    color: #0b4ea2;
+  }
+  
+  .cardComment {
+    display: flex;
+    width: 10%;
+    justify-content: flex-end;
+  }
+  
+  .cardGrid {
+    direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+  }
+  
+  .deleteButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  .profileCardHeader {
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .profileContainer {
+    display: flex;
+    flex-direction: row;
+    width: 70vw;
+    padding: 0;
+  }
+  
+  .profileButton {
+    border: none;
+    padding: 0;
+    justify-content: flex-end;
+    align-items: flex-end;
+    max-width: 200px;
+  }
+  
+  .profileImage {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .profileCardTagline {
+    padding: 0;
+    margin-top: 20px;
+    display: inline-flex;
+    flex-direction: row;
+    border: none;
+    font-style: italic;
+  }
+  
+  .profileNominationCard {
+    border: 2px solid #9da7ae;
+    width: 100%;
+    margin: 15px 0px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profileNominationsSubtitle:last-child {
+    font-style: italic;
+    padding-left: 0;
+    padding-bottom: 8px;
+  }
+  
+  .profileCards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+  }
+  
+  .noCards {
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Adjustments for smaller screens */
+  @media screen and (max-width: 900px) {
+    .profileContainer,
+    .nominationCard,
+    .profileCards {
+      width: 80vw;
+    }
+  
+    .valueImage {
+      width: 75px;
+      height: 75px;
+    }
+  }
+  
+  /* Adjustments for even smaller screens */
+  @media screen and (max-width: 600px) {
+    .valueChip {
+      display: none;
+    }
+  
+    .profileCardHeader,
+    .nominationCardHeader,
+    .profileContainer,
+    .profileButton {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .profileButton {
+      margin-top: -20px;
+    }
+  
+    .valueImage {
+      display: none;
+    }
+  }

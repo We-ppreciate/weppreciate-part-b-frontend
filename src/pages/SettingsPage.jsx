@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+import "../styles/settings.css"
 
 import appTheme from "../styles/Theme";
 import Header from "../components/Header";

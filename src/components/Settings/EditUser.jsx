@@ -102,12 +102,26 @@ export default function EditUser(props) {
     })
       .then((response) => {
         if (!response.ok) {
-          setErrorMessage(
-            <Alert severity="error">
-              Uh oh, we're having a little difficulty here! Please check the
-              email address hasn't been taken, and try again.
-            </Alert>
-          );
+          if (response.status === 400) {
+            setErrorMessage(
+              <Alert severity="error">
+                Something doesn't look quite right!
+                <p>Please check the following:</p>
+                <ul>
+                  <li>email address isn't currently in use by another user</li>
+                  <li>email address is a valid format</li>
+                  <li>names are between 2-60 characters</li>
+                  <li>business unit is between 2-60 characters</li>
+                </ul>
+              </Alert>
+            );
+          } else {
+            setErrorMessage(
+              <Alert severity="error">
+                Uh oh, we're having a little difficulty here! Please try again.
+              </Alert>
+            );
+          }
           // Clear the error message after 5 seconds
           setTimeout(() => {
             setErrorMessage("");
