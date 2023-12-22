@@ -181,9 +181,9 @@ export default function Header() {
         <Toolbar>
           <Link to="/dashboard" element={<DashboardPage />}>
             <IconButton>
-              {/* Update this later to have better quality: */}
               <img
-                src={require("../assets/weppreciate-logo.png")}
+              className="logoSmall"
+                src={"https://storage.googleapis.com/weppreciate-store/logo/weppreciate-logo-v1.png"}
                 alt={"We'ppreciate logo"}
               />
             </IconButton>

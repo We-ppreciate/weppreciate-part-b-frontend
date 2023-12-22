@@ -1,17 +1,17 @@
-// TODO
-// This will be the page component to hold all other components specific to the Home page
+// Purpose: for rendering the Home page, by pulling in the different components that form it
 
-import { Link } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
+import { CssBaseline } from "@mui/material";
+import HomeHeader from "../components/Home/HomeHeader";
+import HomeContent from "../components/Home/HomeContent";
+import appTheme from "../styles/Theme";
 
 export default function HomePage() {
-    return(
-        <div>
-        <h1>Homepage Placeholder</h1>
-        <p>Let's test these routes...</p>
-        <ul>
-            <li><Link to="/login">Login</Link></li>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-        </ul>
-        </div>
-    )
+  return (
+    <ThemeProvider theme={appTheme}>
+      <CssBaseline />
+        <HomeHeader/>
+        <HomeContent/>
+    </ThemeProvider>
+  );
 }

@@ -80,12 +80,10 @@ const SignIn = () => {
       // Navigate to the Dashboard after a short delay
       setTimeout(() => {
         navigate("/dashboard");
-
-        // Force a page refresh after navigation
+        // Force a page refresh to render content
         window.location.reload();
       }, 100);
     } catch (error) {
-      // Add front-end validation when this occurs
       console.error("Error:", error);
     }
   };
