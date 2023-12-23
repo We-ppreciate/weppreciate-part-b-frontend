@@ -1,3 +1,6 @@
+// Heading text rendering for login page
+
+// Library imports
 import { Typography } from "@mui/material";
 
 export default function LoginText() {

@@ -1,3 +1,6 @@
+// Core content for app landing/homepage
+
+// Library imports
 import { ArrowForward, Help } from "@mui/icons-material";
 import { Alert, Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";

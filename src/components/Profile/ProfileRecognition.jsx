@@ -1,6 +1,8 @@
-// Purpose: the rendering for a user's profile using params/API data on ProfilePage.jsx
+// The rendering for a user's cards on their profile using params/API data on ProfilePage.jsx
 
+// React imports
 import React, { useEffect, useState } from "react";
+// Library imports
 import {
   Alert,
   Avatar,
@@ -14,17 +16,17 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import getValueColor from "../../utils/ValueColor";
 import { jwtToken } from "../../utils/LocalStorage";
+import FullUsers from "../../utils/FullUsers";
+import getValueColor from "../../utils/ValueColor";
 import getValueImage from "../../utils/ValueImage";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fullUsers, setFullUsers] = useState([]);
 
   // Importing nominations for user
   useEffect(() => {
@@ -71,22 +73,8 @@ export default function ProfileRecognition({ apiData }) {
     fetchNominationData();
   }, [apiData._id]);
 
-  // Importing full users info for displaying sender name on cards
-  useEffect(() => {
-    const fetchFullUsers = async () => {
-      try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setFullUsers(response.data.Users);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchFullUsers();
-  }, []);
+  // Importing users data
+  const { fullUsers } = FullUsers();
 
   // Extracts full name for cards based on id for nominations
   function getFullName(userId) {
@@ -114,7 +102,10 @@ export default function ProfileRecognition({ apiData }) {
         <Grid sx={{ width: "100%" }}>
           {nominations.length === 0 ? (
             // Render a special message when there are no nominations
-            <Alert severity="info" className="noCards">{apiData.name.first} doesn't have any cards to show yet... why not send them one? 🤔</Alert>
+            <Alert severity="info" className="noCards">
+              {apiData.name.first} doesn't have any cards to show yet... why not
+              send them one? 🤔
+            </Alert>
           ) : (
             // Render the list of nominations
             nominations.map((nomination) => (

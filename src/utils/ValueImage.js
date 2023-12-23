@@ -1,3 +1,5 @@
+// Assigns an image against a value for conditional rendering on cards
+
 export default function getValueImage(nominationValue) {
     const value =
       nominationValue && nominationValue.length > 0 ? nominationValue[0] : null;

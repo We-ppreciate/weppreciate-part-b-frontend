@@ -1,3 +1,8 @@
+// The rendering and logic for Manage Users, a view of the Settings page
+
+// React imports
+import { useState } from "react";
+// Library imports
 import {
   Button,
   Typography,
@@ -11,16 +16,13 @@ import {
   Grid,
   CircularProgress,
 } from "@mui/material";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Settings } from "@mui/icons-material";
-
+// Local imports
+import { userData } from "../../utils/LocalStorage";
+import FullUsers from "../../utils/FullUsers";
 import AddUserButton from "./AddUserButton";
-import { apiUrl } from "../../utils/ApiUrl";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
-import { jwtToken, userData } from "../../utils/LocalStorage";
 import ResetPasswordButton from "./ResetPasswordButton";
 
 const ManageUsers = ({ setView }) => {
@@ -28,37 +30,12 @@ const ManageUsers = ({ setView }) => {
     setView("default");
   };
 
-  // Establishing states
-  const [fullUsers, setFullUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // Establishing state
   // eslint-disable-next-line no-unused-vars
   const [selectedUser, setSelectedUser] = useState(null);
 
-  // Importing full users list to render in form
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-
-        const sortedUsers = response.data.Users.sort((a, b) =>
-          `${a.name.first} ${a.name.last}`.localeCompare(
-            `${b.name.first} ${b.name.last}`
-          )
-        );
-        setFullUsers(sortedUsers);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Importing users data
+  const { fullUsers, loading } = FullUsers();
 
   // Extracts full name of managers based on id
   function getFullName(userId) {

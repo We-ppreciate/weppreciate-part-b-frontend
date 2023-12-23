@@ -1,4 +1,8 @@
+// The top section of the Dashboard that greets the user
+
+// Library imports
 import { Typography, Box } from "@mui/material";
+// Local imports
 import { userData } from "../../utils/LocalStorage";
 
 export default function DashboardHeader() {

@@ -1,8 +1,9 @@
+// React imports
 import React from "react";
+// Library imports
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { StyledEngineProvider } from "@mui/material/styles";
-
-// pages
+// Local imports
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SettingsPage from "./pages/SettingsPage";

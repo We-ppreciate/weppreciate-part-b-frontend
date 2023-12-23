@@ -1,9 +1,11 @@
 // Checks if a user is authorised before accessing a page restricted to logged in users, redirects to login if invalid
 
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '../components/Authentication/AuthContext';
-
+// React imports
+import React from "react";
+// Library imports
+import { Navigate } from "react-router-dom";
+// Local imports
+import { useAuth } from "../components/Authentication/AuthContext";
 
 const PrivateRoute = ({ element }) => {
   const { authenticated } = useAuth();

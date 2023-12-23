@@ -1,6 +1,8 @@
-// Purpose: logic and rendering for the header for the application once user is logged in
+// Logic and rendering for the header, displayed on all pages of the application once user is logged in
 
+// React imports
 import React from "react";
+// Library imports
 import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
@@ -18,10 +20,11 @@ import { styled } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { AccountCircle, Logout, Settings } from "@mui/icons-material";
 
-import DashboardPage from "../pages/DashboardPage";
+// Local imports
 import { jwtToken, userData } from "../utils/LocalStorage";
 import { useState } from "react";
 import { apiUrl } from "../utils/ApiUrl";
+import DashboardPage from "../pages/DashboardPage";
 
 // Styling for Appbar
 // TODO - see if this can work in a separate file

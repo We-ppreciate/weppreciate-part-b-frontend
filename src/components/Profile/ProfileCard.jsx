@@ -1,9 +1,11 @@
-// Purpose: the rendering for a user's profile using params/API data on ProfilePage.jsx
+// Rendering for a user's profile using params/API data on ProfilePage.jsx
 
+// React imports
 import React from "react";
+// Library imports
 import { Avatar, Card, CardContent, CardHeader } from "@mui/material";
 import { Container } from "@mui/system";
-
+// Local imports
 import SendCardButton from "../Dashboard/SendCardButton";
 import { userData } from "../../utils/LocalStorage";
 
@@ -14,7 +16,6 @@ export default function ProfileCard({ apiData }) {
     <Container className="profileContainer">
       <Card className="profileCardHeader">
         <CardHeader
-          
           avatar={
             <Avatar
               className="profileImage"

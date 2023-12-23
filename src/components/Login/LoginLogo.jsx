@@ -1,4 +1,6 @@
-import * as React from "react";
+// Logo rendering for login page
+
+// Library imports
 import Box from "@mui/material/Box";
 import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";

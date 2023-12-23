@@ -1,7 +1,11 @@
-import React from "react";
+// Button rendering and interaction logic of edit tagline button
 
+// React imports
+import React from "react";
+// Library imports
 import { Edit } from "@mui/icons-material";
 import { Button } from "@mui/material";
+// Local imports
 import EditTagline from "./EditTagline";
 
 export default class EditTaglineButton extends React.Component {

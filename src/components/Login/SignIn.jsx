@@ -1,12 +1,15 @@
-import * as React from "react";
+// Rendering and form submission logic for login page
+
+// React imports
 import { useState } from "react";
+// Library imports
+import { useNavigate } from "react-router-dom";
 import { Button, TextField, Box, Container, Alert } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
-
+// Local imports
 import LoginLogo from "./LoginLogo";
 import LoginText from "./LoginText";
 import { apiUrl } from "../../utils/ApiUrl";
-import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const navigate = useNavigate();
