@@ -9,13 +9,18 @@ import {
   Avatar,
   AvatarGroup,
   Card,
+  CardActions,
   CardContent,
   CardHeader,
   Chip,
   CircularProgress,
+  Collapse,
   Grid,
+  IconButton,
   Typography,
 } from "@mui/material";
+import { ExpandMore } from "@mui/icons-material";
+import styled from "styled-components";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
@@ -23,6 +28,8 @@ import FullUsers from "../../utils/FullUsers";
 import getValueColor from "../../utils/ValueColor";
 import getValueImage from "../../utils/ValueImage";
 import DeleteCardButton from "./DeleteCardButton";
+import AddCommentButton from "./AddCommentButton";
+import NominationComments from "./NominationComments";
 
 export default function DashboardCards() {
   // Establishing states
@@ -89,10 +96,30 @@ export default function DashboardCards() {
     return findUser ? findUser.userPhotoKey : "";
   }
 
-  // Handling clicks on delete button
-  const handleDeleteCard = (nomination) => {
+  // Handling clicks on card buttons
+  const handleSelectCard = (nomination) => {
     setSelectedCard(nomination);
   };
+
+  // Collapsible comments - to reposition once final
+  // Managing expanded state for each nomination
+  const [expandedMap, setExpandedMap] = useState({});
+
+  // Function to toggle expansion for a specific nomination
+  const handleExpandClick = (nominationId) => {
+    setExpandedMap((prevExpandedMap) => ({
+      ...prevExpandedMap,
+      [nominationId]: !prevExpandedMap[nominationId],
+    }));
+  };
+
+  const ExpandMoreStyle = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "0",
+  }));
 
   return (
     <div>
@@ -202,15 +229,36 @@ export default function DashboardCards() {
                         </Typography>
                       </div>
                     </div>
-                    <div className="cardComment">
-                      {userData.isAdmin && (
-                        <DeleteCardButton
-                          nomination={nomination}
-                          onClick={handleDeleteCard}
-                        />
-                      )}
-                    </div>
                   </CardContent>
+                  <CardActions className="cardActions">
+                    <ExpandMoreStyle
+                      expand={expandedMap[nomination._id]}
+                      onClick={() => handleExpandClick(nomination._id)}
+                      aria-expanded={expandedMap[nomination._id]}
+                      aria-label="show more"
+                    >
+                      <ExpandMore />
+                    </ExpandMoreStyle>
+                    <AddCommentButton
+                      nomination={nomination}
+                      onClick={handleSelectCard}
+                    />
+                    {userData.isAdmin && (
+                      <DeleteCardButton
+                        nomination={nomination}
+                        onClick={handleSelectCard}
+                      />
+                    )}
+                  </CardActions>
+                  <Collapse
+                    in={expandedMap[nomination._id]}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <CardContent className="commentWrapper">
+                      <NominationComments nomination={nomination} />
+                    </CardContent>
+                  </Collapse>
                 </div>
               </Card>
             ))}

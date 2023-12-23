@@ -37,10 +37,29 @@
     color: #0b4ea2;
   }
   
-  .cardComment {
-    display: flex;
-    width: 10%;
+  .cardActions {
     justify-content: flex-end;
+    padding: 0;
+  }
+
+  .commentWrapper {
+    padding: 0;
+  }
+
+  .nominationComment {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #88b9f7;
+    padding: 5px;
+    
+  }
+
+  .commentBody {
+    margin: 0;
+    padding: 5px 0 0 0;
+    font-style: italic;
+    font-size: .9rem;
   }
   
   .cardGrid {
@@ -48,12 +67,6 @@
     align-items: center;
     justify-content: center;
     margin: 2rem 0;
-  }
-  
-  .deleteButton {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
   }
   
   .profileCardHeader {
@@ -155,4 +168,5 @@
     .valueImage {
       display: none;
     }
+
   }
