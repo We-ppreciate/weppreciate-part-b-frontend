@@ -20,12 +20,12 @@ import getValueColor from "../../utils/ValueColor";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 import DeleteCardButton from "./DeleteCardButton";
 import getValueImage from "../../utils/ValueImage";
+import FullUsers from "../../utils/FullUsers";
 
 export default function DashboardCards() {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fullUsers, setFullUsers] = useState([]);
   // eslint-disable-next-line no-unused-vars
   const [selectedCard, setSelectedCard] = useState(null);
 
@@ -72,22 +72,8 @@ export default function DashboardCards() {
     fetchNominationData();
   }, []);
 
-  // Importing full users info
-  useEffect(() => {
-    const fetchFullUsers = async () => {
-      try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setFullUsers(response.data.Users);
-      } catch (error) {
-        console.error("Error fetching full users:", error);
-      }
-    };
-    fetchFullUsers();
-  }, []);
+  // Importing users data
+  const { fullUsers } = FullUsers();
 
   // Extracts full name for cards based on id for nominations
   function getFullName(userId) {

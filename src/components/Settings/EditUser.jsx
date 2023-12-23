@@ -8,11 +8,11 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
+import FullUsers from "../../utils/FullUsers";
 
 export default function EditUser(props) {
   const { user } = props;
@@ -31,41 +31,11 @@ export default function EditUser(props) {
   });
 
   // Establishing states
-  const [fullUsers, setFullUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Importing full users list to render in form
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-
-        const sortedUsers = response.data.Users.sort((a, b) =>
-          `${a.name.first} ${a.name.last}`.localeCompare(
-            `${b.name.first} ${b.name.last}`
-          )
-        );
-
-        setFullUsers(sortedUsers);
-        // Set the initial value for userLineManager based on user.lineManagerId
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          userLineManager: user.lineManagerId,
-        }));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [user.lineManagerId]);
+  // Importing users data for manager drop-down
+  const { fullUsers, loading } = FullUsers();
 
   const handleClick = () => {
     props.toggle();
@@ -207,7 +177,6 @@ export default function EditUser(props) {
                 </div>
                 <div className="formRow">
                   <div className="formSelect">
-                    {/* add front-end validation on email regex */}
                     <TextField
                       required
                       id="email"

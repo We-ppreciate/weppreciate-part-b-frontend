@@ -19,12 +19,12 @@ import { apiUrl } from "../../utils/ApiUrl";
 import getValueColor from "../../utils/ValueColor";
 import { jwtToken } from "../../utils/LocalStorage";
 import getValueImage from "../../utils/ValueImage";
+import FullUsers from "../../utils/FullUsers";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [fullUsers, setFullUsers] = useState([]);
 
   // Importing nominations for user
   useEffect(() => {
@@ -71,22 +71,8 @@ export default function ProfileRecognition({ apiData }) {
     fetchNominationData();
   }, [apiData._id]);
 
-  // Importing full users info for displaying sender name on cards
-  useEffect(() => {
-    const fetchFullUsers = async () => {
-      try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setFullUsers(response.data.Users);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchFullUsers();
-  }, []);
+  // Importing users data
+  const { fullUsers } = FullUsers();
 
   // Extracts full name for cards based on id for nominations
   function getFullName(userId) {
