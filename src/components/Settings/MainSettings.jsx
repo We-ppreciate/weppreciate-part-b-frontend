@@ -1,6 +1,6 @@
-// TODO
-// This will be the page component to hold all other components specific to the Settings page
+// The default state of the Settings page, with conditional views based on buttons clicked
 
+// Library imports
 import { Link } from "react-router-dom";
 import {
   Button,
@@ -11,12 +11,11 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-
 import { Home, People, WorkspacePremium } from "@mui/icons-material";
-
+// Local imports
+import { userData } from "../../utils/LocalStorage";
 import DashboardPage from "../../pages/DashboardPage";
 import ChangePasswordButton from "./ChangePasswordButton";
-import { userData } from "../../utils/LocalStorage";
 import EditTaglineButton from "./EditTaglineButton";
 
 const MainSettings = ({ setView }) => {

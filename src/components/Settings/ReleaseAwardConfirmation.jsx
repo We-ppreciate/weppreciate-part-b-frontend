@@ -1,7 +1,11 @@
+// The logic and rendering for the modal popup for releasing a nomination
+
+// React imports
+import { useState } from "react";
+// Library imports
 import { Send } from "@mui/icons-material";
 import { Alert, Button, Typography } from "@mui/material";
-import { useState } from "react";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
 

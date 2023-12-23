@@ -1,6 +1,11 @@
+// The logic and rendering for the modal popup for a user changing their tagline
+
+// React imports
+import { useState } from "react";
+// Library imports
 import { Send } from "@mui/icons-material";
 import { Alert, Button, TextField } from "@mui/material";
-import { useState } from "react";
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 

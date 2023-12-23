@@ -1,3 +1,8 @@
+// The rendering and logic for Release Awards, a view of the Settings page
+
+// React imports
+import { useEffect, useState } from "react";
+// Library imports
 import {
   Button,
   Typography,
@@ -11,15 +16,13 @@ import {
   Grid,
   CircularProgress,
 } from "@mui/material";
-
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { Settings } from "@mui/icons-material";
-
+import axios from "axios";
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
-import ReleaseAwardButton from "./ReleaseAwardButton";
 import FullUsers from "../../utils/FullUsers";
+import ReleaseAwardButton from "./ReleaseAwardButton";
 
 const ReleaseAwards = ({ setView }) => {
   const handleGoBackClick = () => {

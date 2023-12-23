@@ -1,7 +1,11 @@
+// Button rendering and interaction logic of delete user button
+
+// React imports
 import React from "react";
+// Library imports
 import { Delete } from "@mui/icons-material";
 import { Box } from "@mui/system";
-
+// Local imports
 import DeleteUser from "./DeleteUser";
 
 export default class DeleteUserButton extends React.Component {

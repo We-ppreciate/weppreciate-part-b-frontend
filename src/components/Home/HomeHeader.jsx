@@ -1,3 +1,5 @@
+// Header content for app landing/homepage
+
 export default function HomeHeader() {
     return (
         <header className="homeHeader">

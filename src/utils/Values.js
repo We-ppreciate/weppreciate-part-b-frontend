@@ -1,3 +1,5 @@
+// Form options for team's values, to reduce code in SendCard component
+
 const teamValues = [
     {
       value: "Say/Do",

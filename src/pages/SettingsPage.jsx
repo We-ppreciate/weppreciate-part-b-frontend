@@ -1,10 +1,12 @@
 // Purpose: for rendering the Settings page, by pulling in the different components that form it
 
+// React imports
 import { useState } from "react";
+// Library imports
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
+// Local imports
 import "../styles/settings.css"
-
 import appTheme from "../styles/Theme";
 import Header from "../components/Header";
 import MainSettings from "../components/Settings/MainSettings";

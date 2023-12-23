@@ -1,6 +1,8 @@
-// Purpose: the logic and rendering for the modal popup for sending recognition
+// The logic and rendering for the modal popup for sending recognition
 
+// React imports
 import React, { useState } from "react";
+// Library imports
 import {
   Alert,
   Button,
@@ -12,11 +14,11 @@ import {
   TextField,
 } from "@mui/material";
 import { Send } from "@mui/icons-material";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import teamValues from "../../utils/Values";
 import { jwtToken, userData } from "../../utils/LocalStorage";
 import FullUsers from "../../utils/FullUsers";
+import teamValues from "../../utils/Values";
 
 export default function SendCard(props) {
   // Set default values of formData
@@ -60,7 +62,7 @@ export default function SendCard(props) {
       isReleased: false,
     });
 
-    // Sending POST request for posting card
+    // Sending POST request for posting nomination
     fetch(apiUrl + "nominations/new", {
       method: "POST",
       mode: "cors",

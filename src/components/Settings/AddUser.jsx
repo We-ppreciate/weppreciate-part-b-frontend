@@ -1,3 +1,8 @@
+// The logic and rendering for the modal popup for adding a user
+
+// React imports
+import { useState } from "react";
+// Library imports
 import { Send } from "@mui/icons-material";
 import {
   Alert,
@@ -8,8 +13,7 @@ import {
   MenuItem,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
 import FullUsers from "../../utils/FullUsers";

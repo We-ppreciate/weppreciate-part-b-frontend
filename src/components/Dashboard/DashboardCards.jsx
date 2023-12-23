@@ -1,6 +1,8 @@
 // Purpose: the logic and rendering for the recognition cards that display on the Dashboard
 
+// React imports
 import React, { useEffect, useState } from "react";
+// Library imports
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {
@@ -14,13 +16,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import getValueColor from "../../utils/ValueColor";
 import { jwtToken, userData } from "../../utils/LocalStorage";
-import DeleteCardButton from "./DeleteCardButton";
-import getValueImage from "../../utils/ValueImage";
 import FullUsers from "../../utils/FullUsers";
+import getValueColor from "../../utils/ValueColor";
+import getValueImage from "../../utils/ValueImage";
+import DeleteCardButton from "./DeleteCardButton";
 
 export default function DashboardCards() {
   // Establishing states
@@ -50,7 +52,7 @@ export default function DashboardCards() {
               !nomination.isNominationInstant &&
               nomination.isReleased
             ) {
-              // Show nominations where isNominationInstant is false and isReleased is true
+              // Show nominations where isNominationInstant is false, but isReleased is true
               nomination.displayDate = nomination.releaseDate;
               return true;
             }
@@ -87,7 +89,7 @@ export default function DashboardCards() {
     return findUser ? findUser.userPhotoKey : "";
   }
 
-  // Function to handle delete button clicks
+  // Handling clicks on delete button
   const handleDeleteCard = (nomination) => {
     setSelectedCard(nomination);
   };

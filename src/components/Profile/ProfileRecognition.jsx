@@ -1,6 +1,8 @@
-// Purpose: the rendering for a user's profile using params/API data on ProfilePage.jsx
+// The rendering for a user's cards on their profile using params/API data on ProfilePage.jsx
 
+// React imports
 import React, { useEffect, useState } from "react";
+// Library imports
 import {
   Alert,
   Avatar,
@@ -14,12 +16,12 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import getValueColor from "../../utils/ValueColor";
 import { jwtToken } from "../../utils/LocalStorage";
-import getValueImage from "../../utils/ValueImage";
 import FullUsers from "../../utils/FullUsers";
+import getValueColor from "../../utils/ValueColor";
+import getValueImage from "../../utils/ValueImage";
 
 export default function ProfileRecognition({ apiData }) {
   // Establishing states
@@ -100,7 +102,10 @@ export default function ProfileRecognition({ apiData }) {
         <Grid sx={{ width: "100%" }}>
           {nominations.length === 0 ? (
             // Render a special message when there are no nominations
-            <Alert severity="info" className="noCards">{apiData.name.first} doesn't have any cards to show yet... why not send them one? 🤔</Alert>
+            <Alert severity="info" className="noCards">
+              {apiData.name.first} doesn't have any cards to show yet... why not
+              send them one? 🤔
+            </Alert>
           ) : (
             // Render the list of nominations
             nominations.map((nomination) => (

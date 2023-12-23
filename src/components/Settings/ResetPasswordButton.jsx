@@ -1,7 +1,11 @@
+// Button rendering and interaction logic of reset password button
+
+// React imports
 import React from "react";
+// Library imports
 import { Box } from "@mui/system";
 import { Password } from "@mui/icons-material";
-
+// Local imports
 import ResetPassword from "./ResetPassword";
 
 export default class ResetPasswordButton extends React.Component {

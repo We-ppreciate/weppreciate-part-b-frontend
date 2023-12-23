@@ -1,10 +1,12 @@
+// Button rendering and interaction logic of add user button
 
+// React imports
 import React from "react";
-
+// Library imports
 import { PersonAdd } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import { Box } from "@mui/system";
-
+// Local imports
 import AddUser from "./AddUser";
 
 export default class AddUserButton extends React.Component {

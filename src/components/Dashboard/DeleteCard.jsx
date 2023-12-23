@@ -1,7 +1,11 @@
+// Logic and display for the modal popup for deleting a card
+
+// React imports
+import { useState } from "react";
+// Library imports
 import { Send } from "@mui/icons-material";
 import { Alert, Button } from "@mui/material";
-import { useState } from "react";
-
+// Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
 

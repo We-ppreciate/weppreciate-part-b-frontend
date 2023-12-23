@@ -1,7 +1,10 @@
-// Purpose: for retrieving the records of full users from the API to use in other components
+// For retrieving the records of full users from the API to use in other components
 
-import axios from "axios";
+// React imports
 import { useEffect, useState } from "react";
+// Library imports
+import axios from "axios";
+// Local imports
 import { apiUrl } from "./ApiUrl";
 import { jwtToken } from "./LocalStorage";
 

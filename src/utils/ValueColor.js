@@ -1,3 +1,5 @@
+// Assigns a hex colour against a value for conditional colouring of cards
+
 export default function getValueColor(nominationValue) {
     const value =
       nominationValue && nominationValue.length > 0 ? nominationValue[0] : null;

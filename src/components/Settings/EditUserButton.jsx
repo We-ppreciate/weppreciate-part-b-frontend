@@ -1,7 +1,11 @@
+// Button rendering and interaction logic of edit user button
+
+// React imports
 import React from "react";
+// Library imports
 import { Edit } from "@mui/icons-material";
 import { Box } from "@mui/system";
-
+// Local imports
 import EditUser from "./EditUser";
 
 export default class EditUserButton extends React.Component {

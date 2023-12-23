@@ -1,3 +1,8 @@
+// The rendering and logic for Manage Users, a view of the Settings page
+
+// React imports
+import { useState } from "react";
+// Library imports
 import {
   Button,
   Typography,
@@ -11,16 +16,14 @@ import {
   Grid,
   CircularProgress,
 } from "@mui/material";
-
-import { useState } from "react";
 import { Settings } from "@mui/icons-material";
-
+// Local imports
+import { userData } from "../../utils/LocalStorage";
+import FullUsers from "../../utils/FullUsers";
 import AddUserButton from "./AddUserButton";
 import EditUserButton from "./EditUserButton";
 import DeleteUserButton from "./DeleteUserButton";
-import { userData } from "../../utils/LocalStorage";
 import ResetPasswordButton from "./ResetPasswordButton";
-import FullUsers from "../../utils/FullUsers";
 
 const ManageUsers = ({ setView }) => {
   const handleGoBackClick = () => {

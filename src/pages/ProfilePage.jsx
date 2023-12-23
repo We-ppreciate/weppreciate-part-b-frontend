@@ -1,8 +1,9 @@
 // Purpose: for rendering the Profile page, by pulling in the different components that form it
 
+// React imports
 import React, { useState, useEffect } from "react";
+// Library imports
 import { Link, useParams } from "react-router-dom";
-
 import {
   Button,
   CircularProgress,
@@ -12,15 +13,15 @@ import {
 } from "@mui/material";
 import { Home } from "@mui/icons-material";
 import axios from "axios";
-
-import Header from "../components/Header";
+// Local imports
 import appTheme from "../styles/Theme";
+import "../styles/dashboardprofile.css";
+import Header from "../components/Header";
+import { apiUrl } from "../utils/ApiUrl";
+import { jwtToken } from "../utils/LocalStorage";
 import ProfileCard from "../components/Profile/ProfileCard";
 import ProfileRecognition from "../components/Profile/ProfileRecognition";
 import DashboardPage from "./DashboardPage";
-import { apiUrl } from "../utils/ApiUrl";
-import { jwtToken } from "../utils/LocalStorage";
-import "../styles/dashboardprofile.css"
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -39,6 +40,8 @@ export default function ProfilePage() {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
+        console.log(response);
+
         setProfileData(response.data.User);
       } catch (error) {
         console.error("Error fetching data:", error);
