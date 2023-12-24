@@ -1,4 +1,4 @@
-// Button rendering and interaction logic of delete card button
+// Button rendering and interaction logic of delete comment button
 
 // React imports
 import React from "react";
@@ -7,9 +7,9 @@ import { Delete } from "@mui/icons-material";
 import { Box } from "@mui/system";
 import { IconButton } from "@mui/material";
 // Local imports
-import DeleteCard from "./DeleteCard";
+import DeleteComment from "./DeleteComment";
 
-export default class DeleteCardButton extends React.Component {
+export default class DeleteCommentButton extends React.Component {
   state = {
     seen: false,
   };
@@ -21,15 +21,15 @@ export default class DeleteCardButton extends React.Component {
   };
 
   render() {
-    const { nomination } = this.props;
+    const { comment } = this.props;
 
     return (
-      <Box>
+      <Box className="deleteComment">
         <IconButton onClick={this.togglePop}>
           <Delete />
         </IconButton>
         {this.state.seen ? (
-          <DeleteCard nomination={nomination} toggle={this.togglePop} />
+          <DeleteComment comment={comment} toggle={this.togglePop} />
         ) : null}
       </Box>
     );

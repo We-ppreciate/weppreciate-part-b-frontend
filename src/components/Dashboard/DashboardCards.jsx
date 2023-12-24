@@ -31,12 +31,22 @@ import DeleteCardButton from "./DeleteCardButton";
 import AddCommentButton from "./AddCommentButton";
 import NominationComments from "./NominationComments";
 
+// MUI styling for expandable comments section
+const ExpandMoreStyle = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+  marginLeft: "0",
+}));
+
 export default function DashboardCards() {
   // Establishing states
   const [nominations, setNominations] = useState([]);
   const [loading, setLoading] = useState(true);
   // eslint-disable-next-line no-unused-vars
   const [selectedCard, setSelectedCard] = useState(null);
+  const [expandedMap, setExpandedMap] = useState({});
 
   // Importing nominations
   useEffect(() => {
@@ -101,25 +111,13 @@ export default function DashboardCards() {
     setSelectedCard(nomination);
   };
 
-  // Collapsible comments - to reposition once final
-  // Managing expanded state for each nomination
-  const [expandedMap, setExpandedMap] = useState({});
-
-  // Function to toggle expansion for a specific nomination
+  // Handling comment expansion for a specific nomination
   const handleExpandClick = (nominationId) => {
     setExpandedMap((prevExpandedMap) => ({
       ...prevExpandedMap,
       [nominationId]: !prevExpandedMap[nominationId],
     }));
   };
-
-  const ExpandMoreStyle = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "0",
-  }));
 
   return (
     <div>
