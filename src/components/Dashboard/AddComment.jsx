@@ -29,11 +29,17 @@ export default function AddCommentAction(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    // Establishing correct date format
+    const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
+
     // Takes card form data and converts into correct JSON format for POST request
     const cardJSON = JSON.stringify({
       commentBody: formData.comment,
       nominationId: nomination._id,
       commenterId: userData.id,
+      commentDate: new Date()
+        .toLocaleDateString("en-GB", dateOptions)
+        .replace(/\//g, "-"),
     });
 
     // Sending POST request for adding comment to nomination
