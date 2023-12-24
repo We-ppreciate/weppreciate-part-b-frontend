@@ -250,7 +250,7 @@ export default function EditUser(props) {
                 </div>
                 <div className="formRow">
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Admin"
                     id="isAdmin"
                     name="isAdmin"
@@ -258,7 +258,7 @@ export default function EditUser(props) {
                     onChange={handleChange}
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Senior manager"
                     id="isSeniorManager"
                     name="isSeniorManager"
@@ -266,7 +266,7 @@ export default function EditUser(props) {
                     onChange={handleChange}
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Line manager"
                     id="isLineManager"
                     name="isLineManager"

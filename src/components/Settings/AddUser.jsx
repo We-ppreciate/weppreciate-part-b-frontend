@@ -287,7 +287,7 @@ export default function AddUser(props) {
                 </div>
                 <div className="formRow">
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Admin"
                     id="isAdmin"
                     name="isAdmin"
@@ -295,7 +295,7 @@ export default function AddUser(props) {
                     onChange={handleChange}
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }}/>}
                     label="Senior manager"
                     id="isSeniorManager"
                     name="isSeniorManager"
@@ -303,7 +303,7 @@ export default function AddUser(props) {
                     onChange={handleChange}
                   />
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Line manager"
                     id="isLineManager"
                     name="isLineManager"

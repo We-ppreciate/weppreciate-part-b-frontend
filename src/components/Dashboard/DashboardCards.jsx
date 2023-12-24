@@ -181,19 +181,22 @@ export default function DashboardCards() {
                     title={
                       nomination.isNominationInstant
                         ? nomination.isNominatorFullUser
-                          ? `Posted by ${getFullName(
-                              nomination.nominatorFullUser
-                            )}`
+                          ? `Posted by ${
+                              getFullName(nomination.nominatorFullUser) ||
+                              "Deleted user"
+                            }`
                           : `Posted by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
                         : nomination.isNominatorFullUser
-                        ? `Nominated by ${getFullName(
-                            nomination.nominatorFullUser
-                          )}`
+                        ? `Nominated by ${
+                            getFullName(nomination.nominatorFullUser) ||
+                            "Deleted user"
+                          }`
                         : `Nominated by ${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`
                     }
                     subheader={nomination.displayDate}
                     titleTypographyProps={{ variant: "subtitle1" }}
                   />
+
                   <CardContent className="cardMain">
                     <div className="cardGuts">
                       <div className="cardBody">
@@ -203,26 +206,18 @@ export default function DashboardCards() {
                       </div>
                       <div className="cardRecipient">
                         <Typography variant="caption">
-                          {nomination.isNominationInstant ? (
-                            <>
-                              Recognition for{" "}
-                              <Link
-                                className="userLink"
-                                to={`/profile/${nomination.recipientUser}`}
-                              >
-                                {getFullName(nomination.recipientUser)}
-                              </Link>
-                            </>
+                          {nomination.isNominationInstant
+                            ? "Recognition for "
+                            : "Award for "}
+                          {getFullName(nomination.recipientUser) ? (
+                            <Link
+                              className="userLink"
+                              to={`/profile/${nomination.recipientUser}`}
+                            >
+                              {getFullName(nomination.recipientUser)}
+                            </Link>
                           ) : (
-                            <>
-                              Award for{" "}
-                              <Link
-                                className="userLink"
-                                to={`/profile/${nomination.recipientUser}`}
-                              >
-                                {getFullName(nomination.recipientUser)}
-                              </Link>
-                            </>
+                            "Deleted user"
                           )}
                         </Typography>
                       </div>
