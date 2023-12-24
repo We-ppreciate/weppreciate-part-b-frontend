@@ -64,7 +64,6 @@ export default function AddCommentAction(props) {
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         // If successful, set the success message
         setSuccessMessage(
           <Alert severity="success">

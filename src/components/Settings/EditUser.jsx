@@ -194,6 +194,7 @@ export default function EditUser(props) {
                   </div>
                   <div className="formSelect">
                     <TextField
+                      required
                       id="userPhotoKey"
                       name="userPhotoKey"
                       variant="outlined"
