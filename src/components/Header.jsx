@@ -26,8 +26,7 @@ import { useState } from "react";
 import { apiUrl } from "../utils/ApiUrl";
 import DashboardPage from "../pages/DashboardPage";
 
-// Styling for Appbar
-// TODO - see if this can work in a separate file
+// Styling for MUI Appbar
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -37,7 +36,7 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-  marginLeft: 0,
+  marginLeft: "20px",
   width: "auto",
 }));
 
@@ -189,7 +188,7 @@ export default function Header() {
                 src={
                   "https://storage.googleapis.com/weppreciate-store/logo/weppreciate-logo-v1.png"
                 }
-                alt={"We'ppreciate logo"}
+                alt="We'ppreciate logo"
               />
             </IconButton>
           </Link>

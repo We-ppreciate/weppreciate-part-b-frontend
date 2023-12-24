@@ -49,5 +49,9 @@
     .tableUnitRow {
       display: none;
     }
+
+    .settingsCard {
+      width: 80vw;
+    }
   }
   
