@@ -44,12 +44,6 @@ export default function NominationComments(props) {
         if (Array.isArray(response.data)) {
           // Sort comments by date and format the dates
           const sortedComments = response.data
-            .map((comment) => ({
-              ...comment,
-              commentDate: new Date(comment.commentDate).toLocaleDateString(
-                "en-GB"
-              ),
-            }))
             .sort((a, b) => {
               const dateA = new Date(
                 a.commentDate.split("-").reverse().join("-")
