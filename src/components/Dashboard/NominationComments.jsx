@@ -7,7 +7,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import { jwtToken } from "../../utils/LocalStorage";
+import { jwtToken, userData } from "../../utils/LocalStorage";
 import FullUsers from "../../utils/FullUsers";
 import {
   Alert,
@@ -17,6 +17,7 @@ import {
   CircularProgress,
   Grid,
 } from "@mui/material";
+import DeleteCommentButton from "./DeleteCommentButton";
 
 export default function NominationComments(props) {
   const { nomination } = props;
@@ -24,6 +25,8 @@ export default function NominationComments(props) {
   // Establishing states
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [selectedComment, setSelectedComment] = useState(null);
 
   // Importing comments
   useEffect(() => {
@@ -79,6 +82,11 @@ export default function NominationComments(props) {
     return fullUser ? `${fullUser.name.first} ${fullUser.name.last}` : "";
   }
 
+  // Handling clicks on card buttons
+  const handleSelectComment = (comment) => {
+    setSelectedComment(comment);
+  };
+
   return (
     <Box>
       {loading ? (
@@ -96,14 +104,24 @@ export default function NominationComments(props) {
           ) : (
             // Render the list of comments
             comments.map((comment) => (
-              <Card className="nominationComment">
+              <Card className="nominationComment" key={comment._id}>
                 <CardHeader
                   title={getFullName(comment.commenterId)}
                   subheader={comment.commentDate}
                   titleTypographyProps={{ variant: "caption" }}
                   subheaderTypographyProps={{ variant: "caption" }}
                 />
-                <CardContent className="commentBody">{comment.commentBody}</CardContent>
+                <Grid className="commentGrid">
+                <CardContent className="commentBody">
+                  {comment.commentBody}
+                </CardContent>
+                  {userData.isAdmin && (
+                    <DeleteCommentButton
+                      comment={comment}
+                      onClick={handleSelectComment}
+                    />
+                  )}
+                </Grid>
               </Card>
             ))
           )}

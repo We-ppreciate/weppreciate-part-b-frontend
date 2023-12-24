@@ -3,8 +3,9 @@
 // React imports
 import React, { useState, useEffect } from "react";
 // Library imports
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  Alert,
   Button,
   CircularProgress,
   CssBaseline,
@@ -25,12 +26,13 @@ import DashboardPage from "./DashboardPage";
 
 export default function ProfilePage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   // Establishing states
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // TODO: add error handling if id doesn't match one in DB
   // Importing user's details by id
   useEffect(() => {
     const fetchData = async () => {
@@ -40,23 +42,40 @@ export default function ProfilePage() {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        console.log(response);
+        // If invalid user id is entered, the user is redirected to the dashboard
+        if (response.status === 500) {
+          setErrorMessage(
+            <Alert severity="error">
+              Invalid profile - redirecting to dashboard
+            </Alert>
+          );
+          navigate("/dashboard");
+          return;
+        }
 
         setProfileData(response.data.User);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setErrorMessage(
+          <Alert severity="error">
+            An error occurred - redirecting to dashboard
+          </Alert>
+        );
+        navigate("/dashboard");
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, [id]);
+  }, [id, navigate]);
 
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
       <Header />
+      {/* Display any error message here */}
+      {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       <Link to="/dashboard" element={<DashboardPage />}>
         <Button className="backButton" startIcon={<Home />}>
           Back to Dashboard
