@@ -24,15 +24,19 @@
     margin: 0.5rem 0;
   }
   
-  .usersTable {
+  .usersTable, .nomsTable {
     width: 90vw;
   }
   
   .tableHeaderRow,
   .tableUnitHeaderRow,
-  .tableManagerHeaderRow {
+  .tableManagerHeaderRow, .nomsTableHeader {
     color: #ffffff;
     font-weight: 600;
+  }
+
+  .smallScreenAlert {
+    display: none;
   }
   
   /* Hides a column on smaller screens */
@@ -40,6 +44,10 @@
     .tableManagerHeaderRow,
     .tableManagerRow {
       display: none;
+    }
+
+     .nomsTableHeader, .nomTableCell {
+      padding: 5px;
     }
   }
   
@@ -51,6 +59,16 @@
     }
 
     .settingsCard {
+      width: 80vw;
+    }
+
+    .nomsTable {
+      display: none;
+    }
+    .smallScreenAlert {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       width: 80vw;
     }
   }
