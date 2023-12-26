@@ -4,7 +4,7 @@
 import { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
@@ -15,6 +15,7 @@ export default function ReleaseAwardConfirmation(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleClick = () => {
     props.toggle();
@@ -23,6 +24,7 @@ export default function ReleaseAwardConfirmation(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // establishing correct date format
     const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -49,6 +51,7 @@ export default function ReleaseAwardConfirmation(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setSubmitLoading(false);
           setErrorMessage(
             <Alert severity="error">
               Uh oh, we're having a little difficulty here! Please try again.
@@ -79,6 +82,9 @@ export default function ReleaseAwardConfirmation(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -88,18 +94,21 @@ export default function ReleaseAwardConfirmation(props) {
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       {successMessage && <div className="successMessage">{successMessage}</div>}
       <div className="modal">
-        <div className="modal_content">
+        <div className="modal_content_smaller">
           <span className="close" onClick={handleClick}>
             &times;
           </span>
-          <Typography variant="h5">
+          <div className="confirmHeading">
             Please confirm you want to release this nomination as an award:
-          </Typography>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>
                 Confirm release award
               </Button>
+            </div>
+            <div className="changeLoader">
+              {submitLoading && <CircularProgress />}
             </div>
           </form>
         </div>

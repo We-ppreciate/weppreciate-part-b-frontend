@@ -17,6 +17,7 @@ import {
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
 import FullUsers from "../../utils/FullUsers";
+import { validateEmail } from "../../utils/Validations";
 
 export default function EditUser(props) {
   const { user } = props;
@@ -37,6 +38,7 @@ export default function EditUser(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   // Importing users data for manager drop-down
   const { fullUsers, loading } = FullUsers();
@@ -48,80 +50,104 @@ export default function EditUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
-    // Takes card form data and converts into correct JSON format for POST request
-    const cardJSON = JSON.stringify({
-      name: {
-        first: formData.firstName,
-        last: formData.lastName,
-      },
-      email: formData.email,
-      userPhotoKey: formData.userPhotoKey,
-      businessUnit: formData.businessUnit,
-      isLineManager: formData.isLineManager,
-      isAdmin: formData.isAdmin,
-      isSeniorManager: formData.isSeniorManager,
-      lineManagerId: formData.userLineManager,
-    });
+    // Perform email address validation
+    const isEmailValid = validateEmail(formData.email);
 
-    // Sending PATCH request for posting editing user
-    fetch(apiUrl + "users/update/admin/" + user._id, {
-      method: "PATCH",
-      mode: "cors",
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-        "Content-Type": "application/json",
-      },
-      body: cardJSON,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          if (response.status === 400) {
-            setErrorMessage(
-              <Alert severity="error">
-                Something doesn't look quite right!
-                <p>Please check the following:</p>
-                <ul>
-                  <li>email address isn't currently in use by another user</li>
-                  <li>email address is a valid format</li>
-                  <li>names are between 2-60 characters</li>
-                  <li>business unit is between 2-60 characters</li>
-                </ul>
-              </Alert>
-            );
-          } else {
-            setErrorMessage(
-              <Alert severity="error">
-                Uh oh, we're having a little difficulty here! Please try again.
-              </Alert>
-            );
-          }
-          // Clear the error message after 5 seconds
-          setTimeout(() => {
-            setErrorMessage("");
-          }, 5000);
-          throw new Error("Request failed");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // If successful, set the success message
-        setSuccessMessage(
-          <Alert severity="success">
-            User updated! The page will refresh in 3 seconds...
-          </Alert>
-        );
-
-        // Close the modal and refresh page after delay
-        setTimeout(() => {
-          props.toggle();
-          setSuccessMessage("");
-          window.location.reload();
-        }, 3000);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+    if (isEmailValid) {
+      // Takes card form data and converts into correct JSON format for POST request
+      const cardJSON = JSON.stringify({
+        name: {
+          first: formData.firstName,
+          last: formData.lastName,
+        },
+        email: formData.email,
+        userPhotoKey: formData.userPhotoKey,
+        businessUnit: formData.businessUnit,
+        isLineManager: formData.isLineManager,
+        isAdmin: formData.isAdmin,
+        isSeniorManager: formData.isSeniorManager,
+        lineManagerId: formData.userLineManager,
       });
+
+      // Sending PATCH request for posting editing user
+      fetch(apiUrl + "users/update/admin/" + user._id, {
+        method: "PATCH",
+        mode: "cors",
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+          "Content-Type": "application/json",
+        },
+        body: cardJSON,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            if (response.status === 400) {
+              setSubmitLoading(false);
+              setErrorMessage(
+                <Alert severity="error">
+                  Something doesn't look quite right!
+                  <p>Please check the following:</p>
+                  <ul>
+                    <li>
+                      email address isn't currently in use by another user
+                    </li>
+                    <li>names are between 2-60 characters</li>
+                    <li>business unit is between 2-60 characters</li>
+                  </ul>
+                </Alert>
+              );
+            } else {
+              setSubmitLoading(false);
+              setErrorMessage(
+                <Alert severity="error">
+                  Uh oh, we're having a little difficulty here! Please try
+                  again.
+                </Alert>
+              );
+            }
+            // Clear the error message after 5 seconds
+            setTimeout(() => {
+              setErrorMessage("");
+            }, 5000);
+            throw new Error("Request failed");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // If successful, set the success message
+          setSuccessMessage(
+            <Alert severity="success">
+              User updated! The page will refresh in 3 seconds...
+            </Alert>
+          );
+
+          // Close the modal and refresh page after delay
+          setTimeout(() => {
+            props.toggle();
+            setSuccessMessage("");
+            window.location.reload();
+          }, 3000);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        })
+        .finally(() => {
+          setSubmitLoading(false);
+        });
+    } else {
+      // If email address does not meet valid format:
+      setSubmitLoading(false);
+      setErrorMessage(
+        <Alert severity="error">
+          Email address format is invalid! Please try again.
+        </Alert>
+      );
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+    }
   };
 
   // Updates formData when change is made to a form value
@@ -279,6 +305,9 @@ export default function EditUser(props) {
                 <Button type="submit" variant="contained" endIcon={<Send />}>
                   Update
                 </Button>
+              </div>
+              <div className="changeLoader">
+                {submitLoading && <CircularProgress />}
               </div>
             </form>
           </div>

@@ -4,7 +4,7 @@
 import { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Button, CircularProgress, TextField } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
@@ -20,6 +20,7 @@ export default function AddCommentAction(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleClick = () => {
     props.toggle();
@@ -28,6 +29,7 @@ export default function AddCommentAction(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Establishing correct date format
     const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -54,6 +56,7 @@ export default function AddCommentAction(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setSubmitLoading(false);
           setErrorMessage(
             <Alert severity="error">
               Uh oh, an error occurred! Please try again.
@@ -77,11 +80,6 @@ export default function AddCommentAction(props) {
           </Alert>
         );
 
-        // Clear the form data once submitted
-        setFormData({
-          comment: "",
-        });
-
         // Close the modal and refresh page after delay
         setTimeout(() => {
           props.toggle();
@@ -91,6 +89,9 @@ export default function AddCommentAction(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -133,6 +134,9 @@ export default function AddCommentAction(props) {
               <Button type="submit" variant="contained" endIcon={<Send />}>
                 Submit
               </Button>
+            </div>
+            <div className="changeLoader">
+              {submitLoading && <CircularProgress />}
             </div>
           </form>
         </div>

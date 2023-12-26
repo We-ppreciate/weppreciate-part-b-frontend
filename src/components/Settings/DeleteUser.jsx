@@ -4,7 +4,7 @@
 import { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button } from "@mui/material";
+import { Alert, Button, CircularProgress } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
@@ -15,6 +15,7 @@ export default function DeleteUser(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleClick = () => {
     props.toggle();
@@ -23,6 +24,7 @@ export default function DeleteUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Sending DELETE request for deleting user
     fetch(apiUrl + "users/delete/admin/" + user._id, {
@@ -33,6 +35,7 @@ export default function DeleteUser(props) {
       },
     })
       .then((response) => {
+        setSubmitLoading(false);
         if (!response.ok) {
           setErrorMessage(
             <Alert severity="error">
@@ -64,6 +67,9 @@ export default function DeleteUser(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -73,18 +79,21 @@ export default function DeleteUser(props) {
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       {successMessage && <div className="successMessage">{successMessage}</div>}
       <div className="modal">
-        <div className="modal_content">
+        <div className="modal_content_smaller">
           <span className="close" onClick={handleClick}>
             &times;
           </span>
-          <h3 className="formHeading">
+          <div className="confirmHeading">
             Are you sure you want to delete {user.name.first}?
-          </h3>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>
                 Confirm delete
               </Button>
+            </div>
+            <div className="changeLoader">
+              {submitLoading && <CircularProgress />}
             </div>
           </form>
         </div>

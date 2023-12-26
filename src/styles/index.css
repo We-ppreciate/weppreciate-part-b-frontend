@@ -38,6 +38,13 @@
   margin: 100px;
 }
 
+.changeLoader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .pageHeading {
   margin-top: 50px;
   display: flex;
@@ -101,8 +108,21 @@
   position: fixed;
   z-index: 3;
   transform: translate(-50%, -50%);
-  width: clamp(400px, 80vw, 800px);
+  width: clamp(350px, 80%, 800px);
   height: 60vh;
+  padding: 20px;
+  border-radius: 4px;
+  border: 3px solid #0b4ea2;
+}
+
+.modal_content_smaller {
+  background-color: white;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -45%);
+  width: clamp(250px, 80%, 500px);
   padding: 20px;
   border-radius: 4px;
   border: 3px solid #0b4ea2;
@@ -111,6 +131,7 @@
 .close {
   float: right;
   font-size: 2rem;
+  padding-left: 8px;
 }
 
 .close:hover {
@@ -120,6 +141,13 @@
 
 .formHeading {
   font-size: 2rem;
+}
+
+.confirmHeading {
+  text-align: center;
+  font-size: 1.5rem;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .cardForm {
