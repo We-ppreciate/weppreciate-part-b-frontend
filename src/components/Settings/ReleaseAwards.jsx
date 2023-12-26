@@ -18,7 +18,6 @@ import {
   Alert,
 } from "@mui/material";
 import { Settings } from "@mui/icons-material";
-import axios from "axios";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
@@ -41,22 +40,27 @@ const ReleaseAwards = ({ setView }) => {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        const response = await axios.get(apiUrl + "nominations/all/", {
+        const response = await fetch(apiUrl + "nominations/all/", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+  
         // Filter nominations
-        const filteredNominations = response.data.Nominations.filter(
-          (nomination) => {
-            if (!nomination.isNominationInstant && !nomination.isReleased) {
-              return true;
-            }
-            return false;
+        const filteredNominations = data.Nominations.filter((nomination) => {
+          if (!nomination.isNominationInstant && !nomination.isReleased) {
+            return true;
           }
-        );
-
+          return false;
+        });
+  
         setNominations(filteredNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -64,8 +68,9 @@ const ReleaseAwards = ({ setView }) => {
         setLoading(false);
       }
     };
+  
     fetchNominationData();
-  }, []);
+  }, []);  
 
   // Importing users data
   const { fullUsers } = FullUsers();

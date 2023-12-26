@@ -13,7 +13,6 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import { Home } from "@mui/icons-material";
-import axios from "axios";
 // Local imports
 import appTheme from "../styles/Theme";
 import "../styles/dashboardprofile.css";
@@ -37,23 +36,30 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl + `users/one/id/${id}`, {
+        const response = await fetch(apiUrl + `users/one/id/${id}`, {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-        // If invalid user id is entered, the user is redirected to the dashboard
-        if (response.status === 500) {
-          setErrorMessage(
-            <Alert severity="error">
-              Invalid profile - redirecting to dashboard
-            </Alert>
-          );
-          navigate("/dashboard");
-          return;
+  
+        if (!response.ok) {
+          // If invalid user id is entered, the user is redirected to the dashboard
+          if (response.status === 500) {
+            setErrorMessage(
+              <Alert severity="error">
+                Invalid profile - redirecting to dashboard
+              </Alert>
+            );
+            navigate("/dashboard");
+            return;
+          } else {
+            throw new Error(`Error: ${response.status}`);
+          }
         }
-
-        setProfileData(response.data.User);
+  
+        const data = await response.json();
+        setProfileData(data.User);
       } catch (error) {
         console.error("Error fetching data:", error);
         setErrorMessage(
@@ -66,9 +72,9 @@ export default function ProfilePage() {
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [id, navigate]);
+  }, [id, navigate]);  
 
   return (
     <ThemeProvider theme={appTheme}>

@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 // Library imports
 import { Link } from "react-router-dom";
-import axios from "axios";
 import {
   Avatar,
   AvatarGroup,
@@ -52,30 +51,32 @@ export default function DashboardCards() {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        const response = await axios.get(apiUrl + "nominations/all/", {
+        const response = await fetch(apiUrl + "nominations/all/", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
 
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
         // Filter and sort nominations
-        const filteredNominations = response.data.Nominations.filter(
-          (nomination) => {
-            if (nomination.isNominationInstant) {
-              // Show nominations where isNominationInstant is true
-              nomination.displayDate = nomination.nominationDate;
-              return true;
-            } else if (
-              !nomination.isNominationInstant &&
-              nomination.isReleased
-            ) {
-              // Show nominations where isNominationInstant is false, but isReleased is true
-              nomination.displayDate = nomination.releaseDate;
-              return true;
-            }
-            return false;
+        const filteredNominations = data.Nominations.filter((nomination) => {
+          if (nomination.isNominationInstant) {
+            // Show nominations where isNominationInstant is true
+            nomination.displayDate = nomination.nominationDate;
+            return true;
+          } else if (!nomination.isNominationInstant && nomination.isReleased) {
+            // Show nominations where isNominationInstant is false, but isReleased is true
+            nomination.displayDate = nomination.releaseDate;
+            return true;
           }
-        ).sort((a, b) => {
+          return false;
+        }).sort((a, b) => {
           const dateA = new Date(a.displayDate.split("-").reverse().join("-"));
           const dateB = new Date(b.displayDate.split("-").reverse().join("-"));
           return dateB - dateA;
@@ -88,6 +89,7 @@ export default function DashboardCards() {
         setLoading(false);
       }
     };
+
     fetchNominationData();
   }, []);
 
