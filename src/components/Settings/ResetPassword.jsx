@@ -8,6 +8,7 @@ import { Alert, Button, CircularProgress, TextField } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
+import { validatePassword } from "../../utils/Validations";
 
 export default function ResetPassword(props) {
   const { user } = props;
@@ -82,7 +83,9 @@ export default function ResetPassword(props) {
         .finally(() => {
           setSubmitLoading(false);
         });
+      
     } else {
+      // If password does not meet validation requirements:
       setSubmitLoading(false);
       setErrorMessage(
         <Alert severity="error">
@@ -104,13 +107,6 @@ export default function ResetPassword(props) {
       ...prevFormData,
       [name]: value,
     }));
-  };
-
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
-    return (
-      password.length >= 8 && password.length <= 120 && regex.test(password)
-    );
   };
 
   return (
