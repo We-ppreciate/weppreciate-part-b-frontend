@@ -2,8 +2,6 @@
 
 // React imports
 import { useEffect, useState } from "react";
-// Library imports
-import axios from "axios";
 // Local imports
 import { apiUrl } from "./ApiUrl";
 import { jwtToken } from "./LocalStorage";
@@ -16,18 +14,25 @@ export default function FullUsers() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(apiUrl + "users/all/fullusers", {
+        const response = await fetch(apiUrl + "users/all/fullusers", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
         });
-
-        const sortedUsers = response.data.Users.sort((a, b) =>
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+  
+        const sortedUsers = data.Users.sort((a, b) =>
           `${a.name.first} ${a.name.last}`.localeCompare(
             `${b.name.first} ${b.name.last}`
           )
         );
-
+  
         setFullUsers(sortedUsers);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,8 +40,9 @@ export default function FullUsers() {
         setLoading(false);
       }
     };
+  
     fetchData();
-  }, []);
+  }, []);  
 
   return { fullUsers, loading };
 }

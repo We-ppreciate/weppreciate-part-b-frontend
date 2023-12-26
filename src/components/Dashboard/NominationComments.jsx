@@ -4,7 +4,6 @@
 import React, { useEffect, useState } from "react";
 // Library imports
 import { Box } from "@mui/system";
-import axios from "axios";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
@@ -32,31 +31,35 @@ export default function NominationComments(props) {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           apiUrl + "comments/all/nomination/" + nomination._id,
           {
+            method: "GET",
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
           }
         );
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+  
         // Check if response.data is an array
-        if (Array.isArray(response.data)) {
+        if (Array.isArray(data)) {
           // Sort comments by date and format the dates
-          const sortedComments = response.data
+          const sortedComments = data
             .sort((a, b) => {
-              const dateA = new Date(
-                a.commentDate.split("-").reverse().join("-")
-              );
-              const dateB = new Date(
-                b.commentDate.split("-").reverse().join("-")
-              );
+              const dateA = new Date(a.commentDate.split("-").reverse().join("-"));
+              const dateB = new Date(b.commentDate.split("-").reverse().join("-"));
               return dateB - dateA;
             });
-
+  
           setComments(sortedComments);
         } else {
-          console.error("Invalid response format:", response.data);
+          console.error("Invalid response format:", data);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -64,8 +67,9 @@ export default function NominationComments(props) {
         setLoading(false);
       }
     };
+  
     fetchNominationData();
-  }, [nomination._id]);
+  }, [nomination._id]);  
 
   // Importing users data
   const { fullUsers } = FullUsers();

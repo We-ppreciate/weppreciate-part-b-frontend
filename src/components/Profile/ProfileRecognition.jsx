@@ -15,7 +15,6 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
@@ -32,37 +31,40 @@ export default function ProfileRecognition({ apiData }) {
   useEffect(() => {
     const fetchNominationData = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           apiUrl + "nominations/all/recipient/" + apiData._id,
           {
+            method: "GET",
             headers: {
               Authorization: `Bearer ${jwtToken}`,
             },
           }
         );
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
+        }
+  
+        const data = await response.json();
+  
         // Filter and sort nominations
-        const filteredNominations = response.data.Nominations.filter(
-          (nomination) => {
-            if (nomination.isNominationInstant) {
-              // Show nominations where isNominationInstant is true
-              nomination.displayDate = nomination.nominationDate;
-              return true;
-            } else if (
-              !nomination.isNominationInstant &&
-              nomination.isReleased
-            ) {
-              // Show nominations where isNominationInstant is false and isReleased is true
-              nomination.displayDate = nomination.releaseDate;
-              return true;
-            }
-            return false;
+        const filteredNominations = data.Nominations.filter((nomination) => {
+          if (nomination.isNominationInstant) {
+            // Show nominations where isNominationInstant is true
+            nomination.displayDate = nomination.nominationDate;
+            return true;
+          } else if (!nomination.isNominationInstant && nomination.isReleased) {
+            // Show nominations where isNominationInstant is false and isReleased is true
+            nomination.displayDate = nomination.releaseDate;
+            return true;
           }
-        ).sort((a, b) => {
+          return false;
+        }).sort((a, b) => {
           const dateA = new Date(a.displayDate.split("-").reverse().join("-"));
           const dateB = new Date(b.displayDate.split("-").reverse().join("-"));
           return dateB - dateA;
         });
-
+  
         setNominations(filteredNominations);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -70,8 +72,9 @@ export default function ProfileRecognition({ apiData }) {
         setLoading(false);
       }
     };
+  
     fetchNominationData();
-  }, [apiData._id]);
+  }, [apiData._id]);  
 
   // Importing users data
   const { fullUsers } = FullUsers();
