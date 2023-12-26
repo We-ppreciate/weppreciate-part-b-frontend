@@ -1,15 +1,16 @@
-// Button rendering and interaction logic of release award button
+// Button rendering and interaction logic of decline award button
 
 // React imports
 import React from "react";
 // Library imports
 import { Box } from "@mui/system";
+import { ThumbDownOffAlt } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import { PublishedWithChanges } from "@mui/icons-material";
 // Local imports
-import ReleaseAwardConfirmation from "./ReleaseAwardConfirmation";
+import DeclineAward from "./DeclineAward";
 
-export default class ReleaseAwardButton extends React.Component {
+
+export default class DeclineAwardButton extends React.Component {
   state = {
     seen: false,
   };
@@ -25,10 +26,10 @@ export default class ReleaseAwardButton extends React.Component {
     return (
       <Box>
         <IconButton color="primary" onClick={this.togglePop}>
-          <PublishedWithChanges/>
+          <ThumbDownOffAlt/>
         </IconButton>
         {this.state.seen ? (
-          <ReleaseAwardConfirmation nomination={nomination} toggle={this.togglePop} />
+          <DeclineAward nomination={nomination} toggle={this.togglePop} />
         ) : null}
       </Box>
     );

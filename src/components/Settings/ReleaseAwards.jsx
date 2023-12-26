@@ -15,14 +15,16 @@ import {
   TableBody,
   Grid,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 import { Settings } from "@mui/icons-material";
 import axios from "axios";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
-import { jwtToken } from "../../utils/LocalStorage";
+import { jwtToken, userData } from "../../utils/LocalStorage";
 import FullUsers from "../../utils/FullUsers";
 import ReleaseAwardButton from "./ReleaseAwardButton";
+import DeclineAwardButton from "./DeclineAwardButton";
 
 const ReleaseAwards = ({ setView }) => {
   const handleGoBackClick = () => {
@@ -75,7 +77,7 @@ const ReleaseAwards = ({ setView }) => {
   }
 
   // Function to handle release nomination clicks
-  const handleReleaseNomination = (nomination) => {
+  const handleManageNomination = (nomination) => {
     setSelectedNom(nomination);
   };
 
@@ -99,16 +101,19 @@ const ReleaseAwards = ({ setView }) => {
         </div>
       ) : (
         <Grid className="cardGrid" container spacing={0}>
-          <TableContainer className="usersTable">
+          <TableContainer className="nomsTable">
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell className="tableHeaderRow">Date</TableCell>
-                  <TableCell className="tableHeaderRow">Nominator</TableCell>
-                  <TableCell className="tableHeaderRow">Recipient</TableCell>
-                  <TableCell className="tableHeaderRow">Contents</TableCell>
-                  <TableCell className="tableHeaderRow">Value</TableCell>
-                  <TableCell className="tableHeaderRow">Release</TableCell>
+                  <TableCell className="nomsTableHeader">Date</TableCell>
+                  <TableCell className="nomsTableHeader">Nominator</TableCell>
+                  <TableCell className="nomsTableHeader">Recipient</TableCell>
+                  <TableCell className="nomsTableHeader">Contents</TableCell>
+                  <TableCell className="nomsTableHeader">Value</TableCell>
+                  <TableCell className="nomsTableHeader">Release</TableCell>
+                  {userData.isAdmin && (
+                    <TableCell className="nomsTableHeader">Decline</TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -118,31 +123,55 @@ const ReleaseAwards = ({ setView }) => {
                       key={nomination._id}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className="nomTableCell"
+                      >
                         {nomination.nominationDate}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="nomTableCell">
                         {nomination.isNominatorFullUser
-                          ? getFullName(nomination.nominatorFullUser)
+                          ? `${
+                              getFullName(nomination.nominatorFullUser) ||
+                              "Deleted user"
+                            }`
                           : `${nomination.nominatorBasicUser.basicName.first} ${nomination.nominatorBasicUser.basicName.last}`}
                       </TableCell>
-                      <TableCell>
-                        {getFullName(nomination.recipientUser)}
+                      <TableCell className="nomTableCell">
+                        {getFullName(nomination.recipientUser) ||
+                          "Deleted user"}
                       </TableCell>
-                      <TableCell>{nomination.nominationBody}</TableCell>
-                      <TableCell>{nomination.nominationValue}</TableCell>
-                      <TableCell>
+                      <TableCell className="nomTableCell">
+                        {nomination.nominationBody}
+                      </TableCell>
+                      <TableCell className="nomTableCell">
+                        {nomination.nominationValue}
+                      </TableCell>
+                      <TableCell className="nomTableCell">
                         <ReleaseAwardButton
                           nomination={nomination}
-                          onEdit={handleReleaseNomination}
+                          onEdit={handleManageNomination}
                         />
                       </TableCell>
+                      {userData.isAdmin && (
+                        <TableCell className="nomTableCell">
+                          <DeclineAwardButton
+                            nomination={nomination}
+                            onEdit={handleManageNomination}
+                          />
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}
               </TableBody>
             </Table>
           </TableContainer>
+          <Alert severity="info" className="smallScreenAlert">
+            This table is simply too powerful for your little screen - come
+            release an award on a bigger screen, please 😊
+          </Alert>
         </Grid>
       )}
     </div>
