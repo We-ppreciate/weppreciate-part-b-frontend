@@ -4,7 +4,7 @@
 import React, { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button, TextField } from "@mui/material";
+import { Alert, Button, CircularProgress, TextField } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken, userData } from "../../utils/LocalStorage";
@@ -17,6 +17,7 @@ export default function ChangePassword(props) {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleClick = () => {
     props.toggle();
@@ -24,11 +25,15 @@ export default function ChangePassword(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Perform password validation
     const isValidPassword = validatePassword(formData.newPassword);
 
-    if (isValidPassword && formData.newPassword === formData.repeatNewPassword) {
+    if (
+      isValidPassword &&
+      formData.newPassword === formData.repeatNewPassword
+    ) {
       const jsonData = JSON.stringify({
         newPassword: formData.newPassword,
       });
@@ -44,6 +49,7 @@ export default function ChangePassword(props) {
       })
         .then((response) => {
           if (!response.ok) {
+            setSubmitLoading(false);
             setErrorMessage(
               <Alert severity="error">
                 Uh oh, we're having a little difficulty here! Please try again.
@@ -62,11 +68,6 @@ export default function ChangePassword(props) {
             </Alert>
           );
 
-          setFormData({
-            newPassword: "",
-            repeatNewPassword: "",
-          });
-
           setTimeout(() => {
             props.toggle();
             setSuccessMessage("");
@@ -75,8 +76,12 @@ export default function ChangePassword(props) {
         })
         .catch((error) => {
           console.error("Error:", error);
+        })
+        .finally(() => {
+          setSubmitLoading(false);
         });
     } else {
+      setSubmitLoading(false);
       setErrorMessage(
         <Alert severity="error">
           {isValidPassword
@@ -101,7 +106,9 @@ export default function ChangePassword(props) {
 
   const validatePassword = (password) => {
     const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
-    return password.length >= 8 && password.length <= 120 && regex.test(password);
+    return (
+      password.length >= 8 && password.length <= 120 && regex.test(password)
+    );
   };
 
   return (
@@ -143,6 +150,9 @@ export default function ChangePassword(props) {
               <Button type="submit" variant="contained" endIcon={<Send />}>
                 Submit change
               </Button>
+            </div>
+            <div className="changeLoader">
+              {submitLoading && <CircularProgress />}
             </div>
           </form>
         </div>

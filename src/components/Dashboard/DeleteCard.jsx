@@ -4,7 +4,7 @@
 import { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button } from "@mui/material";
+import { Alert, Button, CircularProgress } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
@@ -15,6 +15,7 @@ export default function DeleteCard(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   const handleClick = () => {
     props.toggle();
@@ -23,6 +24,7 @@ export default function DeleteCard(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Sending DELETE request for deleting nomination
     fetch(apiUrl + "nominations/delete/" + nomination._id, {
@@ -34,6 +36,7 @@ export default function DeleteCard(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setSubmitLoading(false);
           setErrorMessage(
             <Alert severity="error">
               Uh oh, we're having a little difficulty here! Please try again.
@@ -64,6 +67,9 @@ export default function DeleteCard(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -85,6 +91,9 @@ export default function DeleteCard(props) {
               <Button type="submit" variant="contained" endIcon={<Send />}>
                 Confirm delete
               </Button>
+            </div>
+            <div className="changeLoader">
+              {submitLoading && <CircularProgress />}
             </div>
           </form>
         </div>

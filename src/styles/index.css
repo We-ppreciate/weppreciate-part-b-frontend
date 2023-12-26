@@ -38,6 +38,13 @@
   margin: 100px;
 }
 
+.changeLoader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .pageHeading {
   margin-top: 50px;
   display: flex;

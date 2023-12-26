@@ -35,6 +35,7 @@ export default function AddUser(props) {
   // Establishing states
   const [fullUsers, setFullUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -70,6 +71,7 @@ export default function AddUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Takes card form data and converts into correct JSON format for POST request
     const cardJSON = JSON.stringify({
@@ -99,6 +101,7 @@ export default function AddUser(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setSubmitLoading(false);
           if (response.status === 400) {
             setErrorMessage(
               <Alert severity="error">
@@ -135,19 +138,6 @@ export default function AddUser(props) {
           </Alert>
         );
 
-        // Clear the form data once submitted
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          userPhotoKey: "",
-          businessUnit: "",
-          userLineManager: "",
-          isAdmin: false,
-          isSeniorManager: false,
-          isLineManager: false,
-        });
-
         // Close the modal and refresh page after delay
         setTimeout(() => {
           props.toggle();
@@ -158,6 +148,9 @@ export default function AddUser(props) {
 
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -295,7 +288,7 @@ export default function AddUser(props) {
                     onChange={handleChange}
                   />
                   <FormControlLabel
-                    control={<Checkbox sx={{ pt: 0, pb: 0 }}/>}
+                    control={<Checkbox sx={{ pt: 0, pb: 0 }} />}
                     label="Senior manager"
                     id="isSeniorManager"
                     name="isSeniorManager"
@@ -316,6 +309,9 @@ export default function AddUser(props) {
                 <Button type="submit" variant="contained" endIcon={<Send />}>
                   Add user
                 </Button>
+              </div>
+              <div className="changeLoader">
+                {submitLoading && <CircularProgress />}
               </div>
             </form>
           </div>

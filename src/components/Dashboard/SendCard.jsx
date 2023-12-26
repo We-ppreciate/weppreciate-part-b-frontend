@@ -31,6 +31,7 @@ export default function SendCard(props) {
   // Establishing states
   const [fullUsers, setFullUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -67,6 +68,7 @@ export default function SendCard(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Establishing correct date format
     const dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -98,6 +100,7 @@ export default function SendCard(props) {
     })
       .then((response) => {
         if (!response.ok) {
+          setSubmitLoading(false);
           setErrorMessage(
             <Alert severity="error">
               Uh oh, an error occurred! Please try again.
@@ -121,14 +124,6 @@ export default function SendCard(props) {
           </Alert>
         );
 
-        // Clear the form data once submitted
-        setFormData({
-          recipient: "",
-          value: "",
-          message: "",
-          award: false,
-        });
-
         // Close the modal and refresh page after delay
         setTimeout(() => {
           props.toggle();
@@ -138,6 +133,9 @@ export default function SendCard(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -254,6 +252,9 @@ export default function SendCard(props) {
                 <Button type="submit" variant="contained" endIcon={<Send />}>
                   Submit
                 </Button>
+              </div>
+              <div className="changeLoader">
+                {submitLoading && <CircularProgress />}
               </div>
             </form>
           </div>

@@ -66,11 +66,6 @@ export default function EditTagline(props) {
           </Alert>
         );
 
-        // Clear the form data once submitted
-        setFormData({
-          userTagLine: "",
-        });
-
         // Close the modal and refresh page after delay
         setTimeout(() => {
           props.toggle();

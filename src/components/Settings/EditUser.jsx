@@ -37,6 +37,7 @@ export default function EditUser(props) {
   // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [submitLoading, setSubmitLoading] = useState(false);
 
   // Importing users data for manager drop-down
   const { fullUsers, loading } = FullUsers();
@@ -48,6 +49,7 @@ export default function EditUser(props) {
   // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
+    setSubmitLoading(true);
 
     // Takes card form data and converts into correct JSON format for POST request
     const cardJSON = JSON.stringify({
@@ -77,6 +79,7 @@ export default function EditUser(props) {
       .then((response) => {
         if (!response.ok) {
           if (response.status === 400) {
+            setSubmitLoading(false);
             setErrorMessage(
               <Alert severity="error">
                 Something doesn't look quite right!
@@ -90,6 +93,7 @@ export default function EditUser(props) {
               </Alert>
             );
           } else {
+            setSubmitLoading(false);
             setErrorMessage(
               <Alert severity="error">
                 Uh oh, we're having a little difficulty here! Please try again.
@@ -121,6 +125,9 @@ export default function EditUser(props) {
       })
       .catch((error) => {
         console.error("Error:", error);
+      })
+      .finally(() => {
+        setSubmitLoading(false);
       });
   };
 
@@ -279,6 +286,9 @@ export default function EditUser(props) {
                 <Button type="submit" variant="contained" endIcon={<Send />}>
                   Update
                 </Button>
+              </div>
+              <div className="changeLoader">
+                {submitLoading && <CircularProgress />}
               </div>
             </form>
           </div>
