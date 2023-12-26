@@ -40,23 +40,47 @@ export default function NominationComments(props) {
             },
           }
         );
-  
+
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
-  
+
         const data = await response.json();
-  
+
         // Check if response.data is an array
         if (Array.isArray(data)) {
           // Sort comments by date and format the dates
           const sortedComments = data
+            .map((comment) => {
+              // Check if the date is in the specified format
+              const isDateFormat = /^\d{2}-\d{2}-\d{4}$/.test(
+                comment.commentDate
+              );
+
+              // If not in the specified format, convert it
+              if (!isDateFormat) {
+                const dateObj = new Date(comment.commentDate);
+                const formattedDate = `${dateObj
+                  .getDate()
+                  .toString()
+                  .padStart(2, "0")}-${(dateObj.getMonth() + 1)
+                  .toString()
+                  .padStart(2, "0")}-${dateObj.getFullYear()}`;
+                return { ...comment, commentDate: formattedDate };
+              }
+
+              return comment;
+            })
             .sort((a, b) => {
-              const dateA = new Date(a.commentDate.split("-").reverse().join("-"));
-              const dateB = new Date(b.commentDate.split("-").reverse().join("-"));
+              const dateA = new Date(
+                a.commentDate.split("-").reverse().join("-")
+              );
+              const dateB = new Date(
+                b.commentDate.split("-").reverse().join("-")
+              );
               return dateB - dateA;
             });
-  
+
           setComments(sortedComments);
         } else {
           console.error("Invalid response format:", data);
@@ -67,9 +91,9 @@ export default function NominationComments(props) {
         setLoading(false);
       }
     };
-  
+
     fetchNominationData();
-  }, [nomination._id]);  
+  }, [nomination._id]);
 
   // Importing users data
   const { fullUsers } = FullUsers();
@@ -110,9 +134,9 @@ export default function NominationComments(props) {
                   subheaderTypographyProps={{ variant: "caption" }}
                 />
                 <Grid className="commentGrid">
-                <CardContent className="commentBody">
-                  {comment.commentBody}
-                </CardContent>
+                  <CardContent className="commentBody">
+                    {comment.commentBody}
+                  </CardContent>
                   {userData.isAdmin && (
                     <DeleteCommentButton
                       comment={comment}
