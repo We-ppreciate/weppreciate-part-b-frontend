@@ -1,7 +1,7 @@
 // The logic and rendering for the modal popup for reset password
 
 // React imports
-import { useState } from "react";
+import React, { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
 import { Alert, Button, TextField } from "@mui/material";
@@ -12,13 +12,11 @@ import { jwtToken } from "../../utils/LocalStorage";
 export default function ResetPassword(props) {
   const { user } = props;
 
-  // Set default values of formData
   const [formData, setFormData] = useState({
     newPassword: "",
     repeatNewPassword: "",
   });
 
-  // Establishing states
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -26,17 +24,17 @@ export default function ResetPassword(props) {
     props.toggle();
   };
 
-  // Logic for form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (formData.newPassword === formData.repeatNewPassword) {
-      // Preparing JSON data for API request
+    // Perform password validation
+    const isValidPassword = validatePassword(formData.newPassword);
+
+    if (isValidPassword && formData.newPassword === formData.repeatNewPassword) {
       const jsonData = JSON.stringify({
         newPassword: formData.newPassword,
       });
 
-      // Sending PATCH request for changing user's password
       fetch(apiUrl + "auth/reset/" + user._id, {
         method: "PATCH",
         mode: "cors",
@@ -53,7 +51,6 @@ export default function ResetPassword(props) {
                 Uh oh, we're having a little difficulty here! Please try again.
               </Alert>
             );
-            // Clear the error message after 5 seconds
             setTimeout(() => {
               setErrorMessage("");
             }, 5000);
@@ -61,20 +58,12 @@ export default function ResetPassword(props) {
           }
         })
         .then((data) => {
-          // If successful, set the success message
           setSuccessMessage(
             <Alert severity="success">
               Password change successful! The page will refresh in 3 seconds...
             </Alert>
           );
-
-          // Clear the form data once submitted
-          setFormData({
-            newPassword: "",
-            repeatNewPassword: "",
-          });
-
-          // Close the modal and refresh page after delay
+          
           setTimeout(() => {
             props.toggle();
             setSuccessMessage("");
@@ -85,31 +74,35 @@ export default function ResetPassword(props) {
           console.error("Error:", error);
         });
     } else {
-      //   If passwords don't match at front-end
       setErrorMessage(
-        <Alert severity="error">Passwords do not match! Please try again</Alert>
+        <Alert severity="error">
+          {isValidPassword
+            ? "Passwords do not match! Please try again."
+            : "Invalid password. Password must be between 8 and 120 characters and contain at least one digit and one special character."}
+        </Alert>
       );
-      // Clear the error message after 5 seconds
       setTimeout(() => {
         setErrorMessage("");
       }, 5000);
     }
   };
 
-  // Updates formData when change is made to a form value
   const handleChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    const newValue = type === "checkbox" ? checked : value;
+    const { name, value } = event.target;
 
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: newValue,
+      [name]: value,
     }));
+  };
+
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    return password.length >= 8 && password.length <= 120 && regex.test(password);
   };
 
   return (
     <div>
-      {/* Display the success or error message */}
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       {successMessage && <div className="successMessage">{successMessage}</div>}
       <div className="modal_content">
