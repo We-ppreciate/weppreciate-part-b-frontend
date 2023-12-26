@@ -1,7 +1,7 @@
 // React imports
 import React from "react";
 // Library imports
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { StyledEngineProvider } from "@mui/material/styles";
 // Local imports
 import HomePage from "./pages/HomePage";
@@ -15,7 +15,6 @@ import { AuthProvider } from "./components/Authentication/AuthContext";
 export default class App extends React.Component {
   render() {
     return (
-      <BrowserRouter>
         <AuthProvider>
           <StyledEngineProvider injectFirst>
             <Routes>
@@ -38,7 +37,6 @@ export default class App extends React.Component {
             </Routes>
           </StyledEngineProvider>
         </AuthProvider>
-      </BrowserRouter>
     );
   }
 }

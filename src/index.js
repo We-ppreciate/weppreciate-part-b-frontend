@@ -2,9 +2,14 @@
 import React from "react";
 // Library imports
 import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 // Local imports
 import App from "./App";
 import "./styles/index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
