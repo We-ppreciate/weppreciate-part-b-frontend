@@ -79,13 +79,13 @@ export default function DeleteComment(props) {
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       {successMessage && <div className="successMessage">{successMessage}</div>}
       <div className="modal">
-        <div className="modal_content">
+        <div className="modal_content_smaller">
           <span className="close" onClick={handleClick}>
             &times;
           </span>
-          <h3 className="formHeading">
+          <div className="confirmHeading">
             Are you sure you want to delete this comment?
-          </h3>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>

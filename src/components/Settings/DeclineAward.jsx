@@ -4,7 +4,7 @@
 import { useState } from "react";
 // Library imports
 import { Send } from "@mui/icons-material";
-import { Alert, Button, CircularProgress, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress } from "@mui/material";
 // Local imports
 import { apiUrl } from "../../utils/ApiUrl";
 import { jwtToken } from "../../utils/LocalStorage";
@@ -79,13 +79,13 @@ export default function DeclineAward(props) {
       {errorMessage && <div className="errorMessage">{errorMessage}</div>}
       {successMessage && <div className="successMessage">{successMessage}</div>}
       <div className="modal">
-        <div className="modal_content">
+        <div className="modal_content_smaller">
           <span className="close" onClick={handleClick}>
             &times;
           </span>
-          <Typography variant="h5">
+          <div className="confirmHeading">
             Please confirm you want to decline this award nomination:
-          </Typography>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="formButton">
               <Button type="submit" variant="contained" endIcon={<Send />}>
